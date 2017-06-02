@@ -8,7 +8,7 @@
 	if ($conn->connect_error) {
 	    die("Database connection failed: " . mysqli_connect_error());
 	    echo (mysqli_connect_error());
-	}else{
-		echo "connected to Database";
 	}
+ 
+	session_start();
 ?>

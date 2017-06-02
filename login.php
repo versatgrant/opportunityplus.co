@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<div class="popup-container" align="center">
-		<h1>Login Page</h1>
+		<h1>Login</h1>
 			<form id="login" action="login.php" method="post">
 				<label for="email">Email</label>
 				<input id="email" type="text" name="email" placeholder="email" required/>
