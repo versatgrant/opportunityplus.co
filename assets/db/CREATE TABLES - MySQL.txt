@@ -1,0 +1,116 @@
+/*CREATE AGENCY TABLE*/
+CREATE TABLE `Agency`(
+  `AgencyUniqueId` INTEGER ZEROFILL NOT NULL AUTO_INCREMENT,
+  `AgencyCorporateName` VARCHAR(50) NOT NULL,
+  `AgencyEmail` VARCHAR(50) NOT NULL,
+  `AgencyPassword` VARCHAR(35) NOT NULL,
+  `AgencyPhone` VARCHAR(25),
+  `AgencyPrivacyState` BOOLEAN NOT NULL DEFAULT FALSE,
+  `AgencyLocationStreet` VARCHAR(60),
+  `AgencyLocationCity` VARCHAR(100),
+  `AgencyLocationState` VARCHAR(30),
+  `AgencyLocationPostalCode` VARCHAR(15),
+  `AgencyLocationCountry` VARCHAR(50),
+  PRIMARY KEY(`AgencyUniqueId`)
+);
+
+
+/*CREATE TALENT TABLE*/
+CREATE TABLE `Talent`(
+  `TalentUniqueId` INTEGER ZEROFILL NOT NULL AUTO_INCREMENT,
+  `TalentFirstName` VARCHAR(40) NOT NULL,
+  `TalentLastName` VARCHAR(30) NOT NULL,
+  `TalentEmail` VARCHAR(50) NOT NULL,
+  `TalentPassword` VARCHAR(35) NOT NULL,
+  `TalentPhone` VARCHAR(25),
+  `TalentLocationStreet` VARCHAR(60),
+  `TalentLocationCity` VARCHAR(100),
+  `TalentLocationState` VARCHAR(30),
+  `TalentLocationPostalCode` VARCHAR(15),
+  `TalentLocationCountry` VARCHAR(50),
+  PRIMARY KEY(`TalentUniqueId`)
+);
+
+
+/*CREATE PROJECT TABLE*/
+CREATE TABLE `Project`(
+  `ProjectUniqueId` INTEGER ZEROFILL NOT NULL AUTO_INCREMENT,
+  `ProjectAgencyId` INTEGER ZEROFILL NOT NULL,
+  `ProjectName` VARCHAR(40) NOT NULL,
+  `ProjectActiveState` ENUM("Active", "Inactive") NOT NULL DEFAULT "Active",
+  `ProjectPrivacyState` ENUM("Public", "Private") NOT NULL DEFAULT "Public",
+  `ProjectCompletionState` ENUM("Completed", "In-Progress") NOT NULL DEFAULT "In-Progress",
+  `ProjectLocationSensitive` ENUM("Sensitive", "Insensitive") NOT NULL DEFAULT "Insensitive",
+  `ProjectDescription` VARCHAR(31764),
+  `ProjectStartMonth` ENUM(
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ),
+  `ProjectStartYear` INTEGER,
+  `ProjectEndMonth` ENUM(
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ),
+  `ProjectEndYear` INTEGER,
+  `ProjectLocationStreet` VARCHAR(60),
+  `ProjectLocationCity` VARCHAR(100),
+  `ProjectLocationState` VARCHAR(30),
+  `ProjectLocationPostalCode` VARCHAR(15),
+  `ProjectLocationCountry` VARCHAR(50),
+  `ProjectTotalCost` DECIMAL(9, 2),
+  PRIMARY KEY(`ProjectUniqueId`),
+  CONSTRAINT fk_AgencyProject FOREIGN KEY(`ProjectAgencyId`) REFERENCES `opportunity+`.`agency`(`AgencyUniqueId`) ON DELETE RESTRICT ON UPDATE NO ACTION
+);
+
+
+/*CREATE MILESTONE TABLE*/
+CREATE TABLE `Milestone`(
+  `MilestoneUniqueId` INTEGER ZEROFILL NOT NULL AUTO_INCREMENT,
+  `MilestoneProjectId` INTEGER ZEROFILL NOT NULL,
+  `MilestoneName` VARCHAR(40) NOT NULL,
+  `MilestoneDescription` VARCHAR(31764),
+  `MilestoneOrderPosition` INTEGER NOT NULL,
+  `MilestoneStartDate` DATE,
+  `MilestoneEndDate` DATE,
+  PRIMARY KEY(`MilestoneUniqueId`),
+  CONSTRAINT fk_ProjectMilestone FOREIGN KEY(`MilestoneProjectId`) REFERENCES `opportunity+`.`project`(`ProjectUniqueId`) ON DELETE RESTRICT ON UPDATE NO ACTION
+);
+
+
+/*CREATE TASK TABLE*/
+CREATE TABLE `Task`(
+  `TaskUniqueId` INTEGER ZEROFILL NOT NULL AUTO_INCREMENT,
+  `TaskMilestoneId` INTEGER ZEROFILL NOT NULL,
+  `TaskAssignedTalentId` INTEGER ZEROFILL NOT NULL,
+  `TaskName` VARCHAR(50) NOT NULL,
+  `TaskDescription` VARCHAR(31764),
+  `TaskPayType` ENUM("Hourly", "One-Time") NOT NULL DEFAULT "One-Time",
+  `TaskFinalPayAmount` DECIMAL(7, 2),
+  `TaskPayRate` DECIMAL(5, 2),
+  `TaskHours` DECIMAL(4, 1),
+  `TaskMaxHours` DECIMAL(4, 1),
+  `TaskCompletionState` BOOLEAN NOT NULL DEFAULT FALSE,
+  PRIMARY KEY(`TaskUniqueId`),
+  CONSTRAINT fk_MilestoneTask FOREIGN KEY(`TaskMilestoneId`) REFERENCES `opportunity+`.`milestone`(`MilestoneUniqueId`) ON DELETE RESTRICT ON UPDATE NO ACTION,
+  CONSTRAINT fk_TalentTask FOREIGN KEY(`TaskAssignedTalentId`) REFERENCES `opportunity+`.`talent`(`TalentUniqueId`) ON DELETE RESTRICT ON UPDATE NO ACTION
+);
