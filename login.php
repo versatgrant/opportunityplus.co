@@ -8,6 +8,12 @@
 		<div class="popup-container" align="center">
 		<h1>Login</h1>
 			<form id="login" action="login.php" method="post">
+				<label>User Type:</label> 
+				<select id="usertype">
+					<option value="agency">Agency</option>
+  					<option value="talent" selected>Talent</option>
+				</select>
+				<div class="spacer"></div>
 				<label for="email">Email</label>
 				<input id="email" type="text" name="email" placeholder="email" required/>
 				<label for="password">Password</label>

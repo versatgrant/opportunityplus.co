@@ -2,28 +2,34 @@
 	//connect to database
 	require("assets/db/db.php");
 
-	//pull data from DB
-	//if(isset($_POST['display_login'])) {
-	if(true) {
-		$sql = "SELECT * FROM projects WHERE userId = '{$_SESSION['Id']}'";
+	if(!isset($_SESSION["Id"])){
+		echo json_encode(array("result" => "No Users Detected"));
+	}else{
+		//get all projects for the logged in user
+		if($_SESSION["UserType"] == "agency"){
+			//pull directly from the project table if they're an Agency
+			$sql = "SELECT * FROM `project` WHERE `ProjectAgencyId` = '{$_SESSION["Id"]}'";
+		}else{
+			//if they're a Talent, check the project request table for projects they have access to 
+			$sql = "SELECT * FROM `project` WHERE `ProjectUniqueId` IN (SELECT `ProjectRequestProjectId` FROM `projectrequest` WHERE (`ProjectRequestTalentId` = '{$_SESSION["Id"]}' AND `ProjectRequestAcceptedStatus` = TRUE AND `ProjectRequestRecindedStatus` = FALSE))";
+		}
+		
 		$result = array();
 		$res = $conn->query($sql);
-		
-		if ($res->num_rows > 0) {
-		    // output data of each row
-		    while($row = $res->fetch_assoc()) {
-		    	array_push($result, array('userId' => $row["userId"],
-		    								'Id' => $row["id"],
-		    								'Name' => $row["Name"]));
-		    }
-		    echo json_encode(array("result" => $result));
-		} else {
-		    echo "0 results";
-		}
 
-		$conn->close();
-				exit();
+		if ($res->num_rows > 0) {
+			// output data of each record
+			while($row = $res->fetch_assoc()) {
+				array_push($result, array('name' => $row["ProjectName"],
+					'active' => $row["ProjectActiveState"],
+					'complete' => $row["ProjectCompletionState"]));
+			}
+			echo json_encode(array("result" => $result));
+		}
 	}
+
+	$conn->close();
+	exit();
 
 	/*if(true) {
 		//Get input from form

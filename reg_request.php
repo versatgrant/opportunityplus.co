@@ -22,15 +22,26 @@
 		$zip_entry = $conn->real_escape_string($_POST['zip']);
 
 		//check if a user already exists with that email
-		$sql = "SELECT * FROM users WHERE `email` = '{$email_entry}'";
+		if($usertype_entry == "agency"){
+			$sql = "SELECT * FROM `agency` WHERE `Email` = '{$email_entry}'";
+		}else{
+			$sql = "SELECT * FROM `talent` WHERE `Email` = '{$email_entry}'";
+		}
+		
 		$res = $conn->query($sql);
 		//if a user is already registered with this email
 		if ($res->num_rows > 0) {
 			echo "User Already Exists";
 		}else{
-			//Insert user into DB
-			$sql = "INSERT INTO users (`email`, `password`, `firstname`, `lastname`) 
-			VALUES ('{$email_entry}','{$pass_entry}', '{$fname_entry}', '{$lname_entry}')";
+			//Insert user into DB in their appropriate table
+			if($usertype_entry == "agency"){
+				$sql = "INSERT INTO `agency` (`AgencyCorporateName`, `Email`, `Password`, `Phone`, `AgencyPrivacyState`, `LocationStreet`, `LocationCity`, `LocationState`, `LocationPostalCode`, `LocationCountry`) 
+							VALUES ('{$corpname_entry}', '{$email_entry}', '{$pass_entry}', '{$phone_entry}', '{$agencytype_entry}', '{$street_entry}', '{$city_entry}', '{$state_entry}', '{$zip_entry}', '{$country_entry}')";
+			}else{
+				$sql = "INSERT INTO `talent` (`TalentFirstName`, `TalentLastName`, `Email`, `Password`, `Phone`, `LocationStreet`, `LocationCity`, `LocationState`, `LocationPostalCode`, `LocationCountry`) 
+							VALUES ('{$fname_entry}', '{$lname_entry}', '{$email_entry}', '{$pass_entry}', '{$phone_entry}', '{$street_entry}', '{$city_entry}', '{$state_entry}', '{$zip_entry}', '{$country_entry}')";
+			}
+			
 
 			$res = $conn->query($sql);
 

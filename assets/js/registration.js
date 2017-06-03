@@ -33,7 +33,9 @@ $.getJSON("reg_request.php", function(data){
       var phone = $('#register #phone').val();
       var street = $('#register #street').val();
       var city = $('#register #city').val();
+      var state = $('#register #state').val();
       var zip = $('#register #zip').val();
+      var country = $('#register #country').val();
 
       /**send a post request to server with the form values*/
       $.ajax({
@@ -51,7 +53,9 @@ $.getJSON("reg_request.php", function(data){
           'phone': phone,
           'street': street,
           'city': city,
-          'zip': zip
+          'state': state,
+          'zip': zip,
+          'country': country
         },
         success: function(data){
           //do something with the data via front-end framework

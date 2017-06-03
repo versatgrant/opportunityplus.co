@@ -40,7 +40,9 @@ form{
 	min-width: 90px;
 }
 
-.popup-container > form > input[type="text"], .popup-container > form > input[type="password"]{
+.popup-container > form > input[type="text"],
+.popup-container > form > input[type="password"],
+.popup-container > form > select{
 	display: block;
 	width: 90%;
 	max-width: 200px;
