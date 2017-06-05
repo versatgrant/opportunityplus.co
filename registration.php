@@ -6,10 +6,12 @@
 		<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 	</head>
 	<body>
+		<?php
+			require("nav.php");
+		?>
 		<div class="popup-container" align="center">
-		<h1>Register</h1>
-			<form id="register" action="registration.php" method="post">
-				<label>User Type:</label> 
+			<h1>Sign Up</h1>
+			<form id="register" action="registration.php" method="post"> 
 				<select id="usertype">
 					<option value="agency">Agency</option>
   					<option value="talent" selected>Talent</option>
@@ -34,10 +36,10 @@
 				<input id="phone" type="text" name="phone" placeholder="Phone" required/>
 				<div class="spacer"></div>
 
-				<input id="email" type="text" name="email" placeholder="email" required/>
+				<input id="email" type="text" name="email" placeholder="Email" required/>
 				<div class="spacer"></div>
 
-				<input id="password" type="password" name="password" placeholder="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/>
+				<input id="password" type="password" name="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/>
 				<div class="spacer"></div>
 
 				<input id="street" type="text" name="street" placeholder="Street" required/>
@@ -109,12 +111,10 @@
 
 				<input type="submit" id="submit-reg"/>
 			</form>
-			<button id="submit-logout">Logout</button>
 			<div id="login-err-msg"></div>
 		</div>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="assets/js/registration.js"></script>
-		<script src="assets/js/logout.js"></script>
 	</body>
 </html>
