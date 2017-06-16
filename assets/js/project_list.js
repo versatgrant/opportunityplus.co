@@ -1,7 +1,7 @@
 $(document).ready(function(){
   $.getJSON("project_list_request.php", function(data){
     if(data.result == "No Users Detected"){
-      window.location = "login.php";
+      window.location = "index.php";
     }else{
       $('ul#project-list').empty();
       $.each(data.result, function(){

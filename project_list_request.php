@@ -30,36 +30,4 @@
 
 	$conn->close();
 	exit();
-
-	/*if(true) {
-		//Get input from form
-		//$email_entry = $conn->real_escape_string($_POST['email']);
-		//$pass_entry = $conn->real_escape_string($_POST['pass']);
-		$email_entry = "email";
-		$pass_entry = "pass";
-		//Validate email-pass entry; for now, just add to the DB
-		$sql = "INSERT INTO users (`email`, `password`, `firstname`, `lastname`) 
-			VALUES ('{$email_entry}','{$pass_entry}', NULL, NULL)";
-
-		$sql = "SELECT * FROM users WHERE email = '{$email_entry}' AND password = '{$pass_entry}'";
-		$user = mysqli_query($conn, $sql);
-		$validate = mysqli_num_rows($user);
-
-		if($validate > 0){
-			header("location:project_list.php");
-		}else{
-			echo "Wrong Username/Password";
-		}
-
-
-		//debug if failed
-		if ($conn->query($sql) === TRUE) {
-		    echo "New record created successfully";
-		} else {
-		    echo "Error: " . $sql . "<br>" . $conn->error;
-		}
-
-		$conn->close();
-				exit();
-	}*/
 ?>

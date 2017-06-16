@@ -10,7 +10,7 @@ $(document).ready(function(){
         success: function(data){
           //do something with the data via front-end framework
           alert(data);
-          window.location = "login.php";
+          window.location = "index.php";
           
           //location.reload();
         }

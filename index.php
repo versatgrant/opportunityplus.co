@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 
 <head>
@@ -10,6 +9,7 @@
     <?php
             require("nav.php");
     ?>
+
     <div style="background-image:url(&quot;assets/img/bg-intro.jpg&quot;);padding:50px;">
         <div class="container">
             <div class="row">
@@ -29,7 +29,7 @@
     <div class="projects-horizontal">
         <div class="container">
             <div class="intro">
-                <h2 class="text-center" style="margin:20px 0px 10px;">Lorem Ipsum Dolor</h2>
+                <h 2class="text-center" style="margin:20px 0px 10px;">Lorem Ipsum Dolor</h2>
                 <p class="text-center">Nunc luctus in metus eget fringilla. Aliquam sed justo ligula. Vestibulum nibh erat, pellentesque ut laoreet vitae. </p>
             </div>
             <div class="row projects">
@@ -119,7 +119,6 @@
             </div>
         </div>
     </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 

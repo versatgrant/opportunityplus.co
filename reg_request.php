@@ -19,7 +19,9 @@
 		$phone_entry = $conn->real_escape_string($_POST['phone']);
 		$street_entry = $conn->real_escape_string($_POST['street']);
 		$city_entry = $conn->real_escape_string($_POST['city']);
+		$state_entry = $conn->real_escape_string($_POST['state']);
 		$zip_entry = $conn->real_escape_string($_POST['zip']);
+		$country_entry = $conn->real_escape_string($_POST['country']);
 
 		//check if a user already exists with that email
 		if($usertype_entry == "agency"){

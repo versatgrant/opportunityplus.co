@@ -1,73 +1,100 @@
 $(document).ready(function(){
 
-$.getJSON("reg_request.php", function(data){
-    if(data.loggedin){
-      alert("Already Logged In.");
-      window.location = "project_list.php";
-    }
-});
 
-/**Hide the fields not related to the user's type on load*/
-  if($('select#usertype').val() == 'talent'){
-    $('.form-agency').toggle();
-  }else{
-    $('.form-talent').toggle();
-  }
-  
-/**Hide the fields not related to the user's type on change*/
-  $('select#usertype').on('change',function(){
-    $('.form-agency').toggle();
-    $('.form-talent').toggle();
-  });
+	jQuery.fn.toggleAttr = function(attr) {
+		return this.each(function() {
+			var $this = $(this);
+			if ($this.attr(attr)) {
+				$this.removeAttr(attr);
+			} else {
+				$this.attr(attr, true);
+			}
+		});
+	}
 
-/**Whenever the submit button is clicked*/
-  $('#submit-reg').on('click', function(){
-      /**Pull values from form*/
-      var fname = $('#register #fname').val();
-      var lname = $('#register #lname').val();
-      var email = $('#register #email').val();
-      var password = $('#register #password').val();
-      var usertype = $('#register select#usertype').val();
-      var agencytype = $("input:radio[name ='agencyPrivacyState']:checked").val();
-      var corpname = $('#register #corpname').val();
-      var phone = $('#register #phone').val();
-      var street = $('#register #street').val();
-      var city = $('#register #city').val();
-      var state = $('#register #state').val();
-      var zip = $('#register #zip').val();
-      var country = $('#register #country').val();
+	$("input").prop('required',true);
 
-      /**send a post request to server with the form values*/
-      $.ajax({
-        type: 'POST',
-        url: 'reg_request.php',
-        data: {
-          'done_reg': 1,
-          'email': email, 
-          'pass': password,
-          'fname': fname,
-          'lname': lname,
-          'usertype': usertype,
-          'agencytype': agencytype,
-          'corpname': corpname,
-          'phone': phone,
-          'street': street,
-          'city': city,
-          'state': state,
-          'zip': zip,
-          'country': country
-        },
-        success: function(data){
+	/**Hide the fields not related to the user's type on load*/
+	if($('input[name="usertype-register"]:checked').val() == 'talent'){
+		$('.form-agency').toggle();
+		$('.form-agency').toggleAttr('required');
+	}else{
+		$('.form-talent').toggle();
+		$('.form-talent').toggleAttr('required');
+	}
+
+	/**Hide the fields not related to the user's type on change*/
+	$('input[name="usertype-register"]').on('change',function(){
+		$('.form-agency').toggle();
+		$('.form-agency').toggleAttr('required');
+		$('.form-talent').toggle();
+		$('.form-talent').toggleAttr('required');
+	});
+
+	$('#sign-up-nav').on('click',function(){
+		$.getJSON("reg_request.php", function(data){
+			if(data.loggedin){
+				alert("Already Logged In.");
+				window.location = "project_list.php";
+			}
+		});
+	});
+
+	/**Whenever the submit button is clicked*/
+	$('#register').submit(function(e){
+		e.preventDefault();
+		/**Pull values from form*/
+		var fname = $('#fname').val();
+		var lname = $('#lname').val();
+		var email = $('#email-register').val();
+		var password = $('#password-register').val();
+		var usertype = $('input[name="usertype-register"]:checked').val();
+		if($("input[name ='onoffswitch']:checked").val() == true){
+			var agencytype = "public";
+		}else{
+			var agencytype = "private";
+		}
+		var corpname = $('#corpname').val();
+		var phone = $('#phone').val();
+		phone = phone.replace(/\D/g, '');
+		alert(phone);
+		var street = $('#street').val();
+		var city = $('#city').val();
+		var state = $('#state').val();
+		var zip = $('#zip').val();
+		var country = $('#country').val();
+
+		/**send a post request to server with the form values*/
+		$.ajax({
+			type: 'POST',
+			url: 'reg_request.php',
+			data: {
+				'done_reg': 1,
+				'email': email, 
+				'pass': password,
+				'fname': fname,
+				'lname': lname,
+				'usertype': usertype,
+				'agencytype': agencytype,
+				'corpname': corpname,
+				'phone': phone,
+				'street': street,
+				'city': city,
+				'state': state,
+				'zip': zip,
+				'country': country
+			},
+			success: function(data){
           //do something with the data via front-end framework
           if (data == "User Already Exists"){
-            $('div#login-err-msg').html(data);
+          	$('div#reg-err-msg').html(data);
           }else{
-            window.location = "login.php";
-          }
+          	alert("Successfully Registered");
+            window.location = "index.php";
         }
-      });
-      return false;
-  });
-
+    }
+});
+		return false;
+	});
 
 });
