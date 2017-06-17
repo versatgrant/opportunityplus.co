@@ -24,7 +24,7 @@
 				<div class="collapse navbar-collapse" id="navcol-1">
 					<ul class="nav navbar-nav">
 						<li role="presentation"><a href="index.php">Home</a></li>
-						<li role="presentation"><a href="about.php">About</a></li>
+						<!--li role="presentation"><a href="about.php">About</a></li-->
 					</ul>
 					<p class="navbar-text navbar-right actions"><a id="sign-in-nav" class="navbar-link login" data-toggle="modal" href="#loginModal">Sign In</a> <a id="sign-up-nav" class="btn btn-default action-button" data-toggle="modal" role="button" href="#regModal" style="background-color:#d63a39;">Sign Up</a></p>
 				</div>
@@ -162,8 +162,7 @@
 	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="assets/js/login.js"></script>
+    <script src="assets/js/login.js"></script>
 	<script src="assets/js/registration.js"></script>
-    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script-->
 </body>
 </html>
