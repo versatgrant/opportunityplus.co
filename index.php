@@ -16,8 +16,8 @@
                 <div class="col-md-6"><img src="assets/img/maxresdefault.jpg" width="90%"></div>
                 <div class="col-md-6">
                     <div>
-                        <p style="color:rgb(249,248,248);font-size:30px;">Lorem ipsum dolor sit amet. </p>
-                        <p style="font-size:16px;color:rgb(251,251,251);">Lorem ipsum dolor sit amet, alia conceptam dissentiet eam eu, sea an legere tamquam. Ubique denique suscipit has ad, vis et erroribus expetendis, essent iisque referrentur eu quo. Ex mea. </p>
+                        <p style="color:rgb(249,248,248);font-size:30px;">Welcome to Opportunity+</p>
+                        <p style="font-size:16px;color:rgb(251,251,251);">Opportunity+ is an additional tool that is provided via an online portal by Opportunity Inc. It allows Agencies(companies) to post projects and Talents (people) to work on those projects.</p>
                         <input type="email" name="subscribe"
                         placeholder="Your Email" style="padding:5px 10px;margin:0px 0px 15px;">
                         <button class="btn btn-default btn-block" type="submit" style="width:100px;background-color:#d63a39;border-color:#d63a39;color:rgb(241,241,241);">Button</button>
@@ -29,7 +29,7 @@
     <div class="projects-horizontal">
         <div class="container">
             <div class="intro">
-                <h2 class="text-center" style="margin:20px 0px 10px;">Lorem Ipsum Dolor</h2>
+                <h2 class="text-center" style="margin:20px 0px 10px;">Opportunity+ is for Everyone.</h2>
                 <p class="text-center">Nunc luctus in metus eget fringilla. Aliquam sed justo ligula. Vestibulum nibh erat, pellentesque ut laoreet vitae. </p>
             </div>
             <div class="row projects">
@@ -39,8 +39,8 @@
                             <a href="#"><img class="img-responsive" src="assets/img/desk.jpg"></a>
                         </div>
                         <div class="col-md-7">
-                            <h3 class="name">Summa </h3>
-                            <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida.</p>
+                            <h3 class="name">Website</h3>
+                            <p class="description">Work from your home or office with our user friendly, greatly designed website.</p>
                         </div>
                     </div>
                 </div>
@@ -50,8 +50,8 @@
                             <a href="#"><img class="img-responsive" src="assets/img/building.jpg"></a>
                         </div>
                         <div class="col-md-7">
-                            <h3 class="name">Magna </h3>
-                            <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida.</p>
+                            <h3 class="name">Mobile</h3>
+                            <p class="description">Get our easy to use mobile app, which is just as great but a compact version of the website.</p>
                         </div>
                     </div>
                 </div>
@@ -61,8 +61,8 @@
                             <a href="#"><img class="img-responsive" src="assets/img/loft.jpg"></a>
                         </div>
                         <div class="col-md-7">
-                            <h3 class="name">Cumme </h3>
-                            <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida.</p>
+                            <h3 class="name">Agencies</h3>
+                            <p class="description">Agencies are allowed to post projects online and can also review the talent’s online profile and accept or reject their applications to work on projects.</p>
                         </div>
                     </div>
                 </div>
@@ -72,8 +72,8 @@
                             <a href="#"><img class="img-responsive" src="assets/img/minibus.jpeg"></a>
                         </div>
                         <div class="col-md-7">
-                            <h3 class="name">Laude </h3>
-                            <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida.</p>
+                            <h3 class="name">Talents</h3>
+                            <p class="description">Talents are allowed to browse and apply to projects through our website and mobile app.</p>
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
     <section class="testimonials">
         <h2 class="text-center">People Love Us!</h2>
         <blockquote>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+            <p>99% uptime on our website with little to no latency</p>
             <footer><em>Famous tech website</em></footer>
         </blockquote>
     </section>

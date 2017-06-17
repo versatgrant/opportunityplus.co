@@ -8,7 +8,7 @@ $(document).ready(function(){
 		$.getJSON("login_request.php", function(data){
 			if(data.loggedin){
 				alert("Already Logged In.");
-				window.location = "project_list.php";
+				window.location = "user-mode.php";
 			}
 		});
 	});
@@ -34,7 +34,7 @@ $(document).ready(function(){
 		        	$('div#login-err-msg').html(data);
 		        }else if(data == 1){
 		            //alert(data);
-		            window.location = "project_list.php";
+		            window.location = "user-mode.php";
 		        }
 		    }
 		});

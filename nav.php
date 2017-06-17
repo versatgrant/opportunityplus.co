@@ -26,7 +26,7 @@
 						<li role="presentation"><a href="index.php">Home</a></li>
 						<!--li role="presentation"><a href="about.php">About</a></li-->
 					</ul>
-					<p class="navbar-text navbar-right actions"><a id="sign-in-nav" class="navbar-link login" data-toggle="modal" href="#loginModal">Sign In</a> <a id="sign-up-nav" class="btn btn-default action-button" data-toggle="modal" role="button" href="#regModal" style="background-color:#d63a39;">Sign Up</a></p>
+					<p class="navbar-text navbar-right actions"><a id="sign-in-nav" class="navbar-link login" data-toggle="modal" href="#loginModal">Sign In</a> <a id="sign-up-nav" class="btn btn-default action-button" data-toggle="modal" role="button" href="#regModal" style="background-color:#d63a39;margin:5px;">Sign Up</a></p>
 				</div>
 			</div>
 		</nav>
@@ -36,6 +36,7 @@
 	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 		<div class="modal-dialog">
 			<div class="loginmodal-container">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				<h1>Login to Your Account</h1><br>
 				<form id="login" name="login">
 					<!--USER TYPE-->
@@ -61,6 +62,7 @@
 	<div class="modal fade" id="regModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 		<div class="modal-dialog">
 			<div class="loginmodal-container">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				<h1>Register for a Free Account</h1><br>
 				<form id="register" action="index.php" name="register">
 					<!--USER TYPE-->
