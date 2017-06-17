@@ -8,7 +8,7 @@
 </head>
 <body class="has-drawer"> <!-- add this class to your body for proper sizing -->
     <!-- FLOATING BUTTONS -->
-    <button id="sublit-logout" type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 10px;right:10px; display: block;"><i class="glyphicon glyphicon-log-out"></i></button>
+    <button id="submit-logout" type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 10px;right:10px; display: block;"><i class="glyphicon glyphicon-log-out"></i></button>
     <button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 45px;right:10px; display: block;"><i class="glyphicon glyphicon-plus"></i></button>
 
     <!-- MENU DRAWER -->
@@ -18,7 +18,7 @@
         </div>
         <div class="drawer-contents">
             <div class="drawer-heading">
-                <h2 class="drawer-title">User Name</h2>
+                <h2 id="username" class="drawer-title">User Name</h2>
             </div>
             <div class="drawer-body">
                 <p>
@@ -73,11 +73,11 @@
     </div>
 </body>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="assets/js/search.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-drawer/1.0.6/js/drawer.min.js"></script>
-    
-	<!--script src="assets/js/project_list.js"></script-->
+	<script src="assets/js/user-mode.js"></script>
+    <script src="assets/js/search.js"></script>
 	<script src="assets/js/logout.js"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 $(document).ready(function(){
   //location.reload();
+
   $('button#submit-logout').on('click', function(){
       $.ajax({
         type: 'POST',

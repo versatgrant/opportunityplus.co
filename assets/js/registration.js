@@ -35,7 +35,7 @@ $(document).ready(function(){
 		$.getJSON("reg_request.php", function(data){
 			if(data.loggedin){
 				alert("Already Logged In.");
-				window.location = "project_list.php";
+				window.location = "user-mode.php";
 			}
 		});
 	});
