@@ -7,8 +7,10 @@ $(document).ready(function(){
 			if(getCookie("UserType") == "agency"){
 				alert("made it to agency");
 				$('h2#username').html(data.user[0]["aname"]);
+				$('p#user-desc').html(data.user[0]["desc"]);
 			}else{
 				$('h2#username').html(data.user[0]["fname"] + " " + data.user[0]["lname"]);
+				$('p#user-desc').html(truncate(data.user[0]["desc"], 197));
 			}
 
 

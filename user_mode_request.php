@@ -20,6 +20,7 @@
 			$res = $conn->query($sql1);
 			while($row = $res->fetch_assoc()) {
 				array_push($user, array('aname' => $row["AgencyCorporateName"],
+				'desc' => $row["Summary"],
 				'usertype' => "agency"));
 			}
 			
@@ -38,6 +39,7 @@
 			while($row = $res->fetch_assoc()) {
 				array_push($user, array('fname' => $row["TalentFirstName"],
 				'lname' => $row["TalentLastName"],
+				'desc' => $row["Summary"],
 				'usertype' => "talent"));
 			}
 		}

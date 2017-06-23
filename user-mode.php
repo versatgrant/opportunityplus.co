@@ -22,11 +22,11 @@
 				<h2 id="username" class="drawer-title">User Name</h2>
 			</div>
 			<div class="drawer-body">
-				<p>
+				<p id="user-desc">
 					This is a properly padded container for content in the
 					drawer that isn't a navigation.
 				</p>
-				<a href="#">A Regular Link</a>
+				<!--a href="#">A Regular Link</a-->
 			</div>
 			<!--SEARCH BAR-->
 			<div class="fluid-container" style="margin:0px auto;">
@@ -54,7 +54,7 @@
 			</div>
 			<!--MENU OPTIONS-->
 			<ul class="drawer-nav">
-				<li role="presentation"><a href="#">My Projects</a></li>
+				<li role="presentation"><a href="user-mode.php">My Projects</a></li>
 				<li role="presentation"><a href="#">Project Requests</a></li>
 				<li role="presentation"><a href="#">My Profile</a></li>
 				<li role="presentation"><a href="#">My Accomplishments</a></li>
