@@ -10,13 +10,15 @@ $(document).ready(function(){
         },
         success: function(data){
           //do something with the data via front-end framework
-          alert(data);
           window.location = "index.php";
-          
-          //location.reload();
+          removeCookie("UserType");
         }
       });
       return false;
   });
 
 });
+
+function removeCookie(cname) {
+    document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}

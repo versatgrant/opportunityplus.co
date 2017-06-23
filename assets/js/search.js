@@ -37,10 +37,7 @@ $(document).ready(function(e){
 		            	$('ul#result-list').append("<li> Agency Name: " + this.name + "</li>");
 		            });
 		        }else if(table == "project"){
-		            $('ul#result-list').empty();
-		            $.each(data.result, function(){
-		            	$('ul#result-list').append("<li> Project Name: " + this.name + "</li>");
-		            });
+		            displayProjects(data);
 		        }
 		    }
 		});

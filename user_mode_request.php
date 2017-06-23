@@ -3,7 +3,7 @@
 	require("assets/db/db.php");
 
 	if(!isset($_SESSION["Id"])){
-		echo json_encode(array("result1" => "No Users Detected"));
+		echo json_encode(array("user" => "No Users Detected"));
 	}else{
 		//get all projects for the logged in user
 		if($_SESSION["UserType"] == "agency"){
@@ -14,12 +14,12 @@
 			$sql1 = "SELECT * FROM `agency` WHERE `UniqueId` = '{$_SESSION["Id"]}' LIMIT 1";
 
 			//Store User Info Returned
-			$result1 = array();
+			$user = array();
 
 			//Get User Info
 			$res = $conn->query($sql1);
 			while($row = $res->fetch_assoc()) {
-				array_push($result1, array('aname' => $row["AgencyCorporateName"],
+				array_push($user, array('aname' => $row["AgencyCorporateName"],
 				'usertype' => "agency"));
 			}
 			
@@ -30,33 +30,42 @@
 			$sql1 = "SELECT * FROM `talent` WHERE `UniqueId` = '{$_SESSION["Id"]}' LIMIT 1";
 
 			//Store User Info Returned
-			$result1 = array();
+			$user = array();
 
 			//Get User Info
 			$res = $conn->query($sql1);
 
 			while($row = $res->fetch_assoc()) {
-				array_push($result1, array('fname' => $row["TalentFirstName"],
+				array_push($user, array('fname' => $row["TalentFirstName"],
 				'lname' => $row["TalentLastName"],
 				'usertype' => "talent"));
 			}
 		}
 		
 		//Store Projects Returned
-		$result = array();
+		$projects = array();
 		$res = $conn->query($sql);
 		if ($res->num_rows > 0) {
 			// output data of each record
 			while($row = $res->fetch_assoc()) {
-				array_push($result, array('name' => $row["ProjectName"],
+				array_push($projects, array('name' => $row["ProjectName"],
 					'active' => $row["ProjectActiveState"],
-					'complete' => $row["ProjectCompletionState"]));
+					'complete' => $row["ProjectCompletionState"],
+					'privacy' => $row["ProjectPrivacyState"],
+					'zone' => $row["ProjectLocationSensitive"],
+					'desc' => $row["ProjectDescription"],
+					'start' => $row["ProjectStartDate"],
+					'end' => $row["ProjectEndDate"],
+					'street' => $row["ProjectLocationStreet"],
+					'city' => $row["ProjectLocationCity"],
+					'state' => $row["ProjectLocationState"],
+					'zip' => $row["ProjectLocationPostalCode"],
+					'country' => $row["ProjectLocationCountry"],
+					'cost' => $row["ProjectTotalCost"]));
 			}
-			//Send Response with Projects
-			echo json_encode(array("result" => $result));
 		}
-		//Send Response with User
-		echo json_encode(array("result1" => $result1));
+		//Send Response with User & Projects
+		echo json_encode(array("user" => $user, "projects" => $projects));
 	}
 
 	$conn->close();

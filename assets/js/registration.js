@@ -12,7 +12,7 @@ $(document).ready(function(){
 		});
 	}
 
-	$("input").prop('required',true);
+	//$("input").prop('required',true);
 
 	/**Hide the fields not related to the user's type on load*/
 	if($('input[name="usertype-register"]:checked').val() == 'talent'){
@@ -57,7 +57,6 @@ $(document).ready(function(){
 		var corpname = $('#corpname').val();
 		var phone = $('#phone').val();
 		phone = phone.replace(/\D/g, '');
-		alert(phone);
 		var street = $('#street').val();
 		var city = $('#city').val();
 		var state = $('#state').val();

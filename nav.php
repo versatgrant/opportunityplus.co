@@ -46,8 +46,8 @@
 		              <label class="btn btn-default btn-off" style="border-radius: 0px; border-width: 0px">
 		              <input type="radio" value="agency" name="usertype-login" required/>Agency</label>
 		            </div>
-					<input id="email-login" type="text" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Must be an email address"/>
-					<input id="password-login" type="password" name="pass" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
+					<input id="email-login" type="text" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Must be an email address" required/>
+					<input id="password-login" type="password" name="pass" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
 					<input type="submit" name="login" id="submit-login" class="login loginmodal-submit" value="Login">
 				</form>
 				<div id="login-err-msg" style="color:red;text-align: center;"></div>
@@ -87,15 +87,15 @@
 				<input id="lname" class="form-talent" type="text" name="lname" placeholder="Last Name" required/>
 				<input id="corpname" class="form-agency" type="text" name="" placeholder="Company Name" required/>
 
-				<input id="phone" type="text" name="phone" placeholder="Phone" pattern="\d{3}[\-]\d{3}[\-]\d{4}" title="123-456-7890" required/>
+				<input id="phone" type="text" name="phone" placeholder="Phone" pattern="\d{3}[\-]\d{3}[\-]\d{4}" title="123-456-7890"/>
 
 				<input id="email-register" type="text" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Must be an email address" required/>
 
 				<input id="password-register" type="password" name="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/>
 
-				<input id="street" type="text" name="street" placeholder="Street" required/>			
+				<input id="street" type="text" name="street" placeholder="Street" />			
 
-				<input id="city" type="text" name="city" placeholder="City" required/>
+				<input id="city" type="text" name="city" placeholder="City"/>
 
 				<select name="state" id="state">
 				  <option value="" selected="selected">Select a State</option>
@@ -152,9 +152,9 @@
 				  <option value="WY">Wyoming</option>
 				</select>
 
-				<input id="zip" type="text" name="zip" placeholder="Zip/Postal Code" pattern="[0-9]{5}" title="Five digit zip code" required/>
+				<input id="zip" type="text" name="zip" placeholder="Zip/Postal Code" pattern="[0-9]{5}" title="Five digit zip code" />
 
-				<input id="country" type="text" name="country" placeholder="Country" required/>
+				<input id="country" type="text" name="country" placeholder="Country"/>
 
 				<input type="submit" name="login" id="submit-reg" class="login loginmodal-submit" value="Register">
 				</form>

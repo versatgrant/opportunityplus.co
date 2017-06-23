@@ -14,30 +14,47 @@
 	}elseif ($table_entry== "talent") {
 		$sql = "SELECT * FROM `talent` WHERE (`TalentFirstName` LIKE '%{$term_entry}%' OR `TalentLastName` LIKE '%{$term_entry}%')";
 	}else{
-		$sql = "SELECT * FROM `project` WHERE ((`ProjectName` LIKE '%{$term_entry}%' OR `ProjectDescription` LIKE '%{$term_entry}%') AND `ProjectPrivacyState` = 'Public' AND `ProjectActiveState` = 'Active')";
+		$sql = "SELECT * FROM `project` WHERE (((`ProjectName` LIKE '%{$term_entry}%') OR (`ProjectDescription` LIKE '%{$term_entry}%')) AND `ProjectPrivacyState` = 'Public' AND `ProjectActiveState` = 'Active')";
 	}
 
-	$result = array();
 	$res = $conn->query($sql);
 
 	if ($res->num_rows > 0) {
 		// output data of each record
 		if($table_entry == "agency"){
+			$agencies = array();
 			while($row = $res->fetch_assoc()) {
-				array_push($result, array('name' => $row["AgencyCorporateName"]));
+				array_push($agencies, array('name' => $row["AgencyCorporateName"]));
 			}
+			echo json_encode(array("agencies" => $agencies));
 		}elseif ($table_entry== "talent") {
+			$talents = array();
 			while($row = $res->fetch_assoc()) {
-				array_push($result, array('fname' => $row["TalentFirstName"],
+				array_push($talents, array('fname' => $row["TalentFirstName"],
 					'lname' => $row["TalentLastName"]));
 			}
+			echo json_encode(array("talents" => $talents));
 		}else{
+			$projects = array();
 			while($row = $res->fetch_assoc()) {
-				array_push($result, array('name' => $row["ProjectName"],
-					'desc' => $row["ProjectDescription"]));
+				
+				array_push($projects, array('name' => $row["ProjectName"],
+					'active' => $row["ProjectActiveState"],
+					'complete' => $row["ProjectCompletionState"],
+					'privacy' => $row["ProjectPrivacyState"],
+					'zone' => $row["ProjectLocationSensitive"],
+					'desc' => $row["ProjectDescription"],
+					'start' => $row["ProjectStartDate"],
+					'end' => $row["ProjectEndDate"],
+					'street' => $row["ProjectLocationStreet"],
+					'city' => $row["ProjectLocationCity"],
+					'state' => $row["ProjectLocationState"],
+					'zip' => $row["ProjectLocationPostalCode"],
+					'country' => $row["ProjectLocationCountry"],
+					'cost' => $row["ProjectTotalCost"]));
 			}
+			echo json_encode(array("projects" => $projects));
 		}
-		echo json_encode(array("result" => $result));
 	}else{
 		echo json_encode(array("error" => "No Results"));
 	}
