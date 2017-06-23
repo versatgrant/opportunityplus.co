@@ -25,7 +25,7 @@ function displayProjects(dataArr){
 	$('div#result-list').empty();
 	$.each(dataArr.projects, function(){
 		$('div#result-list').append(
-			'<div class="col-md-3 col-sm-4">' + 
+			'<div class="col-md-3 col-sm-4" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 					'<a href="#">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">' + 

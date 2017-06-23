@@ -13,11 +13,11 @@
 	<button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 45px;right:10px; display: block;"><i class="glyphicon glyphicon-plus"></i></button>
 
 	<!-- MENU DRAWER -->
-	<div id="drawerExample" class="dw-xs-10 dw-sm-6 dw-md-4 fold" aria-labelledby="drawerExample" style="z-index: 1000">
-		<div class="drawer-controls">
+	<div id="drawerExample" class="dw-xs-10 dw-sm-6 dw-md-4 fold" aria-labelledby="drawerExample" >
+		<div class="drawer-controls" style="z-index: 1000">
 			<a href="#drawerExample" data-toggle="drawer" aria-foldedopen="false" aria-controls="drawerExample" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
 		</div>
-		<div class="drawer-contents">
+		<div class="drawer-contents" style="z-index: 1000">
 			<div class="drawer-heading">
 				<h2 id="username" class="drawer-title">User Name</h2>
 			</div>
@@ -67,7 +67,7 @@
 	</div>
 
 	<!--RESULT CONTAINER-->
-	<div class="container" style="position:absolute;top:0px;overflow-x:hidden;z-index:-1000;width:100%;padding:10px 15px;">
+	<div class="container" style="position:absolute;top:0px;overflow-x:hidden;width:100%;padding:10px 15px;">
 		<div class="row fix results" id="result-list" style="padding:0px 40px;">
 			<div class="col-md-3 col-sm-4">
 				<div class="wrimagecard wrimagecard-topimage">
@@ -116,7 +116,7 @@
 			</div>
 			<div class="col-md-3 col-sm-4">
 				<div class="wrimagecard wrimagecard-topimage">
-					<a href="#">
+					<a href="https://google.com">
 						<div class="wrimagecard-topimage_header" style="background-color:  rgba(250, 188, 9, 0.1)">
 							<center><i class="fa fa-trophy" style="color:#fabc09"> </i></center>
 						</div>

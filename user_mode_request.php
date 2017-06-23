@@ -50,7 +50,8 @@
 		if ($res->num_rows > 0) {
 			// output data of each record
 			while($row = $res->fetch_assoc()) {
-				array_push($projects, array('name' => $row["ProjectName"],
+				array_push($projects, array('id' => $row["ProjectUniqueId"], 
+					'name' => $row["ProjectName"],
 					'active' => $row["ProjectActiveState"],
 					'complete' => $row["ProjectCompletionState"],
 					'privacy' => $row["ProjectPrivacyState"],
