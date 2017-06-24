@@ -2,6 +2,7 @@
 
 body {
   background: #F1F3FA;
+  z-index: -1002;
 }
 
 /***FLOATING BUTTONS***/

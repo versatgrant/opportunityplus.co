@@ -27,15 +27,9 @@ $(document).ready(function(e){
 		        	$('ul#result-list').empty();
 		        	$('ul#result-list').append("<li>" + data.error + "</li>");
 		      	}else if(table == "talent"){
-		            $('ul#result-list').empty();
-		            $.each(data.result, function(){
-		            	$('ul#result-list').append("<li>" + this.fname + " " + this.lname + "</li>");
-		            });
+		            displayTalents(data);
 		        }else if(table == "agency"){
-		            $('ul#result-list').empty();
-		            $.each(data.result, function(){
-		            	$('ul#result-list').append("<li> Agency Name: " + this.name + "</li>");
-		            });
+		            displayAgencies(data);
 		        }else if(table == "project"){
 		            displayProjects(data);
 		        }

@@ -19,6 +19,12 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#menu-button').on('click',function(){
+		$('#drawerExample').attr('position', 'relative');
+		$('#menu-button').toggleAttr('aria-expanded');
+		$('#drawerExample').toggleAttr('aria-expanded');
+		$('#drawerExample').attr('position', 'fixed');
+	});
 });
 
 function displayProjects(dataArr){
@@ -44,12 +50,65 @@ function displayProjects(dataArr){
 	});
 }
 
+function displayTalents(dataArr){
+	$('div#result-list').empty();
+	$.each(dataArr.talents, function(){
+		$('div#result-list').append(
+			'<div class="col-md-3 col-sm-4" id="' + this.id +'">' + 
+				'<div class="wrimagecard wrimagecard-topimage">' + 
+					'<a href="#">' + 
+						'<div class="wrimagecard-topimage_header" style="background-color: rgba(51, 105, 232, 0.1)">' + 
+							'<center><i class = "fa fa-user" style="color:#3369e8"></i></center>' + 
+						'</div>' + 
+						'<div class="wrimagecard-topimage_title">' + 
+							'<h4>' + this.fname + ' ' + this.lname + '</h4>' + 
+							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
+							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
+						'</div>' + 
+					'</a>' + 
+				'</div>' + 
+			'</div>'
+		);
+	});
+}
+
+function displayAgencies(dataArr){
+	$('div#result-list').empty();
+	$.each(dataArr.agencies, function(){
+		$('div#result-list').append(
+			'<div class="col-md-3 col-sm-4" id="' + this.id +'">' + 
+				'<div class="wrimagecard wrimagecard-topimage">' + 
+					'<a href="#">' + 
+						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(213, 15, 37, 0.1)">' + 
+							'<center><i class="fa fa-building" style="color:#d50f25"> </i></center>' + 
+						'</div>' + 
+						'<div class="wrimagecard-topimage_title">' + 
+							'<h4>' + this.aname + 
+							'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
+							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
+							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
+						'</div>' + 
+					'</a>' + 
+				'</div>' + 
+			'</div>'
+		);
+	});
+}
+
 function truncate(string, num){
    if (string.length > num)
       return string.substring(0,num)+'...';
    else
       return string;
 };
+
+jQuery.fn.toggleAttr = function(attr) {
+ return this.each(function() {
+  var $this = $(this);
+  $this.attr(attr) ? $this.removeAttr(attr) : $this.attr(attr, attr);
+ });
+};
+
 
 function getCookie(cname) {
 	var name = cname + "=";

@@ -13,9 +13,9 @@
 	<button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 45px;right:10px; display: block;"><i class="glyphicon glyphicon-plus"></i></button>
 
 	<!-- MENU DRAWER -->
-	<div id="drawerExample" class="dw-xs-10 dw-sm-6 dw-md-4 fold" aria-labelledby="drawerExample" >
-		<div class="drawer-controls" style="z-index: 1000">
-			<a href="#drawerExample" data-toggle="drawer" aria-foldedopen="false" aria-controls="drawerExample" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+	<div id="drawerExample" class="dw-xs-10 dw-sm-6 dw-md-4 fold" aria-labelledby="drawerExample" style="position:fixed;z-index: 500;height: 100%">
+		<div class="drawer-controls">
+			<a href="#drawerExample" id="menu-button" data-toggle="drawer" aria-foldedopen="false" aria-controls="drawerExample" class="btn btn-primary btn-sm" ><span class="glyphicon glyphicon-menu-hamburger"></span></a>
 		</div>
 		<div class="drawer-contents" style="z-index: 1000">
 			<div class="drawer-heading">
@@ -67,7 +67,7 @@
 	</div>
 
 	<!--RESULT CONTAINER-->
-	<div class="container" style="position:absolute;top:0px;overflow-x:hidden;width:100%;padding:10px 15px;">
+	<div class="container" style="position:absolute;top:0px;z-index:499;width:100%;padding:10px 15px;">
 		<div class="row fix results" id="result-list" style="padding:0px 40px;">
 			<div class="col-md-3 col-sm-4">
 				<div class="wrimagecard wrimagecard-topimage">
@@ -91,8 +91,7 @@
 							<center><i class = "fa fa-user" style="color:#3369e8"></i></center>
 						</div>
 						<div class="wrimagecard-topimage_title">
-							<h4>Talent Name
-							<div class="pull-right badge"></div></h4>
+							<h4>Talent Name</h4>
 							<h6>City, State, Zip, Country</h6>
 							<h6>Lorem ipsum dolor sit amet, paulo quaeque civibus et his, mea decore philosophia in. Elitr dissentias u...</h6>
 						</div>

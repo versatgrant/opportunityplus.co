@@ -10,7 +10,7 @@
 	}
 
 	if($table_entry == "agency"){
-		$sql = "SELECT * FROM `agency` WHERE (`AgencyCorporateName` LIKE '%{$term_entry}%' AND `AgencyPrivacyState` = FALSE)";
+		$sql = "SELECT * FROM `agency` WHERE (`AgencyCorporateName` LIKE '%{$term_entry}%' AND `AgencyPrivacyState` = 'Public')";
 	}elseif ($table_entry== "talent") {
 		$sql = "SELECT * FROM `talent` WHERE (`TalentFirstName` LIKE '%{$term_entry}%' OR `TalentLastName` LIKE '%{$term_entry}%')";
 	}else{
@@ -24,14 +24,35 @@
 		if($table_entry == "agency"){
 			$agencies = array();
 			while($row = $res->fetch_assoc()) {
-				array_push($agencies, array('name' => $row["AgencyCorporateName"]));
+				array_push($agencies, array('id' => $row["UniqueId"], 
+					'aname' => $row["AgencyCorporateName"],
+					'email' => $row["Email"],
+					'pass' => $row["Password"],
+					'phone' => $row["Phone"],
+					'privacy' => $row["AgencyPrivacyState"],
+					'desc' => $row["Summary"],
+					'street' => $row["LocationStreet"],
+					'city' => $row["LocationCity"],
+					'state' => $row["LocationState"],
+					'zip' => $row["LocationPostalCode"],
+					'country' => $row["LocationCountry"],));
 			}
 			echo json_encode(array("agencies" => $agencies));
 		}elseif ($table_entry== "talent") {
 			$talents = array();
 			while($row = $res->fetch_assoc()) {
-				array_push($talents, array('fname' => $row["TalentFirstName"],
-					'lname' => $row["TalentLastName"]));
+				array_push($talents, array('id' => $row["UniqueId"], 
+					'fname' => $row["TalentFirstName"],
+					'lname' => $row["TalentLastName"],
+					'email' => $row["Email"],
+					'pass' => $row["Password"],
+					'phone' => $row["Phone"],
+					'desc' => $row["Summary"],
+					'street' => $row["LocationStreet"],
+					'city' => $row["LocationCity"],
+					'state' => $row["LocationState"],
+					'zip' => $row["LocationPostalCode"],
+					'country' => $row["LocationCountry"],));
 			}
 			echo json_encode(array("talents" => $talents));
 		}else{
