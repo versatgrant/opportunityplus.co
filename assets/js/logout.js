@@ -10,8 +10,9 @@ $(document).ready(function(){
         },
         success: function(data){
           //do something with the data via front-end framework
-          window.location = "index.php";
           removeCookie("UserType");
+          removeCookie("UserId");
+          window.location = "index.php";
         }
       });
       return false;

@@ -5,7 +5,6 @@ $(document).ready(function(){
 		}else{
 			$('h2#username').empty();
 			if(getCookie("UserType") == "agency"){
-				alert("made it to agency");
 				$('h2#username').html(data.user[0]["aname"]);
 				$('p#user-desc').html(data.user[0]["desc"]);
 			}else{
@@ -13,10 +12,101 @@ $(document).ready(function(){
 				$('p#user-desc').html(truncate(data.user[0]["desc"], 197));
 			}
 
-
 			/*LOAD PROJECTS ONTO PAGE*/
+			clearScreen();
 			displayProjects(data);
 		}
+	});
+
+	/*HANDLE LOCATION SENSITIVITY*/
+	$('#location-sensitive').on('change', function(){
+		if($('#location-sensitive').val() == 'City'){
+			$('#city').attr('required', true);
+			$('#state').attr('required', false);
+			$('#zip').attr('required', false);
+			$('#country').attr('required', false);
+		}else if($('#location-sensitive').val() == 'State'){
+			$('#city').attr('required', false);
+			$('#state').attr('required', true);
+			$('#zip').attr('required', false);
+			$('#country').attr('required', false);
+		}else if($('#location-sensitive').val() == 'ZIP'){
+			$('#city').attr('required', false);
+			$('#state').attr('required', false);
+			$('#zip').attr('required', true);
+			$('#country').attr('required', false);
+		}else if($('#location-sensitive').val() == 'Country'){
+			$('#city').attr('required', false);
+			$('#state').attr('required', false);
+			$('#zip').attr('required', false);
+			$('#country').attr('required', true);
+		}else{
+			$('#city').attr('required', false);
+			$('#state').attr('required', false);
+			$('#zip').attr('required', false);
+			$('#country').attr('required', false);
+		}
+	});
+
+
+	/*START/END DATE VALIDATION*/
+	$('#project-startdate').on('change', function(){
+		document.getElementById("project-startdate").setAttribute("max", document.getElementById("project-enddate").value);
+		document.getElementById("project-enddate").setAttribute("min", document.getElementById("project-startdate").value);
+	});
+	$('#project-enddate').on('change', function(){
+		document.getElementById("project-startdate").setAttribute("max", document.getElementById("project-enddate").value);
+		document.getElementById("project-enddate").setAttribute("min", document.getElementById("project-startdate").value);
+	});
+
+
+	/*NEW PROJECT*/
+	$('#newProject').submit(function(){
+		/**Pull values from form*/
+		var pname = $('#project-name').val();
+		var pdesc = $('#project-desc').val();
+		if($("#myonoffswitch").is(':checked') == true){
+			var privacystate = "Public";
+		}else{
+			var privacystate = "Private";
+		}
+		var project_agency = getCookie("UserId");
+		var sdate = document.getElementById("project-startdate").value;
+		var edate = document.getElementById("project-enddate").value;
+		var location_sensitive = $("#location-sensitive").val();
+		var street = $('#street').val();
+		var city = $('#city').val();
+		var state = $('#state').val();
+		var zip = $('#zip').val();
+		var country = $('#country').val();
+
+		/**send a post request to server with the form values*/
+		$.ajax({
+			type: 'POST',
+			url: 'user_mode_request.php',
+			data: {
+				'new_project': 1,
+				'pname': pname,
+				'pdesc': pdesc,
+				'pagency': project_agency,
+				'privacy': privacystate,
+				'sdate': sdate,
+				'edate': edate,
+				'location_sensitive': location_sensitive,
+				'street': street,
+				'city': city,
+				'state': state,
+				'zip': zip,
+				'country': country
+			},
+			success: function(data){
+				if(data.success){
+					//displayProjects(data);
+					window.location = "user-mode.php";
+				}
+		      }
+		  });
+		return false;
 	});
 
 	$('#menu-button').on('click',function(){
@@ -27,8 +117,11 @@ $(document).ready(function(){
 	});
 });
 
-function displayProjects(dataArr){
+function clearScreen(){
 	$('div#result-list').empty();
+}
+
+function displayProjects(dataArr){
 	$.each(dataArr.projects, function(){
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4" id="' + this.id +'">' + 
@@ -51,7 +144,6 @@ function displayProjects(dataArr){
 }
 
 function displayTalents(dataArr){
-	$('div#result-list').empty();
 	$.each(dataArr.talents, function(){
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4" id="' + this.id +'">' + 
@@ -73,7 +165,6 @@ function displayTalents(dataArr){
 }
 
 function displayAgencies(dataArr){
-	$('div#result-list').empty();
 	$.each(dataArr.agencies, function(){
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4" id="' + this.id +'">' + 

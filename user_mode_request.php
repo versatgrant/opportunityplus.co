@@ -4,7 +4,54 @@
 
 	if(!isset($_SESSION["Id"])){
 		echo json_encode(array("user" => "No Users Detected"));
-	}else{
+	}elseif(isset($_POST['new_project'])){
+		//Get input from form
+		$pname_entry = $conn->real_escape_string($_POST['pname']);
+		$pagency_entry = $conn->real_escape_string($_POST['pagency']);
+		$pdesc_entry = $conn->real_escape_string($_POST['pdesc']);
+		$privacy_entry = $conn->real_escape_string($_POST['privacy']);
+		$sdate_entry = $conn->real_escape_string($_POST['sdate']);
+		$edate_entry = $conn->real_escape_string($_POST['edate']);
+		$loc_sensitivity_entry = $conn->real_escape_string($_POST['location_sensitive']);
+		$street_entry = $conn->real_escape_string($_POST['street']);
+		$city_entry = $conn->real_escape_string($_POST['city']);
+		$state_entry = $conn->real_escape_string($_POST['state']);
+		$zip_entry = $conn->real_escape_string($_POST['zip']);
+		$country_entry = $conn->real_escape_string($_POST['country']);
+
+		//Post project to Database
+		$sql = "INSERT INTO `project` (`ProjectName`, `ProjectAgencyId`, `ProjectActiveState`, ProjectCompletionState, `ProjectPrivacyState`, `ProjectLocationSensitive`, `ProjectDescription`, `ProjectStartDate`, `ProjectEndDate`, `ProjectLocationStreet`, `ProjectLocationCity`, `ProjectLocationState`, `ProjectLocationPostalCode`, `ProjectLocationCountry`) VALUES ('{$pname_entry}', '{$pagency_entry}', 'Active', 'In-Progress', '{$privacy_entry}', '{$loc_sensitivity_entry}', '{$pdesc_entry}', '{$sdate_entry}', '{$edate_entry}', '{$street_entry}', '{$city_entry}', '{$state_entry}', '{$zip_entry}', '{$country_entry}')";
+		$newProject = $conn->query($sql);
+		echo json_encode(array("success" => $newProject));
+		if($newProject){
+
+			$id = $conn->insert_id;
+			$sql = "SELECT * FROM `project` WHERE `ProjectUniqueId` = '{$id}'";
+
+			$project = array();
+			$res = $conn->query($sql);
+			while($row = $res->fetch_assoc()) {
+				array_push($project, array('id' => $row["ProjectUniqueId"], 
+					'name' => $row["ProjectName"],
+					'active' => $row["ProjectActiveState"],
+					'complete' => $row["ProjectCompletionState"],
+					'privacy' => $row["ProjectPrivacyState"],
+					'zone' => $row["ProjectLocationSensitive"],
+					'desc' => $row["ProjectDescription"],
+					'start' => $row["ProjectStartDate"],
+					'end' => $row["ProjectEndDate"],
+					'street' => $row["ProjectLocationStreet"],
+					'city' => $row["ProjectLocationCity"],
+					'state' => $row["ProjectLocationState"],
+					'zip' => $row["ProjectLocationPostalCode"],
+					'country' => $row["ProjectLocationCountry"],
+					'cost' => $row["ProjectTotalCost"]));
+			}
+			echo json_encode(array("projects" => $project));
+		}
+
+	}
+	else{
 		//get all projects for the logged in user
 		if($_SESSION["UserType"] == "agency"){
 			//pull directly from the project table if they're an Agency

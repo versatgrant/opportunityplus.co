@@ -61,6 +61,7 @@
 				
 				array_push($projects, array('id' => $row["ProjectUniqueId"], 
 					'name' => $row["ProjectName"],
+					'pagency' => $row["ProjectAgencyId"],
 					'active' => $row["ProjectActiveState"],
 					'complete' => $row["ProjectCompletionState"],
 					'privacy' => $row["ProjectPrivacyState"],

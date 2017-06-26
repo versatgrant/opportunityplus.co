@@ -6,7 +6,7 @@ $(document).ready(function(){
 
 	$('#sign-in-nav').on('click',function(){
 		$.getJSON("login_request.php", function(data){
-			if(data.loggedin){
+			if(data.loggedin == true){
 				alert("Already Logged In.");
 				window.location = "user-mode.php";
 			}
@@ -32,9 +32,9 @@ $(document).ready(function(){
 	          //do something with the data via front-end framework
 		        if(data == "Incorrect Username/Password"){
 		        	$('div#login-err-msg').html(data);
-		        }else if(data == 1){
-		            //alert(data);
+		        }else {
 		            setCookie("UserType", usertype, 10);
+		            setCookie("UserId", data, 10);
 		            window.location = "user-mode.php";
 		        }
 		    }
@@ -48,4 +48,15 @@ function setCookie(cname, cvalue, exdays) {
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = "expires="+d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+jQuery.fn.toggleAttr = function(attr) {
+	return this.each(function() {
+		var $this = $(this);
+		if ($this.attr(attr)) {
+			$this.removeAttr(attr);
+		} else {
+			$this.attr(attr, true);
+		}
+	});
 }

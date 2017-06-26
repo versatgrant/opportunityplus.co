@@ -1,16 +1,7 @@
 $(document).ready(function(){
 
 
-	jQuery.fn.toggleAttr = function(attr) {
-		return this.each(function() {
-			var $this = $(this);
-			if ($this.attr(attr)) {
-				$this.removeAttr(attr);
-			} else {
-				$this.attr(attr, true);
-			}
-		});
-	}
+	
 
 	//$("input").prop('required',true);
 
@@ -49,10 +40,10 @@ $(document).ready(function(){
 		var email = $('#email-register').val();
 		var password = $('#password-register').val();
 		var usertype = $('input[name="usertype-register"]:checked').val();
-		if($("input[name ='onoffswitch']:checked").val() == true){
-			var agencytype = "public";
+		if("#myonoffswitch").is(':checked') == true){
+			var agencytype = "Public";
 		}else{
-			var agencytype = "private";
+			var agencytype = "Private";
 		}
 		var corpname = $('#corpname').val();
 		var phone = $('#phone').val();
@@ -84,16 +75,27 @@ $(document).ready(function(){
 				'country': country
 			},
 			success: function(data){
-          //do something with the data via front-end framework
-          if (data == "User Already Exists"){
-          	$('div#reg-err-msg').html(data);
-          }else{
-          	alert("Successfully Registered");
-            window.location = "index.php";
-        }
-    }
-});
+		          //do something with the data via front-end framework
+		          if (data == "User Already Exists"){
+		          	$('div#reg-err-msg').html(data);
+		          }else{
+		          	alert("Successfully Registered");
+		          	window.location = "index.php";
+		          }
+		      }
+		  });
 		return false;
 	});
 
 });
+
+jQuery.fn.toggleAttr = function(attr) {
+		return this.each(function() {
+			var $this = $(this);
+			if ($this.attr(attr)) {
+				$this.removeAttr(attr);
+			} else {
+				$this.attr(attr, true);
+			}
+		});
+	}

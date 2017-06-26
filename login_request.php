@@ -28,7 +28,7 @@
 				//store their Id and Type in session variables
 				$_SESSION["Id"] = $row["UniqueId"];
 				$_SESSION["UserType"] = $usertype_entry;
-				echo 1;
+				echo $_SESSION["Id"];
 			}else{
 				echo "Incorrect Username/Password";
 			}
@@ -39,6 +39,7 @@
 
 	if(isset($_POST['done_logout'])){
 		unset($_SESSION["Id"]);
+		unset($_SESSION["UserType"]);
 		echo "Successfully Logged Out";
 	}
 

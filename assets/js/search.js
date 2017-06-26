@@ -27,10 +27,13 @@ $(document).ready(function(e){
 		        	$('ul#result-list').empty();
 		        	$('ul#result-list').append("<li>" + data.error + "</li>");
 		      	}else if(table == "talent"){
+		      		clearScreen();
 		            displayTalents(data);
 		        }else if(table == "agency"){
+		        	clearScreen();
 		            displayAgencies(data);
 		        }else if(table == "project"){
+		        	clearScreen();
 		            displayProjects(data);
 		        }
 		    }
