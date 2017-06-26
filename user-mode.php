@@ -6,11 +6,12 @@
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-drawer/1.0.6/css/bootstrap-drawer.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/user-mode.css">
+	<link rel="stylesheet" href="assets/css/login/loginModal.css">
 </head>
-<body class="has-drawer"> <!-- add this class to your body for proper sizing -->
+<body class="has-drawer">
 	<!-- FLOATING BUTTONS -->
 	<button id="submit-logout" type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 10px;right:10px; display: block;"><i class="glyphicon glyphicon-log-out"></i></button>
-	<button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 45px;right:10px; display: block;"><i class="glyphicon glyphicon-plus"></i></button>
+	<a href="#createProjectModal" data-toggle="modal"><button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 45px;right:10px; display: block;"><i class="glyphicon glyphicon-plus"></i></button></a>
 
 	<!-- MENU DRAWER -->
 	<div id="drawerExample" class="dw-xs-10 dw-sm-6 dw-md-4 fold" aria-labelledby="drawerExample" style="position:fixed;z-index: 500;height: 100%">
@@ -131,6 +132,34 @@
 			</div>
 		</div>
 	</div>
+
+
+	<!--NEW PROJECT FORM-->
+	<div class="modal fade" id="createProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="loginmodal-container">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h1>New Project</h1><br>
+				<form id="createProject" name="createProject">
+					<!--USER TYPE-->
+					<div class="btn-group-justified" id="status1" data-toggle="buttons" style="max-width: 70%; margin: 10px auto;">
+		              <label class="btn btn-default btn-on active" style="border-radius: 0px; border-width: 0px">
+		              <input type="radio" value="talent" name="usertype-login" checked="checked">Talent</label>
+		              <label class="btn btn-default btn-off" style="border-radius: 0px; border-width: 0px">
+		              <input type="radio" value="agency" name="usertype-login" required/>Agency</label>
+		            </div>
+					<input id="email-login" type="text" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Must be an email address" required/>
+					<input id="password-login" type="password" name="pass" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
+					<input type="submit" name="login" id="submit-login" class="login loginmodal-submit" value="Login">
+				</form>
+				<div id="login-err-msg" style="color:red;text-align: center;"></div>
+				<div class="login-help">
+					<a href="#">Forgot Password?</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-drawer/1.0.6/js/drawer.min.js"></script>

@@ -46,8 +46,17 @@
 		              <label class="btn btn-default btn-off" style="border-radius: 0px; border-width: 0px">
 		              <input type="radio" value="agency" name="usertype-login" required/>Agency</label>
 		            </div>
-					<input id="email-login" type="text" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Must be an email address" required/>
-					<input id="password-login" type="password" name="pass" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
+
+		            <!--EMAIL/PASSWORD-->
+					<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<input id="email-login" type="text" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Must be an email address" required/>
+					</div>
+
+					<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<input id="password-login" type="password" name="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/>
+					</div>
+
+					<!--SUBMIT-->
 					<input type="submit" name="login" id="submit-login" class="login loginmodal-submit" value="Login">
 				</form>
 				<div id="login-err-msg" style="color:red;text-align: center;"></div>
@@ -61,103 +70,133 @@
 	<!--REGISTRATION FORM-->
 	<div class="modal fade" id="regModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 		<div class="modal-dialog">
-			<div class="loginmodal-container">
+			<div class="loginmodal-container row">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				<h1>Register for a Free Account</h1><br>
-				<form id="register" action="index.php" name="register">
-					<!--USER TYPE-->
-					<div class="btn-group-justified" id="status" data-toggle="buttons" style="max-width: 70%; margin: 10px auto;">
-		              <label class="btn btn-default btn-on active" style="border-radius: 0px; border-width: 0px">
-		              <input type="radio" value="talent" name="usertype-register" checked="checked">Talent</label>
-		              <label class="btn btn-default btn-off" style="border-radius: 0px; border-width: 0px">
-		              <input type="radio" value="agency" name="usertype-register">Agency</label>
-		            </div>
+				<div>
+					<form id="register" action="index.php" name="register">
+						<!--USER TYPE-->
+						<div class="btn-group-justified" id="status" data-toggle="buttons" style="max-width: 70%; margin: 10px auto;">
+			              <label class="btn btn-default btn-on active" style="border-radius: 0px; border-width: 0px">
+			              <input type="radio" value="talent" name="usertype-register" checked="checked">Talent</label>
+			              <label class="btn btn-default btn-off" style="border-radius: 0px; border-width: 0px">
+			              <input type="radio" value="agency" name="usertype-register">Agency</label>
+			            </div>
 
-				<!--AGENCY TYPE-->
-				<div class="onoffswitch form-agency" style="margin: auto;">
-				    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-				    <label class="onoffswitch-label" for="myonoffswitch">
-				        <span class="onoffswitch-inner"></span>
-				        <span class="onoffswitch-switch"></span>
-				    </label>
+						<!--AGENCY TYPE-->
+						<div class="onoffswitch form-agency" style="margin:auto;">
+						    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+						    <label class="onoffswitch-label" for="myonoffswitch">
+						        <span class="onoffswitch-inner"></span>
+						        <span class="onoffswitch-switch"></span>
+						    </label>
+						</div>
+
+						<!--USER NAMES-->
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<input id="fname" class="form-talent"  type="text" name="fname" placeholder="First Name" required/>
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<input id="lname" class="form-talent"  type="text" name="lname" placeholder="Last Name" required/>
+						</div>
+
+						<div class="col-md-12" style="padding-left:5px;padding-right:5px;">
+							<input id="corpname" class="form-agency" type="text" name="" placeholder="Company Name" required/>
+						</div>
+
+						<!--EMAIL/PASSWORD-->
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<input id="email-register" type="text" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Must be an email address" required/>
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<input id="password-register" type="password" name="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/>
+						</div>
+
+						<!--PHONE-->
+						<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<input id="phone" type="text" name="phone" placeholder="Phone" pattern="\d{3}[\-]\d{3}[\-]\d{4}" title="123-456-7890"/>
+						</div>
+
+						<!--ADDRESS-->
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<input id="street" type="text" name="street" placeholder="Street" />			
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<input id="city" type="text" name="city" placeholder="City"/>
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<select name="state" id="state">
+							  <option value="" selected="selected">Select a State</option>
+							  <option value="AL">Alabama</option>
+							  <option value="AK">Alaska</option>
+							  <option value="AZ">Arizona</option>
+							  <option value="AR">Arkansas</option>
+							  <option value="CA">California</option>
+							  <option value="CO">Colorado</option>
+							  <option value="CT">Connecticut</option>
+							  <option value="DE">Delaware</option>
+							  <option value="DC">District Of Columbia</option>
+							  <option value="FL">Florida</option>
+							  <option value="GA">Georgia</option>
+							  <option value="HI">Hawaii</option>
+							  <option value="ID">Idaho</option>
+							  <option value="IL">Illinois</option>
+							  <option value="IN">Indiana</option>
+							  <option value="IA">Iowa</option>
+							  <option value="KS">Kansas</option>
+							  <option value="KY">Kentucky</option>
+							  <option value="LA">Louisiana</option>
+							  <option value="ME">Maine</option>
+							  <option value="MD">Maryland</option>
+							  <option value="MA">Massachusetts</option>
+							  <option value="MI">Michigan</option>
+							  <option value="MN">Minnesota</option>
+							  <option value="MS">Mississippi</option>
+							  <option value="MO">Missouri</option>
+							  <option value="MT">Montana</option>
+							  <option value="NE">Nebraska</option>
+							  <option value="NV">Nevada</option>
+							  <option value="NH">New Hampshire</option>
+							  <option value="NJ">New Jersey</option>
+							  <option value="NM">New Mexico</option>
+							  <option value="NY">New York</option>
+							  <option value="NC">North Carolina</option>
+							  <option value="ND">North Dakota</option>
+							  <option value="OH">Ohio</option>
+							  <option value="OK">Oklahoma</option>
+							  <option value="OR">Oregon</option>
+							  <option value="PA">Pennsylvania</option>
+							  <option value="RI">Rhode Island</option>
+							  <option value="SC">South Carolina</option>
+							  <option value="SD">South Dakota</option>
+							  <option value="TN">Tennessee</option>
+							  <option value="TX">Texas</option>
+							  <option value="UT">Utah</option>
+							  <option value="VT">Vermont</option>
+							  <option value="VA">Virginia</option>
+							  <option value="WA">Washington</option>
+							  <option value="WV">West Virginia</option>
+							  <option value="WI">Wisconsin</option>
+							  <option value="WY">Wyoming</option>
+							</select>
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<input id="zip" type="text" name="zip" placeholder="Zip/Postal Code" pattern="[0-9]{5}" title="Five digit zip code" />
+						</div>
+
+						<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<input id="country" type="text" name="country" placeholder="Country"/>
+						</div>
+
+						<!--SUBMIT-->
+						<input type="submit" name="login" id="submit-reg" class="login loginmodal-submit" value="Register">
+					</form>
 				</div>
-
-				<!--USER NAMES-->
-				<input id="fname" class="form-talent" type="text" name="fname" placeholder="First Name" required/>
-				<input id="lname" class="form-talent" type="text" name="lname" placeholder="Last Name" required/>
-				<input id="corpname" class="form-agency" type="text" name="" placeholder="Company Name" required/>
-
-				<input id="phone" type="text" name="phone" placeholder="Phone" pattern="\d{3}[\-]\d{3}[\-]\d{4}" title="123-456-7890"/>
-
-				<input id="email-register" type="text" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Must be an email address" required/>
-
-				<input id="password-register" type="password" name="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/>
-
-				<input id="street" type="text" name="street" placeholder="Street" />			
-
-				<input id="city" type="text" name="city" placeholder="City"/>
-
-				<select name="state" id="state">
-				  <option value="" selected="selected">Select a State</option>
-				  <option value="AL">Alabama</option>
-				  <option value="AK">Alaska</option>
-				  <option value="AZ">Arizona</option>
-				  <option value="AR">Arkansas</option>
-				  <option value="CA">California</option>
-				  <option value="CO">Colorado</option>
-				  <option value="CT">Connecticut</option>
-				  <option value="DE">Delaware</option>
-				  <option value="DC">District Of Columbia</option>
-				  <option value="FL">Florida</option>
-				  <option value="GA">Georgia</option>
-				  <option value="HI">Hawaii</option>
-				  <option value="ID">Idaho</option>
-				  <option value="IL">Illinois</option>
-				  <option value="IN">Indiana</option>
-				  <option value="IA">Iowa</option>
-				  <option value="KS">Kansas</option>
-				  <option value="KY">Kentucky</option>
-				  <option value="LA">Louisiana</option>
-				  <option value="ME">Maine</option>
-				  <option value="MD">Maryland</option>
-				  <option value="MA">Massachusetts</option>
-				  <option value="MI">Michigan</option>
-				  <option value="MN">Minnesota</option>
-				  <option value="MS">Mississippi</option>
-				  <option value="MO">Missouri</option>
-				  <option value="MT">Montana</option>
-				  <option value="NE">Nebraska</option>
-				  <option value="NV">Nevada</option>
-				  <option value="NH">New Hampshire</option>
-				  <option value="NJ">New Jersey</option>
-				  <option value="NM">New Mexico</option>
-				  <option value="NY">New York</option>
-				  <option value="NC">North Carolina</option>
-				  <option value="ND">North Dakota</option>
-				  <option value="OH">Ohio</option>
-				  <option value="OK">Oklahoma</option>
-				  <option value="OR">Oregon</option>
-				  <option value="PA">Pennsylvania</option>
-				  <option value="RI">Rhode Island</option>
-				  <option value="SC">South Carolina</option>
-				  <option value="SD">South Dakota</option>
-				  <option value="TN">Tennessee</option>
-				  <option value="TX">Texas</option>
-				  <option value="UT">Utah</option>
-				  <option value="VT">Vermont</option>
-				  <option value="VA">Virginia</option>
-				  <option value="WA">Washington</option>
-				  <option value="WV">West Virginia</option>
-				  <option value="WI">Wisconsin</option>
-				  <option value="WY">Wyoming</option>
-				</select>
-
-				<input id="zip" type="text" name="zip" placeholder="Zip/Postal Code" pattern="[0-9]{5}" title="Five digit zip code" />
-
-				<input id="country" type="text" name="country" placeholder="Country"/>
-
-				<input type="submit" name="login" id="submit-reg" class="login loginmodal-submit" value="Register">
-				</form>
 				<div id="reg-err-msg" style="color:red;text-align: center;"></div>
 			</div>
 		</div>
