@@ -12,7 +12,7 @@
 	if($table_entry == "agency"){
 		$sql = "SELECT * FROM `agency` WHERE (`AgencyCorporateName` LIKE '%{$term_entry}%' AND `AgencyPrivacyState` = 'Public')";
 	}elseif ($table_entry== "talent") {
-		$sql = "SELECT * FROM `talent` WHERE (`TalentFirstName` LIKE '%{$term_entry}%' OR `TalentLastName` LIKE '%{$term_entry}%')";
+		$sql = "SELECT * FROM `talent` WHERE ((`TalentFirstName` LIKE '%{$term_entry}%') OR (`TalentLastName` LIKE '%{$term_entry}%'))";
 	}else{
 		$sql = "SELECT * FROM `project` WHERE (((`ProjectName` LIKE '%{$term_entry}%') OR (`ProjectDescription` LIKE '%{$term_entry}%')) AND `ProjectPrivacyState` = 'Public' AND `ProjectActiveState` = 'Active')";
 	}

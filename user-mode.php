@@ -70,7 +70,7 @@
 	<!--RESULT CONTAINER-->
 	<div class="container" style="position:absolute;top:0px;z-index:499;width:100%;padding:10px 15px;">
 		<div class="row fix results" id="result-list" style="padding:0px 40px;">
-			<div class="col-md-3 col-sm-4">
+			<div class="col-md-3 col-sm-4 parProject">
 				<div class="wrimagecard wrimagecard-topimage">
 					<a href="#">
 						<div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">
@@ -85,7 +85,7 @@
 					</a>
 				</div>
 			</div>
-			<div class="col-md-3 col-sm-4">
+			<div class="col-md-3 col-sm-4 parTalent">
 				<div class="wrimagecard wrimagecard-topimage">
 					<a href="#">
 						<div class="wrimagecard-topimage_header" style="background-color: rgba(51, 105, 232, 0.1)">
@@ -99,7 +99,7 @@
 					</a>
 				</div>
 			</div>
-			<div class="col-md-3 col-sm-4">
+			<div class="col-md-3 col-sm-4 parAgency">
 				<div class="wrimagecard wrimagecard-topimage">
 					<a href="#">
 						<div class="wrimagecard-topimage_header" style="background-color:  rgba(213, 15, 37, 0.1)">
@@ -114,9 +114,12 @@
 					</a>
 				</div>
 			</div>
-			<div class="col-md-3 col-sm-4">
+			<div class="col-md-3 col-sm-4 parAccomp">
 				<div class="wrimagecard wrimagecard-topimage">
-					<a href="https://google.com">
+					<div class="toolbar">
+						<a href="#delete" class="pull-right tool deleteAccomp" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>
+					</div>
+					<a href="https://bing.com" target="_blank">
 						<div class="wrimagecard-topimage_header" style="background-color:  rgba(250, 188, 9, 0.1)">
 							<center><i class="fa fa-trophy" style="color:#fabc09"> </i></center>
 						</div>
@@ -125,6 +128,8 @@
 							<div class="pull-right badge">Certification</div></h4>
 							<h6>Lorem ipsum dolor sit amet, paulo quaeque civibus et his, mea decore philosophia in. Elitr dissentias u...
 							<div class="pull-right badge"></div></h6>
+							<a href="https://google.com" target="_blank">Edit</a>
+							<span>|</span>
 							<a href="https://google.com" target="_blank">Link</a>
 						</div>
 					</a>

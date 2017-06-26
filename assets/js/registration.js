@@ -40,7 +40,7 @@ $(document).ready(function(){
 		var email = $('#email-register').val();
 		var password = $('#password-register').val();
 		var usertype = $('input[name="usertype-register"]:checked').val();
-		if("#myonoffswitch").is(':checked') == true){
+		if($("#myonoffswitch").is(':checked') == true){
 			var agencytype = "Public";
 		}else{
 			var agencytype = "Private";

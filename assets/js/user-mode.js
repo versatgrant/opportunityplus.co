@@ -13,7 +13,7 @@ $(document).ready(function(){
 			}
 
 			/*LOAD PROJECTS ONTO PAGE*/
-			clearScreen();
+			//clearScreen();
 			displayProjects(data);
 		}
 	});
@@ -101,12 +101,12 @@ $(document).ready(function(){
 			},
 			success: function(data){
 				if(data.success){
-					//displayProjects(data);
-					window.location = "user-mode.php";
+					displayProjects(data);
+					//window.location = "user-mode.php";
 				}
 		      }
 		  });
-		return false;
+		//return false;
 	});
 
 	$('#menu-button').on('click',function(){
@@ -124,9 +124,12 @@ function clearScreen(){
 function displayProjects(dataArr){
 	$.each(dataArr.projects, function(){
 		$('div#result-list').append(
-			'<div class="col-md-3 col-sm-4" id="' + this.id +'">' + 
+			'<div class="col-md-3 col-sm-4 parProject" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
-					'<a href="#">' + 
+				'<div class="toolbar">' + 
+					'<a href="#deleteProj" class="pull-right tool deleteProject" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>' + 
+				'</div>' + 
+					'<a href="#viewProj" class="viewProject">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">' + 
 							'<center><i class="fa fa-tasks" style="color:#16A085"></i></center>' + 
 						'</div>' + 
@@ -135,6 +138,7 @@ function displayProjects(dataArr){
 							'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
+							'<a href="#editProj" class="editProject" style="text-decoration:underline;">Edit</a>' + 
 						'</div>' + 
 					'</a>' + 
 				'</div>' + 
@@ -146,9 +150,12 @@ function displayProjects(dataArr){
 function displayTalents(dataArr){
 	$.each(dataArr.talents, function(){
 		$('div#result-list').append(
-			'<div class="col-md-3 col-sm-4" id="' + this.id +'">' + 
+			'<div class="col-md-3 col-sm-4 parTalent" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
-					'<a href="#">' + 
+				'<div class="toolbar">' + 
+					'<a href="#deleteTal" class="pull-right tool deleteTalent" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>' + 
+				'</div>' + 
+					'<a href="#viewTal" class="viewTalent">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(51, 105, 232, 0.1)">' + 
 							'<center><i class = "fa fa-user" style="color:#3369e8"></i></center>' + 
 						'</div>' + 
@@ -156,6 +163,7 @@ function displayTalents(dataArr){
 							'<h4>' + this.fname + ' ' + this.lname + '</h4>' + 
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
+							'<a href="#editTal" class="editTalent" style="text-decoration:underline;">Edit</a>' + 
 						'</div>' + 
 					'</a>' + 
 				'</div>' + 
@@ -167,9 +175,12 @@ function displayTalents(dataArr){
 function displayAgencies(dataArr){
 	$.each(dataArr.agencies, function(){
 		$('div#result-list').append(
-			'<div class="col-md-3 col-sm-4" id="' + this.id +'">' + 
+			'<div class="col-md-3 col-sm-4 parAgency" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
-					'<a href="#">' + 
+				'<div class="toolbar">' + 
+					'<a href="#deleteAgen" class="pull-right tool deleteAgency" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>' + 
+				'</div>' + 
+					'<a href="#viewAgen" class="viewAgency">' +
 						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(213, 15, 37, 0.1)">' + 
 							'<center><i class="fa fa-building" style="color:#d50f25"> </i></center>' + 
 						'</div>' + 
@@ -178,6 +189,7 @@ function displayAgencies(dataArr){
 							'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
+							'<a href="#editAge" class="editAgency" style="text-decoration:underline;">Edit</a>' + 
 						'</div>' + 
 					'</a>' + 
 				'</div>' + 
@@ -191,13 +203,6 @@ function truncate(string, num){
       return string.substring(0,num)+'...';
    else
       return string;
-};
-
-jQuery.fn.toggleAttr = function(attr) {
- return this.each(function() {
-  var $this = $(this);
-  $this.attr(attr) ? $this.removeAttr(attr) : $this.attr(attr, attr);
- });
 };
 
 
