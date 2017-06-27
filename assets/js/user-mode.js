@@ -118,9 +118,9 @@ $(document).ready(function(){
 	});
 
 	/*DELETE PROJECT|ACCOMPLISHMENT*/
-	$('.delete').on('click', function(){
+	$('.container #result-list').on('click', '.delete', function(){
 		/**Pull values from form*/
-		alert("Alert Working"+$(this).attr('href'));
+		alert($(this).attr('href'));
 	});
 
 });
@@ -207,10 +207,14 @@ function displayAgencies(dataArr){
 }
 
 function truncate(string, num){
-   if (string.length > num)
-      return string.substring(0,num)+'...';
-   else
-      return string;
+	if(string == null){
+		return "No Description :(";
+	}else if (string.length > num){
+		return string.substring(0,num)+'...';
+	}
+	else{
+		return string;
+	}
 };
 
 

@@ -270,11 +270,14 @@
 		</div>
 	</div>
 
+	
+</body>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-drawer/1.0.6/js/drawer.min.js"></script>
 	<script src="assets/js/user-mode.js"></script>
 	<script src="assets/js/search.js"></script>
 	<script src="assets/js/logout.js"></script>
-</body>
+	
 </html>
