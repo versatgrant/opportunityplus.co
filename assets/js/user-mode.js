@@ -109,12 +109,20 @@ $(document).ready(function(){
 		//return false;
 	});
 
+	/*NAV-DRAWER FIXES*/
 	$('#menu-button').on('click',function(){
 		$('#drawerExample').attr('position', 'relative');
-		$('#menu-button').toggleAttr('aria-expanded');
-		$('#drawerExample').toggleAttr('aria-expanded');
+		$('#menu-button').attr('aria-expanded', function (_, attr) { return !attr });
+		$('#drawerExample').attr('aria-expanded', function (_, attr) { return !attr });
 		$('#drawerExample').attr('position', 'fixed');
 	});
+
+	/*DELETE PROJECT|ACCOMPLISHMENT*/
+	$('.delete').on('click', function(){
+		/**Pull values from form*/
+		alert("Alert Working"+$(this).attr('href'));
+	});
+
 });
 
 function clearScreen(){
@@ -127,9 +135,9 @@ function displayProjects(dataArr){
 			'<div class="col-md-3 col-sm-4 parProject" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 				'<div class="toolbar">' + 
-					'<a href="#deleteProj" class="pull-right tool deleteProject" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>' + 
+					'<a href="#project" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>' + 
 				'</div>' + 
-					'<a href="#viewProj" class="viewProject">' + 
+					'<a href="#project" class="view">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">' + 
 							'<center><i class="fa fa-tasks" style="color:#16A085"></i></center>' + 
 						'</div>' + 
@@ -138,7 +146,7 @@ function displayProjects(dataArr){
 							'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-							'<a href="#editProj" class="editProject" style="text-decoration:underline;">Edit</a>' + 
+							'<a href="#project" class="edit" style="text-decoration:underline;">Edit</a>' + 
 						'</div>' + 
 					'</a>' + 
 				'</div>' + 
@@ -153,9 +161,9 @@ function displayTalents(dataArr){
 			'<div class="col-md-3 col-sm-4 parTalent" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 				'<div class="toolbar">' + 
-					'<a href="#deleteTal" class="pull-right tool deleteTalent" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>' + 
+					'<a href="#talent" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>' + 
 				'</div>' + 
-					'<a href="#viewTal" class="viewTalent">' + 
+					'<a href="#talent" class="view">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(51, 105, 232, 0.1)">' + 
 							'<center><i class = "fa fa-user" style="color:#3369e8"></i></center>' + 
 						'</div>' + 
@@ -163,7 +171,7 @@ function displayTalents(dataArr){
 							'<h4>' + this.fname + ' ' + this.lname + '</h4>' + 
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-							'<a href="#editTal" class="editTalent" style="text-decoration:underline;">Edit</a>' + 
+							'<a href="#talent" class="edit" style="text-decoration:underline;">Edit</a>' + 
 						'</div>' + 
 					'</a>' + 
 				'</div>' + 
@@ -178,9 +186,9 @@ function displayAgencies(dataArr){
 			'<div class="col-md-3 col-sm-4 parAgency" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 				'<div class="toolbar">' + 
-					'<a href="#deleteAgen" class="pull-right tool deleteAgency" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>' + 
+					'<a href="#agency" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>' + 
 				'</div>' + 
-					'<a href="#viewAgen" class="viewAgency">' +
+					'<a href="#agency" class="view">' +
 						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(213, 15, 37, 0.1)">' + 
 							'<center><i class="fa fa-building" style="color:#d50f25"> </i></center>' + 
 						'</div>' + 
@@ -189,7 +197,7 @@ function displayAgencies(dataArr){
 							'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-							'<a href="#editAge" class="editAgency" style="text-decoration:underline;">Edit</a>' + 
+							'<a href="#agency" class="edit" style="text-decoration:underline;">Edit</a>' + 
 						'</div>' + 
 					'</a>' + 
 				'</div>' + 

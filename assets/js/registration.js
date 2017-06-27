@@ -8,18 +8,18 @@ $(document).ready(function(){
 	/**Hide the fields not related to the user's type on load*/
 	if($('input[name="usertype-register"]:checked').val() == 'talent'){
 		$('.form-agency').toggle();
-		$('.form-agency').toggleAttr('required');
+		$('.form-agency').attr('required', function (_, attr) { return !attr });
 	}else{
 		$('.form-talent').toggle();
-		$('.form-talent').toggleAttr('required');
+		$('.form-talent').attr('required', function (_, attr) { return !attr });
 	}
 
 	/**Hide the fields not related to the user's type on change*/
 	$('input[name="usertype-register"]').on('change',function(){
 		$('.form-agency').toggle();
-		$('.form-agency').toggleAttr('required');
+		$('.form-agency').attr('required', function (_, attr) { return !attr });
 		$('.form-talent').toggle();
-		$('.form-talent').toggleAttr('required');
+		$('.form-talent').attr('required', function (_, attr) { return !attr });
 	});
 
 	$('#sign-up-nav').on('click',function(){
@@ -88,14 +88,3 @@ $(document).ready(function(){
 	});
 
 });
-
-jQuery.fn.toggleAttr = function(attr) {
-		return this.each(function() {
-			var $this = $(this);
-			if ($this.attr(attr)) {
-				$this.removeAttr(attr);
-			} else {
-				$this.attr(attr, true);
-			}
-		});
-	}
