@@ -60,6 +60,7 @@
 			while($row = $res->fetch_assoc()) {
 				
 				array_push($projects, array('id' => $row["ProjectUniqueId"], 
+					'paid' => $row["ProjectAgencyId"],
 					'name' => $row["ProjectName"],
 					'pagency' => $row["ProjectAgencyId"],
 					'active' => $row["ProjectActiveState"],

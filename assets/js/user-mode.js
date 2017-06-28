@@ -101,7 +101,7 @@ $(document).ready(function(){
 			},
 			success: function(data){
 				if(data.success){
-					displayProjects(data);
+					displayProjects(data, );
 					//window.location = "user-mode.php";
 				}
 		      }
@@ -148,12 +148,17 @@ function clearScreen(){
 
 function displayProjects(dataArr){
 	$.each(dataArr.projects, function(){
+		if(this.paid == getCookie("UserId")){
+			ableToDelete = '<div class="toolbar"><a href="#project" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a></div>';
+			ableToEdit = '<a href="#project" class="edit" style="text-decoration:underline;">Edit</a>';
+		}else{
+			ableToDelete = '';
+			ableToEdit = '';
+		}
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4 parProject" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
-				'<div class="toolbar">' + 
-					'<a href="#project" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>' + 
-				'</div>' + 
+				ableToDelete + 
 					'<a href="#project" class="view">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">' + 
 							'<center><i class="fa fa-tasks" style="color:#16A085"></i></center>' + 
@@ -163,7 +168,7 @@ function displayProjects(dataArr){
 							'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-							'<a href="#project" class="edit" style="text-decoration:underline;">Edit</a>' + 
+							ableToEdit + 
 						'</div>' + 
 					'</a>' + 
 				'</div>' + 

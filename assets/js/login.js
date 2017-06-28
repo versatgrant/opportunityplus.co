@@ -49,14 +49,3 @@ function setCookie(cname, cvalue, exdays) {
     var expires = "expires="+d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
-
-jQuery.fn.toggleAttr = function(attr) {
-	return this.each(function() {
-		var $this = $(this);
-		if ($this.attr(attr)) {
-			$this.removeAttr(attr);
-		} else {
-			$this.attr(attr, true);
-		}
-	});
-}

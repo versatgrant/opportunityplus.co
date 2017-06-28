@@ -4,7 +4,8 @@
 
 	if(!isset($_SESSION["Id"])){
 		echo json_encode(array("user" => "No Users Detected"));
-	}elseif(isset($_POST['new_project'])){
+	}/***NEW PROJECT***/
+	elseif(isset($_POST['new_project'])){
 		//Get input from form
 		$pname_entry = $conn->real_escape_string($_POST['pname']);
 		$pagency_entry = $conn->real_escape_string($_POST['pagency']);
@@ -31,7 +32,8 @@
 			$project = array();
 			$res = $conn->query($sql);
 			while($row = $res->fetch_assoc()) {
-				array_push($project, array('id' => $row["ProjectUniqueId"], 
+				array_push($project, array('id' => $row["ProjectUniqueId"],
+					'paid' => $row["ProjectAgencyId"], 
 					'name' => $row["ProjectName"],
 					'active' => $row["ProjectActiveState"],
 					'complete' => $row["ProjectCompletionState"],
@@ -115,7 +117,8 @@
 		if ($res->num_rows > 0) {
 			// output data of each record
 			while($row = $res->fetch_assoc()) {
-				array_push($projects, array('id' => $row["ProjectUniqueId"], 
+				array_push($projects, array('id' => $row["ProjectUniqueId"],
+					'paid' => $row["ProjectAgencyId"], 
 					'name' => $row["ProjectName"],
 					'active' => $row["ProjectActiveState"],
 					'complete' => $row["ProjectCompletionState"],
