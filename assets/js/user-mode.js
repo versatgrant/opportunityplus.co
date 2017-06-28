@@ -120,7 +120,24 @@ $(document).ready(function(){
 	/*DELETE PROJECT|ACCOMPLISHMENT*/
 	$('.container #result-list').on('click', '.delete', function(){
 		/**Pull values from form*/
-		alert($(this).attr('href'));
+		var table = parseHref($(this).attr('href'));
+		var row = $(this).parent().parent().parent().attr('id');
+		$.ajax({
+			type: 'POST',
+			url: 'user_mode_request.php',
+			data: {
+				'del_pa': 1,
+				'table': table,
+				'id': row
+			},
+			success: function(data){
+				if(data == "Deleted"){
+					window.location = "user-mode.php";
+				}else if(data == "Error"){
+					alert("Someone has access to this project. You must recind access before this project can be deleted.");
+				}
+		    }
+		});
 	});
 
 });
@@ -216,6 +233,10 @@ function truncate(string, num){
 		return string;
 	}
 };
+
+function parseHref(string){
+	return string.substring(1,string.length);
+}
 
 
 function getCookie(cname) {

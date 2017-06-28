@@ -50,8 +50,26 @@
 			echo json_encode(array("projects" => $project));
 		}
 
-	}
-	else{
+	}elseif (isset($_POST['del_pa'])) {
+		//Get input from form
+		$table_entry = $conn->real_escape_string($_POST['table']);
+		$id_entry = $conn->real_escape_string($_POST['id']);
+		//Delete component from Database
+		if($table_entry == 'project'){
+			$sql = "DELETE FROM `projectrequest` WHERE (`ProjectRequestProjectId` = '{$id_entry}' AND (`ProjectRequestAcceptedStatus` = 0 OR `ProjectRequestRecindedStatus` = 1))";
+			$conn->query($sql);
+			$sql = "DELETE FROM `project` WHERE `ProjectUniqueId` = '{$id_entry}'";
+		}else{
+			$sql = "DELETE FROM `accomplishment` WHERE `AccomplishmentUniqueId` = '{$id_entry}'";
+		}
+
+		if ($conn->query($sql) === TRUE) {
+		    echo "Deleted";
+		} else {
+		    echo "Error";
+		}
+
+	}else{
 		//get all projects for the logged in user
 		if($_SESSION["UserType"] == "agency"){
 			//pull directly from the project table if they're an Agency
