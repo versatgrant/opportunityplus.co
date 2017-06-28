@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
 	$.getJSON("user_mode_request.php", function(data){
 		if(data.user == "No Users Detected"){
 			window.location = "index.php";
@@ -6,10 +7,15 @@ $(document).ready(function(){
 			$('h2#username').empty();
 			if(getCookie("UserType") == "agency"){
 				$('h2#username').html(data.user[0]["aname"]);
-				$('p#user-desc').html(data.user[0]["desc"]);
+				$('p#user-desc').html(truncate(data.user[0]["desc"], 197));
+				$('#newPA').attr('href','#newProjectModal');
+				$('#newAccomplishmentModal').empty();
+				$('li#menuAcc').remove();
 			}else{
 				$('h2#username').html(data.user[0]["fname"] + " " + data.user[0]["lname"]);
 				$('p#user-desc').html(truncate(data.user[0]["desc"], 197));
+				$('#newPA').attr('href','#newAccomplishmentModal');
+				$('#newProjectModal').empty();
 			}
 
 			/*LOAD PROJECTS ONTO PAGE*/

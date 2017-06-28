@@ -11,7 +11,7 @@
 <body class="has-drawer">
 	<!-- FLOATING BUTTONS -->
 	<button id="submit-logout" type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 10px;right:10px; display: block;"><i class="glyphicon glyphicon-log-out"></i></button>
-	<a href="#newProjectModal" data-toggle="modal"><button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 45px;right:10px; display: block;"><i class="glyphicon glyphicon-plus"></i></button></a>
+	<a id="newPA" href="#" data-toggle="modal"><button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 45px;right:10px; display: block;"><i class="glyphicon glyphicon-plus"></i></button></a>
 
 	<!-- MENU DRAWER -->
 	<div id="drawerExample" class="dw-xs-10 dw-sm-6 dw-md-4 fold" aria-labelledby="drawerExample" style="position:fixed;z-index: 500;height: 100%">
@@ -55,10 +55,10 @@
 			</div>
 			<!--MENU OPTIONS-->
 			<ul class="drawer-nav">
-				<li role="presentation"><a href="user-mode.php">My Projects</a></li>
-				<li role="presentation"><a href="#">Project Requests</a></li>
-				<li role="presentation"><a href="#">My Profile</a></li>
-				<li role="presentation"><a href="#">My Accomplishments</a></li>
+				<li id="menuProj" role="presentation"><a href="user-mode.php">My Projects</a></li>
+				<li id="menuProjReq" role="presentation"><a href="#">Project Requests</a></li>
+				<li id="menuProf" role="presentation"><a href="#">My Profile</a></li>
+				<li id="menuAcc" role="presentation"><a href="#">My Accomplishments</a></li>
 			</ul>
 
 			<div class="drawer-footer">
@@ -264,6 +264,77 @@
 
 					<!--SUBMIT-->
 					<input type="submit" name="newProject" id="submit-newproject" class="login loginmodal-submit" value="New Project">
+				</form>
+				<div id="login-err-msg" style="color:red;text-align: center;"></div>
+			</div>
+		</div>
+	</div>
+
+	<!--NEW ACCOMPLISHMENT FORM-->
+	<div class="modal fade" id="newAccomplishmentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="loginmodal-container">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h1>Share A New Accomplishment</h1>
+				<form id="newAccomplishment" name="newAccomplishment">
+
+					<!--ACCOMPLISHMENT TYPE-->
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<select name="acc-type" id="acc-type" required>
+							<option value="" selected="selected">Accomplishment Type</option>
+							<option value="Certification">Certification</option>
+							<option value="Course">Course</option>
+							<option value="Honor/Award">Honor/Award</option>
+							<option value="Language">Language</option>
+							<option value="Patent">Patent</option>
+							<option value="Project">Project</option>
+							<option value="Publication">Publication</option>
+						</select>
+					</div>
+
+		            <!--ACCOMPLISHMENT NAME-->
+					<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<input id="acc-name" type="text" name="accName" placeholder="Accomplishment Title *" title="Accomplishment Title" required/>
+					</div>
+
+					<!--FROM DATE-->
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>From:</label>
+						<input id="acc-fromdate" type="date" name="accFromDate" placeholder="MM/DD/YYYY" title="Date (From)"/>
+					</div>
+					<!--TO DATE-->
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>To:</label>
+						<input id="acc-todate" type="date" name="accToDate" placeholder="MM/DD/YYYY" title="Date (To)"/>
+					</div>
+					<!--ON DATE-->
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>On:</label>
+						<input id="acc-ondate" type="date" name="accOnDate" placeholder="MM/DD/YYYY" title="Date (On)"/>
+					</div>
+
+					<!--URL-->
+					<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<input id="acc-url" type="url" pattern="https?://.+" title="Must start with either http:// or https://" name="acc-url" placeholder="Accomplishment Web Link/URL" />			
+					</div>
+
+					<!--ACCOMPLISHMENT LICENSE AGENCY-->
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<input id="acc-la" type="text" name="accLA" placeholder="License Agency"/>
+					</div>
+
+					<!--ACCOMPLISHMENT LICENSE NUMBER-->
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<input id="acc-ln" type="text" name="accLN" placeholder="License Number"/>
+					</div>
+
+					<!--ACCOMPLISHMENT DESCRIPTION-->
+					<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<textarea id="acc-desc" name="accDescription" placeholder="Accomplishment Description" title="Accomplishment Description" maxlength="2000"></textarea>
+					</div>
+
+					<!--SUBMIT-->
+					<input type="submit" name="newAccomplishment" id="submit-newacc" class="login loginmodal-submit" value="New Accomplishment">
 				</form>
 				<div id="login-err-msg" style="color:red;text-align: center;"></div>
 			</div>

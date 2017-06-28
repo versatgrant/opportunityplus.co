@@ -116,7 +116,7 @@
 
 						<!--PHONE-->
 						<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
-							<input id="phone" type="text" name="phone" placeholder="Phone" pattern="\d{3}[\-]\d{3}[\-]\d{4}" title="123-456-7890"/>
+							<input id="phone" type="text" name="phone" placeholder="Phone" pattern="\d{3}[\-]\d{3}[\-]\d{4}" title="XXX-XXX-XXXX"/>
 						</div>
 
 						<!--ADDRESS-->

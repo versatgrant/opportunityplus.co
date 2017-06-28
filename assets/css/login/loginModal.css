@@ -114,7 +114,7 @@ select{
 	position: relative;
 }
 
-.loginmodal-container input[type="text"], input[type="password"], input[type="date"]{
+.loginmodal-container input[type="text"], input[type="password"], input[type="date"], input[type="url"]{
 	height: 44px;
 	font-size: 16px;
 	width: 100%;
