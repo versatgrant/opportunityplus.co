@@ -4,6 +4,46 @@
 
 	if(!isset($_SESSION["Id"])){
 		echo json_encode(array("user" => "No Users Detected"));
+	}/***NEW ACCOMPLISHMENT***/
+	elseif(isset($_POST['new_acc'])){
+		//Get input from form
+		$acctype_entry = $conn->real_escape_string($_POST['acctype']);
+		$acctitle_entry = $conn->real_escape_string($_POST['acctitle']);
+		$from_entry = $conn->real_escape_string($_POST['from']);
+		$to_entry = $conn->real_escape_string($_POST['to']);
+		$on_entry = $conn->real_escape_string($_POST['on']);
+		$url_entry = $conn->real_escape_string($_POST['url']);
+		$licagency_entry = $conn->real_escape_string($_POST['licagency']);
+		$licnum_entry = $conn->real_escape_string($_POST['licnum']);
+		$accdesc_entry = $conn->real_escape_string($_POST['accdesc']);
+		$acc_talent_entry = $conn->real_escape_string($_POST['acc_talent']);
+
+		//Post accomplishment to Database
+		$sql = "INSERT INTO `accomplishment` (`AccomplishmentTalentId`, `AccomplishmentName`, `AccomplishmentType`, `AccomplishmentFromDate`, `AccomplishmentToDate`, `AccomplishmentOnDate`, `AccomplishmentURL`, `AccomplishementLicenseAgency`, `AccomplishmentLicenseNumber`, `AccomplishmentDescription`) VALUES ('{$acc_talent_entry}', '{$acctitle_entry}', '{$acctype_entry}', '{$from_entry}', '{$to_entry}', '{$on_entry}', '{$url_entry}', '{$licagency_entry}', '{$licnum_entry}', '{$accdesc_entry}')";
+		$newAcc = $conn->query($sql);
+		if($newAcc){
+
+			$id = $conn->insert_id;
+			$sql = "SELECT * FROM `accomplishment` WHERE `AccomplishmentUniqueId` = '{$id}'";
+
+			$accomplishment = array();
+			$res = $conn->query($sql);
+			while($row = $res->fetch_assoc()) {
+				array_push($accomplishment, array('id' => $row["AccomplishmentUniqueId"],
+					'atid' => $row["AccomplishmentTalentId"], 
+					'name' => $row["AccomplishmentName"],
+					'type' => $row["AccomplishmentType"],
+					'from' => $row["AccomplishmentFromDate"],
+					'to' => $row["AccomplishmentToDate"],
+					'on' => $row["AccomplishmentOnDate"],
+					'url' => $row["AccomplishmentURL"],
+					'la' => $row["AccomplishementLicenseAgency"],
+					'ln' => $row["AccomplishmentLicenseNumber"],
+					'desc' => $row["AccomplishmentDescription"]));
+			}
+			echo json_encode(array("success" => $newAcc, "accomplishments" => $accomplishment));
+		}
+
 	}/***NEW PROJECT***/
 	elseif(isset($_POST['new_project'])){
 		//Get input from form
@@ -21,9 +61,8 @@
 		$country_entry = $conn->real_escape_string($_POST['country']);
 
 		//Post project to Database
-		$sql = "INSERT INTO `project` (`ProjectName`, `ProjectAgencyId`, `ProjectActiveState`, ProjectCompletionState, `ProjectPrivacyState`, `ProjectLocationSensitive`, `ProjectDescription`, `ProjectStartDate`, `ProjectEndDate`, `ProjectLocationStreet`, `ProjectLocationCity`, `ProjectLocationState`, `ProjectLocationPostalCode`, `ProjectLocationCountry`) VALUES ('{$pname_entry}', '{$pagency_entry}', 'Active', 'In-Progress', '{$privacy_entry}', '{$loc_sensitivity_entry}', '{$pdesc_entry}', '{$sdate_entry}', '{$edate_entry}', '{$street_entry}', '{$city_entry}', '{$state_entry}', '{$zip_entry}', '{$country_entry}')";
+		$sql = "INSERT INTO `project` (`ProjectName`, `ProjectAgencyId`, `ProjectActiveState`, `ProjectCompletionState`, `ProjectPrivacyState`, `ProjectLocationSensitive`, `ProjectDescription`, `ProjectStartDate`, `ProjectEndDate`, `ProjectLocationStreet`, `ProjectLocationCity`, `ProjectLocationState`, `ProjectLocationPostalCode`, `ProjectLocationCountry`) VALUES ('{$pname_entry}', '{$pagency_entry}', 'Active', 'In-Progress', '{$privacy_entry}', '{$loc_sensitivity_entry}', '{$pdesc_entry}', '{$sdate_entry}', '{$edate_entry}', '{$street_entry}', '{$city_entry}', '{$state_entry}', '{$zip_entry}', '{$country_entry}')";
 		$newProject = $conn->query($sql);
-		echo json_encode(array("success" => $newProject));
 		if($newProject){
 
 			$id = $conn->insert_id;
@@ -49,7 +88,7 @@
 					'country' => $row["ProjectLocationCountry"],
 					'cost' => $row["ProjectTotalCost"]));
 			}
-			echo json_encode(array("projects" => $project));
+			echo json_encode(array("success" => $newProject, "projects" => $project));
 		}
 
 	}elseif (isset($_POST['del_pa'])) {

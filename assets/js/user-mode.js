@@ -16,6 +16,33 @@ $(document).ready(function(){
 				$('p#user-desc').html(truncate(data.user[0]["desc"], 197));
 				$('#newPA').attr('href','#newAccomplishmentModal');
 				$('#newProjectModal').empty();
+
+				/**Hide all non-generic Accomplishment fields on load*/
+				$('.formOn').toggle();
+				$('.formFromTo').toggle();
+				$('.formLic').toggle();
+
+				/**Hide/Show the necessary Accomplishment fields when the Accomplishment type changes*/
+				$('#acc-type').on('change',function(){
+					if($('#acc-type').val() == "Certification" || $('#acc-type').val() == "Honor/Award"|| $('#acc-type').val() == "Patent" || $('#acc-type').val() == "Publication"){
+						$('.formOn').toggle(true);
+						$('.formFromTo').toggle(false);
+						if($('#acc-type').val() == "Certification" || $('#acc-type').val() == "Patent"){
+							$('.formLic').toggle(true);
+						}else{
+							$('.formLic').toggle(false);
+						}
+					}else if($('#acc-type').val() == "Course" || $('#acc-type').val() == "Project"){
+						$('.formOn').toggle(false);
+						$('.formFromTo').toggle(true);
+						$('.formLic').toggle(false);
+					}else{
+						$('.formOn').toggle(false);
+						$('.formFromTo').toggle(false);
+						$('.formLic').toggle(false);
+					}
+				});
+
 			}
 
 			/*LOAD PROJECTS ONTO PAGE*/
@@ -23,6 +50,8 @@ $(document).ready(function(){
 			displayProjects(data);
 		}
 	});
+
+	
 
 	/*HANDLE LOCATION SENSITIVITY*/
 	$('#location-sensitive').on('change', function(){
@@ -65,9 +94,56 @@ $(document).ready(function(){
 		document.getElementById("project-enddate").setAttribute("min", document.getElementById("project-startdate").value);
 	});
 
+	/*NEW ACCOMPLISHMENT*/
+	$('#newAccomplishment').submit(function(e){
+		e.preventDefault();
+		/**Pull values from form*/
+		var acctype = $('#acc-type').val();
+		var acctitle = $('#acc-name').val();
+		var from = $('#acc-fromdate').val();
+		var to = $('#acc-todate').val();
+		var on = $('#acc-ondate').val();
+		var url = $('#acc-url').val();
+		var licagency = $('#acc-la').val();
+		var licnum = $('#acc-ln').val();
+		var accdesc = $('#acc-desc').val();
+		var acc_talent = getCookie("UserId");
+		/**send a post request to server with the form values*/
+		$.ajax({
+			type: 'POST',
+			url: 'user_mode_request.php',
+			data: {
+				'new_acc': 1,
+				'acctype': acctype,
+				'acctitle': acctitle,
+				'from': from,
+				'to': to,
+				'on': on,
+				'url': url,
+				'licagency': licagency,
+				'licnum': licnum,
+				'accdesc': accdesc,
+				'acc_talent': acc_talent
+			},
+			success: function(data){
+				//alert(data["success"]);//undefined
+				//alert(data[1].success);//undefined
+				//alert(data[1]["success"]);//undefined
+				//alert(data.success[0]);//dead
+				if(data.success){
+					alert("I'm in the right place");
+					alert($('#newAccomplishmentModal').attr('class'));
+					displayAccomplishments(data);
+					//window.location = "user-mode.php";
+				}
+		      }
+		  });
+		return false;
+	});
 
 	/*NEW PROJECT*/
-	$('#newProject').submit(function(){
+	$('#newProject').submit(function(e){
+		e.preventDefault();
 		/**Pull values from form*/
 		var pname = $('#project-name').val();
 		var pdesc = $('#project-desc').val();
@@ -107,12 +183,13 @@ $(document).ready(function(){
 			},
 			success: function(data){
 				if(data.success){
-					displayProjects(data, );
+					$('#newProjectModal').attr('aria-hidden', 'true');
+					displayProjects(data);
 					//window.location = "user-mode.php";
 				}
 		      }
 		  });
-		//return false;
+		return false;
 	});
 
 	/*NAV-DRAWER FIXES*/
@@ -175,6 +252,37 @@ function displayProjects(dataArr){
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
 							ableToEdit + 
+						'</div>' + 
+					'</a>' + 
+				'</div>' + 
+			'</div>'
+		);
+	});
+}
+
+function displayAccomplishments(dataArr){
+	$.each(dataArr.accomplishments, function(){
+		if(this.atid == getCookie("UserId")){
+			ableToDelete = '<div class="toolbar"><a href="#accomplishment" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a></div>';
+			ableToEdit = '<a href="#accomplishment" class="edit" style="text-decoration:underline;">Edit</a>';
+		}else{
+			ableToDelete = '';
+			ableToEdit = '';
+		}
+		$('div#result-list').append(
+			'<div class="col-md-3 col-sm-4 parAccompishment" id="' + this.id +'">' + 
+				'<div class="wrimagecard wrimagecard-topimage">' + 
+				ableToDelete + 
+					'<a href="#accomplishment" class="view">' + 
+						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(250, 188, 9, 0.1)">' + 
+							'<center><i class="fa fa-trophy" style="color:#fabc09"> </i></center>' + 
+						'</div>' + 
+						'<div class="wrimagecard-topimage_title">' + 
+							'<h4>' + this.name + 
+							'<div class="pull-right badge>' + this.type + '</div></h4>' + 
+							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
+							ableToEdit + 
+							'<a href="' + this.url + '" class="edit" style="text-decoration:underline;">Edit</a>' + 
 						'</div>' + 
 					'</a>' + 
 				'</div>' + 

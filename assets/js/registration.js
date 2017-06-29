@@ -1,10 +1,5 @@
 $(document).ready(function(){
 
-
-	
-
-	//$("input").prop('required',true);
-
 	/**Hide the fields not related to the user's type on load*/
 	if($('input[name="usertype-register"]:checked').val() == 'talent'){
 		$('.form-agency').toggle();

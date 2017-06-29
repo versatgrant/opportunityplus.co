@@ -58,7 +58,7 @@
 				<li id="menuProj" role="presentation"><a href="user-mode.php">My Projects</a></li>
 				<li id="menuProjReq" role="presentation"><a href="#">Project Requests</a></li>
 				<li id="menuProf" role="presentation"><a href="#">My Profile</a></li>
-				<li id="menuAcc" role="presentation"><a href="#">My Accomplishments</a></li>
+				<li id="menuAcc" role="presentation"><a href="#accomplishment">My Accomplishments</a></li>
 			</ul>
 
 			<div class="drawer-footer">
@@ -72,6 +72,9 @@
 		<div class="row fix results" id="result-list" style="padding:0px 40px;">
 			<div class="col-md-3 col-sm-4 parProject" id="sampleProject">
 				<div class="wrimagecard wrimagecard-topimage">
+					<div class="toolbar">
+						<a href="#accomplishment" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>
+					</div>
 					<a href="#">
 						<div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">
 							<center><i class="fa fa-tasks" style="color:#16A085"></i></center>
@@ -81,12 +84,18 @@
 							<div class="pull-right badge Public">Public</div></h4>
 							<h6>City, State, Zip, Country</h6>
 							<h6>Lorem ipsum dolor sit amet, paulo quaeque civibus et his, mea decore philosophia in. Elitr dissentias u...</h6>
+							<a href="https://google.com" target="_blank" style="text-decoration: underline;">Edit</a>
+							<span>|</span>
+							<a href="https://google.com" target="_blank" style="text-decoration: underline;">Project Request</a>
 						</div>
 					</a>
 				</div>
 			</div>
 			<div class="col-md-3 col-sm-4 parTalent" id="sampleTalent">
 				<div class="wrimagecard wrimagecard-topimage">
+					<div class="toolbar">
+						<a href="#accomplishment" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>
+					</div>
 					<a href="#">
 						<div class="wrimagecard-topimage_header" style="background-color: rgba(51, 105, 232, 0.1)">
 							<center><i class = "fa fa-user" style="color:#3369e8"></i></center>
@@ -95,12 +104,20 @@
 							<h4>Talent Name</h4>
 							<h6>City, State, Zip, Country</h6>
 							<h6>Lorem ipsum dolor sit amet, paulo quaeque civibus et his, mea decore philosophia in. Elitr dissentias u...</h6>
+							<a href="https://google.com" target="_blank" style="text-decoration: underline;">Edit</a>
+							<span>|</span>
+							<a href="https://google.com" target="_blank" style="text-decoration: underline;">Projects</a>
+							<span>|</span>
+							<a href="https://google.com" target="_blank" style="text-decoration: underline;">Accomplishments</a>
 						</div>
 					</a>
 				</div>
 			</div>
 			<div class="col-md-3 col-sm-4 parAgency" id="sampleAgency">
 				<div class="wrimagecard wrimagecard-topimage">
+					<div class="toolbar">
+						<a href="#accomplishment" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>
+					</div>
 					<a href="#">
 						<div class="wrimagecard-topimage_header" style="background-color:  rgba(213, 15, 37, 0.1)">
 							<center><i class="fa fa-building" style="color:#d50f25"> </i></center>
@@ -110,6 +127,9 @@
 							<div class="pull-right badge private">Private</div></h4>
 							<h6>City, State, Zip, Country</h6>
 							<h6>Lorem ipsum dolor sit amet, paulo quaeque civibus et his, mea decore philosophia in. Elitr dissentias u...</h6>
+							<a href="https://google.com" target="_blank" style="text-decoration: underline;">Edit</a>
+							<span>|</span>
+							<a href="https://google.com" target="_blank" style="text-decoration: underline;">Projects</a>
 						</div>
 					</a>
 				</div>
@@ -128,9 +148,9 @@
 							<div class="pull-right badge">Certification</div></h4>
 							<h6>Lorem ipsum dolor sit amet, paulo quaeque civibus et his, mea decore philosophia in. Elitr dissentias u...
 							<div class="pull-right badge"></div></h6>
-							<a href="https://google.com" target="_blank">Edit</a>
+							<a href="https://google.com" target="_blank" style="text-decoration: underline;">Edit</a>
 							<span>|</span>
-							<a href="https://google.com" target="_blank">Link</a>
+							<a href="https://google.com" target="_blank" style="text-decoration: underline;">Link</a>
 						</div>
 					</a>
 				</div>
@@ -298,33 +318,33 @@
 					</div>
 
 					<!--FROM DATE-->
-					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
-						<label>From:</label>
+					<div class="col-md-6 col-xs-12 formFromTo" style="padding-left:5px;padding-right:5px;">
+						<label>Date (From):</label>
 						<input id="acc-fromdate" type="date" name="accFromDate" placeholder="MM/DD/YYYY" title="Date (From)"/>
 					</div>
 					<!--TO DATE-->
-					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
-						<label>To:</label>
+					<div class="col-md-6 col-xs-12 formFromTo" style="padding-left:5px;padding-right:5px;">
+						<label>Date (To):</label>
 						<input id="acc-todate" type="date" name="accToDate" placeholder="MM/DD/YYYY" title="Date (To)"/>
 					</div>
 					<!--ON DATE-->
-					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
-						<label>On:</label>
+					<div class="col-md-6 col-xs-12 formOn" style="padding-left:5px;padding-right:5px;">
+						<label>Date (On):</label>
 						<input id="acc-ondate" type="date" name="accOnDate" placeholder="MM/DD/YYYY" title="Date (On)"/>
 					</div>
 
 					<!--URL-->
 					<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
-						<input id="acc-url" type="url" pattern="https?://.+" title="Must start with either http:// or https://" name="acc-url" placeholder="Accomplishment Web Link/URL" />			
+						<input id="acc-url" type="url" pattern="https?://.+"  name="acc-url" placeholder="Accomplishment Web Link/URL" title="Must start with either http:// or https://" />			
 					</div>
 
 					<!--ACCOMPLISHMENT LICENSE AGENCY-->
-					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+					<div class="col-md-6 col-xs-12 formLic" style="padding-left:5px;padding-right:5px;">
 						<input id="acc-la" type="text" name="accLA" placeholder="License Agency"/>
 					</div>
 
 					<!--ACCOMPLISHMENT LICENSE NUMBER-->
-					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+					<div class="col-md-6 col-xs-12 formLic" style="padding-left:5px;padding-right:5px;">
 						<input id="acc-ln" type="text" name="accLN" placeholder="License Number"/>
 					</div>
 
