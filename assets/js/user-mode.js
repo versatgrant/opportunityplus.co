@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	$.getJSON("user_mode_request.php", function(data){
+	$.getJSON("user_mode_request.php", {'view_proj':1},function(data){
 		if(data.user == "No Users Detected"){
 			window.location = "index.php";
 		}else{
@@ -11,6 +11,47 @@ $(document).ready(function(){
 				$('#newPA').attr('href','#newProjectModal');
 				$('#newAccomplishmentModal').empty();
 				$('li#menuAcc').remove();
+
+				/*HANDLE LOCATION SENSITIVITY FOR NEW PROJECTS*/
+				$('#location-sensitive').on('change', function(){
+					if($('#location-sensitive').val() == 'City'){
+						$('#city').attr('required', true);
+						$('#state').attr('required', false);
+						$('#zip').attr('required', false);
+						$('#country').attr('required', false);
+					}else if($('#location-sensitive').val() == 'State'){
+						$('#city').attr('required', false);
+						$('#state').attr('required', true);
+						$('#zip').attr('required', false);
+						$('#country').attr('required', false);
+					}else if($('#location-sensitive').val() == 'ZIP'){
+						$('#city').attr('required', false);
+						$('#state').attr('required', false);
+						$('#zip').attr('required', true);
+						$('#country').attr('required', false);
+					}else if($('#location-sensitive').val() == 'Country'){
+						$('#city').attr('required', false);
+						$('#state').attr('required', false);
+						$('#zip').attr('required', false);
+						$('#country').attr('required', true);
+					}else{
+						$('#city').attr('required', false);
+						$('#state').attr('required', false);
+						$('#zip').attr('required', false);
+						$('#country').attr('required', false);
+					}
+
+					/*START/END DATE VALIDATION*/
+					$('#project-startdate').on('change', function(){
+						document.getElementById("project-startdate").setAttribute("max", document.getElementById("project-enddate").value);
+						document.getElementById("project-enddate").setAttribute("min", document.getElementById("project-startdate").value);
+					});
+					$('#project-enddate').on('change', function(){
+						document.getElementById("project-startdate").setAttribute("max", document.getElementById("project-enddate").value);
+						document.getElementById("project-enddate").setAttribute("min", document.getElementById("project-startdate").value);
+					});
+
+				});
 			}else{
 				$('h2#username').html(data.user[0]["fname"] + " " + data.user[0]["lname"]);
 				$('p#user-desc').html(truncate(data.user[0]["desc"], 197));
@@ -21,6 +62,9 @@ $(document).ready(function(){
 				$('.formOn').toggle();
 				$('.formFromTo').toggle();
 				$('.formLic').toggle();
+
+				/*Hide "New Accomplishment" Button"*/
+				$('#newPA').css('display', 'none');
 
 				/**Hide/Show the necessary Accomplishment fields when the Accomplishment type changes*/
 				$('#acc-type').on('change',function(){
@@ -49,49 +93,6 @@ $(document).ready(function(){
 			//clearScreen();
 			displayProjects(data);
 		}
-	});
-
-	
-
-	/*HANDLE LOCATION SENSITIVITY*/
-	$('#location-sensitive').on('change', function(){
-		if($('#location-sensitive').val() == 'City'){
-			$('#city').attr('required', true);
-			$('#state').attr('required', false);
-			$('#zip').attr('required', false);
-			$('#country').attr('required', false);
-		}else if($('#location-sensitive').val() == 'State'){
-			$('#city').attr('required', false);
-			$('#state').attr('required', true);
-			$('#zip').attr('required', false);
-			$('#country').attr('required', false);
-		}else if($('#location-sensitive').val() == 'ZIP'){
-			$('#city').attr('required', false);
-			$('#state').attr('required', false);
-			$('#zip').attr('required', true);
-			$('#country').attr('required', false);
-		}else if($('#location-sensitive').val() == 'Country'){
-			$('#city').attr('required', false);
-			$('#state').attr('required', false);
-			$('#zip').attr('required', false);
-			$('#country').attr('required', true);
-		}else{
-			$('#city').attr('required', false);
-			$('#state').attr('required', false);
-			$('#zip').attr('required', false);
-			$('#country').attr('required', false);
-		}
-	});
-
-
-	/*START/END DATE VALIDATION*/
-	$('#project-startdate').on('change', function(){
-		document.getElementById("project-startdate").setAttribute("max", document.getElementById("project-enddate").value);
-		document.getElementById("project-enddate").setAttribute("min", document.getElementById("project-startdate").value);
-	});
-	$('#project-enddate').on('change', function(){
-		document.getElementById("project-startdate").setAttribute("max", document.getElementById("project-enddate").value);
-		document.getElementById("project-enddate").setAttribute("min", document.getElementById("project-startdate").value);
 	});
 
 	/*NEW ACCOMPLISHMENT*/
@@ -126,15 +127,13 @@ $(document).ready(function(){
 				'acc_talent': acc_talent
 			},
 			success: function(data){
-				//alert(data["success"]);//undefined
-				//alert(data[1].success);//undefined
-				//alert(data[1]["success"]);//undefined
-				//alert(data.success[0]);//dead
+				data = JSON.parse(data);
 				if(data.success){
-					alert("I'm in the right place");
-					alert($('#newAccomplishmentModal').attr('class'));
+					$('#newAccomplishmentModal').removeClass('in');
+					$('.modal-backdrop').removeClass('in');
+					$('#newAccomplishmentModal').css('display','none');
+					$('.modal-backdrop').css('display','none');
 					displayAccomplishments(data);
-					//window.location = "user-mode.php";
 				}
 		      }
 		  });
@@ -182,10 +181,13 @@ $(document).ready(function(){
 				'country': country
 			},
 			success: function(data){
+				data = JSON.parse(data);
 				if(data.success){
-					$('#newProjectModal').attr('aria-hidden', 'true');
+					$('#newProjectModal').removeClass('in');
+					$('.modal-backdrop').removeClass('in');
+					$('#newProjectModal').css('display','none');
+					$('.modal-backdrop').css('display','none');
 					displayProjects(data);
-					//window.location = "user-mode.php";
 				}
 		      }
 		  });
@@ -198,6 +200,50 @@ $(document).ready(function(){
 		$('#menu-button').attr('aria-expanded', function (_, attr) { return !attr });
 		$('#drawerExample').attr('aria-expanded', function (_, attr) { return !attr });
 		$('#drawerExample').attr('position', 'fixed');
+	});
+
+	/*TOGGLE ACTIVE MENU SELECTION*/
+	$('#menuDrawerNav').children().on('click', function(){
+		if($(this).attr('id') == "menuProj"){
+			$(this).addClass('active');
+			$('#menuProjReq').removeClass('active');
+			$('#menuProf').removeClass('active');
+			$('#menuAcc').removeClass('active');
+
+			toggleNewButton($(this).attr('id'));
+
+			//display all projects
+		}else if($(this).attr('id') == "menuProjReq"){
+			$(this).addClass('active');
+			$('#menuProj').removeClass('active');
+			$('#menuProf').removeClass('active');
+			$('#menuAcc').removeClass('active');
+
+			toggleNewButton($(this).attr('id'));
+
+		}else if($(this).attr('id') == "menuProf"){
+			$(this).addClass('active');
+			$('#menuProj').removeClass('active');
+			$('#menuProjReq').removeClass('active');
+			$('#menuAcc').removeClass('active');
+
+			toggleNewButton($(this).attr('id'));
+
+		}else if($(this).attr('id') == "menuAcc"){
+			//alert("clicked on Accomplishment");
+			$(this).addClass('active');
+			$('#menuProj').removeClass('active');
+			$('#menuProf').removeClass('active');
+			$('#menuProjReq').removeClass('active');
+
+			toggleNewButton($(this).attr('id'));
+
+			//display all accomplishments
+			$.getJSON("user_mode_request.php", {'view_acc':1},function(data){
+				clearScreen();
+				displayAccomplishments(data);
+			});
+		} 
 	});
 
 	/*DELETE PROJECT|ACCOMPLISHMENT*/
@@ -215,7 +261,15 @@ $(document).ready(function(){
 			},
 			success: function(data){
 				if(data == "Deleted"){
-					window.location = "user-mode.php";
+					if(table == "project"){
+						window.location = "user-mode.php";
+					}else{
+						$.getJSON("user_mode_request.php", {'view_acc':1},function(data){
+							clearScreen();
+							displayAccomplishments(data);
+						});
+					}
+					
 				}else if(data == "Error"){
 					alert("Someone has access to this project. You must recind access before this project can be deleted.");
 				}
@@ -227,6 +281,24 @@ $(document).ready(function(){
 
 function clearScreen(){
 	$('div#result-list').empty();
+}
+
+function toggleNewButton(id){
+	if(id == "menuAcc"){
+		/*Show "New Accomplishment" Button"*/
+		$('#newPA').css('display', 'block');
+	}else if(id == "menuProj"){
+		if(getCookie("UserType") == "agency"){
+			/*Show "New Project" Button"*/
+			$('#newPA').css('display', 'block');
+		}else{
+			/*Hide "New Project" Button"*/
+			$('#newPA').css('display', 'none');
+		}
+	}else{
+		/*Hide "New Accomplishment/Project" Button"*/
+		$('#newPA').css('display', 'none');
+	}
 }
 
 function displayProjects(dataArr){
@@ -264,7 +336,7 @@ function displayAccomplishments(dataArr){
 	$.each(dataArr.accomplishments, function(){
 		if(this.atid == getCookie("UserId")){
 			ableToDelete = '<div class="toolbar"><a href="#accomplishment" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a></div>';
-			ableToEdit = '<a href="#accomplishment" class="edit" style="text-decoration:underline;">Edit</a>';
+			ableToEdit = '<a href="' + this.url + '" class="edit" style="text-decoration:underline;">Edit</a>';
 		}else{
 			ableToDelete = '';
 			ableToEdit = '';
@@ -272,17 +344,16 @@ function displayAccomplishments(dataArr){
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4 parAccompishment" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
-				ableToDelete + 
+					ableToDelete + 
 					'<a href="#accomplishment" class="view">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(250, 188, 9, 0.1)">' + 
 							'<center><i class="fa fa-trophy" style="color:#fabc09"> </i></center>' + 
 						'</div>' + 
 						'<div class="wrimagecard-topimage_title">' + 
 							'<h4>' + this.name + 
-							'<div class="pull-right badge>' + this.type + '</div></h4>' + 
+							'<div class="pull-right badge">' + this.type + '</div></h4>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-							ableToEdit + 
-							'<a href="' + this.url + '" class="edit" style="text-decoration:underline;">Edit</a>' + 
+							ableToEdit +
 						'</div>' + 
 					'</a>' + 
 				'</div>' + 

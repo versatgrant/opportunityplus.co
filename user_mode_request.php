@@ -110,8 +110,8 @@
 		    echo "Error";
 		}
 
-	}else{
-		//get all projects for the logged in user
+	}//GET ALL PROJECTS FOR THE LOGGED IN USER
+	elseif(isset($_GET['view_proj'])){
 		if($_SESSION["UserType"] == "agency"){
 			//pull directly from the project table if they're an Agency
 			$sql = "SELECT * FROM `project` WHERE `ProjectAgencyId` = '{$_SESSION["Id"]}' LIMIT 50";
@@ -176,6 +176,31 @@
 		}
 		//Send Response with User & Projects
 		echo json_encode(array("user" => $user, "projects" => $projects));
+	}//GET ALL ACCOMPLISHMENTS FOR THE LOGGED IN USER
+	elseif(isset($_GET['view_acc'])){
+		//pull directly from the accomplishments table
+		$sql = "SELECT * FROM `accomplishment` WHERE `AccomplishmentTalentId` = '{$_SESSION["Id"]}' LIMIT 50";
+		//Store Projects Returned
+		$accomplishments = array();
+		$res = $conn->query($sql);
+		if ($res->num_rows > 0) {
+			// output data of each record
+			while($row = $res->fetch_assoc()) {
+				array_push($accomplishments, array('id' => $row["AccomplishmentUniqueId"],
+					'atid' => $row["AccomplishmentTalentId"], 
+					'name' => $row["AccomplishmentName"],
+					'type' => $row["AccomplishmentType"],
+					'from' => $row["AccomplishmentFromDate"],
+					'to' => $row["AccomplishmentToDate"],
+					'on' => $row["AccomplishmentOnDate"],
+					'url' => $row["AccomplishmentURL"],
+					'la' => $row["AccomplishementLicenseAgency"],
+					'ln' => $row["AccomplishmentLicenseNumber"],
+					'desc' => $row["AccomplishmentDescription"]));
+			}
+		}
+		//Send Response with User & Projects
+		echo json_encode(array("accomplishments" => $accomplishments));
 	}
 
 	$conn->close();

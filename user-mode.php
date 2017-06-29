@@ -54,10 +54,10 @@
 				</div>
 			</div>
 			<!--MENU OPTIONS-->
-			<ul class="drawer-nav">
-				<li id="menuProj" role="presentation"><a href="user-mode.php">My Projects</a></li>
-				<li id="menuProjReq" role="presentation"><a href="#">Project Requests</a></li>
-				<li id="menuProf" role="presentation"><a href="#">My Profile</a></li>
+			<ul id="menuDrawerNav" class="drawer-nav">
+				<li id="menuProj" role="presentation" class="active"><a href="#project">My Projects</a></li>
+				<li id="menuProjReq" role="presentation"><a href="#projectrequest">Project Requests</a></li>
+				<li id="menuProf" role="presentation"><a href="#profile">My Profile</a></li>
 				<li id="menuAcc" role="presentation"><a href="#accomplishment">My Accomplishments</a></li>
 			</ul>
 
