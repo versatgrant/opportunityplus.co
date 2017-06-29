@@ -213,6 +213,11 @@ $(document).ready(function(){
 			toggleNewButton($(this).attr('id'));
 
 			//display all projects
+			$.getJSON("user_mode_request.php", {'view_proj':1},function(data){
+				clearScreen();
+				displayProjects(data);
+			});
+
 		}else if($(this).attr('id') == "menuProjReq"){
 			$(this).addClass('active');
 			$('#menuProj').removeClass('active');
