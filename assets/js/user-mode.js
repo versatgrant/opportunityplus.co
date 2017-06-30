@@ -12,6 +12,8 @@ $(document).ready(function(){
 				$('#newAccomplishmentModal').empty();
 				$('li#menuAcc').remove();
 
+				loadUserForm(data.user);
+
 				/*HANDLE LOCATION SENSITIVITY FOR NEW PROJECTS*/
 				$('#location-sensitive').on('change', function(){
 					if($('#location-sensitive').val() == 'City'){
@@ -57,6 +59,8 @@ $(document).ready(function(){
 				$('p#user-desc').html(truncate(data.user[0]["desc"], 197));
 				$('#newPA').attr('href','#newAccomplishmentModal');
 				$('#newProjectModal').empty();
+
+				loadUserForm(data.user);
 
 				/**Hide all non-generic Accomplishment fields on load*/
 				$('.formOn').toggle();
@@ -207,7 +211,6 @@ $(document).ready(function(){
 		if($(this).attr('id') == "menuProj"){
 			$(this).addClass('active');
 			$('#menuProjReq').removeClass('active');
-			$('#menuProf').removeClass('active');
 			$('#menuAcc').removeClass('active');
 
 			toggleNewButton($(this).attr('id'));
@@ -221,15 +224,6 @@ $(document).ready(function(){
 		}else if($(this).attr('id') == "menuProjReq"){
 			$(this).addClass('active');
 			$('#menuProj').removeClass('active');
-			$('#menuProf').removeClass('active');
-			$('#menuAcc').removeClass('active');
-
-			toggleNewButton($(this).attr('id'));
-
-		}else if($(this).attr('id') == "menuProf"){
-			$(this).addClass('active');
-			$('#menuProj').removeClass('active');
-			$('#menuProjReq').removeClass('active');
 			$('#menuAcc').removeClass('active');
 
 			toggleNewButton($(this).attr('id'));
@@ -238,7 +232,6 @@ $(document).ready(function(){
 			//alert("clicked on Accomplishment");
 			$(this).addClass('active');
 			$('#menuProj').removeClass('active');
-			$('#menuProf').removeClass('active');
 			$('#menuProjReq').removeClass('active');
 
 			toggleNewButton($(this).attr('id'));
@@ -249,6 +242,65 @@ $(document).ready(function(){
 				displayAccomplishments(data);
 			});
 		} 
+	});
+
+	/*EDIT USER PROFILE*/
+	$('#editProfile').submit(function(e){
+		e.preventDefault();
+		var fname = $('#fname-edit-prof').val();
+		var lname = $('#lname-edit-prof').val();
+		var aname = $('#aname-edit-prof').val();
+		var password = $('#password-edit-prof').val();
+		var phone = $('#phone-edit-prof').val();
+		var street = $('#street-edit-prof').val();
+		var city = $('#city-edit-prof').val();
+		var zip = $('#zip-edit-prof').val();
+		var state = $('#state-edit-prof').val();
+		var country = $('#country-edit-prof').val();
+		var desc = $('#summary-edit-prof').val();
+		var utype = getCookie("UserType");
+
+		if(utype == "agency"){
+			data = {
+				'edit_profile': 1,
+				'utype': utype,
+				'aname': aname,
+				'password': password,
+				'phone': phone,
+				'street': street,
+				'city': city,
+				'state': state,
+				'zip': zip,
+				'country': country,
+				'desc': desc
+			};
+		}else{
+			data = {
+				'edit_profile': 1,
+				'utype': utype,
+				'fname': fname,
+				'lname': lname,
+				'password': password,
+				'phone': phone,
+				'street': street,
+				'city': city,
+				'state': state,
+				'zip': zip,
+				'country': country,
+				'desc': desc
+			};
+		}
+		
+		
+
+		$.ajax({
+			type: 'POST',
+			url: 'user_mode_request.php',
+			data: data,
+			success: function(){
+				location.reload();
+			}
+		});
 	});
 
 	/*DELETE PROJECT|ACCOMPLISHMENT*/
@@ -303,6 +355,35 @@ function toggleNewButton(id){
 	}else{
 		/*Hide "New Accomplishment/Project" Button"*/
 		$('#newPA').css('display', 'none');
+	}
+}
+
+function loadUserForm(UserData){
+	//get all input fields from the form and set their values to be that of the current user's
+	$('#utype-edit-prof').attr('value', UserData[0]["usertype"]);
+	$('#email-edit-prof').attr('value', UserData[0]["email"]);
+	$('#password-edit-prof').attr('value', UserData[0]["password"]);
+	$('#phone-edit-prof').attr('value', UserData[0]["phone"]);
+	$('#street-edit-prof').attr('value', UserData[0]["street"]);
+	$('#city-edit-prof').attr('value', UserData[0]["city"]);
+	$('#state-edit-prof').val(UserData[0]["state"]);
+	$('#zip-edit-prof').attr('value', UserData[0]["zip"]);
+	$('#country-edit-prof').attr('value', UserData[0]["country"]);
+	$('#summary-edit-prof').val(UserData[0]["desc"]);
+
+	if(getCookie("UserType") == "talent"){
+		$('#utype-edit-prof').parent().removeClass('col-md-6');
+		$('#utype-edit-prof').parent().addClass('col-md-12');
+
+		$('#atype-edit-prof').parent().remove();
+		$('#aname-edit-prof').parent().remove();
+		$('#fname-edit-prof').attr('value', UserData[0]["fname"]);
+		$('#lname-edit-prof').attr('value', UserData[0]["lname"]);
+	}else{
+		$('#fname-edit-prof').parent().remove();
+		$('#lname-edit-prof').parent().remove();
+		$('#atype-edit-prof').attr('value', UserData[0]["privacy"]);
+		$('#aname-edit-prof').attr('value', UserData[0]["aname"]);
 	}
 }
 
@@ -372,9 +453,6 @@ function displayTalents(dataArr){
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4 parTalent" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
-				'<div class="toolbar">' + 
-					'<a href="#talent" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>' + 
-				'</div>' + 
 					'<a href="#talent" class="view">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(51, 105, 232, 0.1)">' + 
 							'<center><i class = "fa fa-user" style="color:#3369e8"></i></center>' + 
@@ -383,7 +461,9 @@ function displayTalents(dataArr){
 							'<h4>' + this.fname + ' ' + this.lname + '</h4>' + 
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-							'<a href="#talent" class="edit" style="text-decoration:underline;">Edit</a>' + 
+							'<a href="#talent" class="projects" style="text-decoration:underline;">Projects</a>' + 
+							'<span> | </span>' + 
+							'<a href="#talent" class="accomplishments" style="text-decoration:underline;">Accomplishments</a>' + 
 						'</div>' + 
 					'</a>' + 
 				'</div>' + 
@@ -397,9 +477,6 @@ function displayAgencies(dataArr){
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4 parAgency" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
-				'<div class="toolbar">' + 
-					'<a href="#agency" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>' + 
-				'</div>' + 
 					'<a href="#agency" class="view">' +
 						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(213, 15, 37, 0.1)">' + 
 							'<center><i class="fa fa-building" style="color:#d50f25"> </i></center>' + 
@@ -409,7 +486,7 @@ function displayAgencies(dataArr){
 							'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-							'<a href="#agency" class="edit" style="text-decoration:underline;">Edit</a>' + 
+							'<a href="#agency" class="projects" style="text-decoration:underline;">Projects</a>' + 
 						'</div>' + 
 					'</a>' + 
 				'</div>' + 
@@ -419,7 +496,7 @@ function displayAgencies(dataArr){
 }
 
 function truncate(string, num){
-	if(string == null){
+	if(string == null || string == ""){
 		return "No Description :(";
 	}else if (string.length > num){
 		return string.substring(0,num)+'...';

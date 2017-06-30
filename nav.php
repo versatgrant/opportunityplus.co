@@ -94,7 +94,7 @@
 
 						<!--USER NAMES-->
 						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
-							<input id="fname" class="form-talent"  type="text" name="fname" placeholder="First Name" required/>
+							<input id="fname" class="form-talent" type="text" name="fname" placeholder="First Name" required/>
 						</div>
 
 						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">

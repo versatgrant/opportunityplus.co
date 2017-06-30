@@ -21,13 +21,13 @@
 		<div class="drawer-contents" style="z-index: 1000">
 			<div class="drawer-heading">
 				<h2 id="username" class="drawer-title">User Name</h2>
+				<a id="editProf" href="#editProfileModal" data-toggle="modal" style="color:black">Edit Profile <span class="glyphicon glyphicon-pencil"></span></a>
 			</div>
 			<div class="drawer-body">
 				<p id="user-desc">
 					This is a properly padded container for content in the
 					drawer that isn't a navigation.
 				</p>
-				<!--a href="#">A Regular Link</a-->
 			</div>
 			<!--SEARCH BAR-->
 			<div class="fluid-container" style="margin:0px auto;">
@@ -57,7 +57,6 @@
 			<ul id="menuDrawerNav" class="drawer-nav">
 				<li id="menuProj" role="presentation" class="active"><a href="#project">My Projects</a></li>
 				<li id="menuProjReq" role="presentation"><a href="#projectrequest">Project Requests</a></li>
-				<li id="menuProf" role="presentation"><a href="#profile">My Profile</a></li>
 				<li id="menuAcc" role="presentation"><a href="#accomplishment">My Accomplishments</a></li>
 			</ul>
 
@@ -361,6 +360,152 @@
 		</div>
 	</div>
 
+	<!--EDIT PROFILE FORM-->
+	<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="loginmodal-container row">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h1>Edit Your User Profile</h1><br>
+				<div>
+					<form id="editProfile" name="editProfile">
+						<!--USER TYPE-->
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>User Type:</label>
+							<input id="utype-edit-prof" type="text" name="utype" style="background: #F1F3FA;"  readonly/>
+						</div>
+
+						<!--AGENCY TYPE-->
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Agency Type:</label>
+							<input id="atype-edit-prof" type="text" name="atype" class="form-agency" style="background: #F1F3FA;" readonly/>
+						</div>
+
+						<!--USER NAMES-->
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>First Name:</label>
+							<input id="fname-edit-prof" class="form-talent" type="text" name="fname" required/>
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Last Name:</label>
+							<input id="lname-edit-prof" class="form-talent"  type="text" name="lname" required/>
+						</div>
+
+						<div class="col-md-12" style="padding-left:5px;padding-right:5px;">
+							<label>Company Name:</label>
+							<input id="aname-edit-prof" class="form-agency" type="text" name="cname"required/>
+						</div>
+
+						<!--EMAIL/PASSWORD-->
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Email:</label>
+							<input id="email-edit-prof" type="text" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Must be an email address" style="background: #F1F3FA;"  readonly/>
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Password:</label>
+							<input id="password-edit-prof" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/>
+						</div>
+
+						<!--PHONE-->
+						<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Phone:</label>
+							<input id="phone-edit-prof" type="text" name="phone" pattern="\d{3}[\-]\d{3}[\-]\d{4}" title="XXX-XXX-XXXX"/>
+						</div>
+
+						<!--ADDRESS-->
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Street:</label>
+							<input id="street-edit-prof" type="text" name="street"/>			
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>City:</label>
+							<input id="city-edit-prof" type="text" name="city"/>
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>State:</label>
+							<select name="state" id="state-edit-prof">
+							  <option value="">Select a State</option>
+							  <option value="AL">Alabama</option>
+							  <option value="AK">Alaska</option>
+							  <option value="AZ">Arizona</option>
+							  <option value="AR">Arkansas</option>
+							  <option value="CA">California</option>
+							  <option value="CO">Colorado</option>
+							  <option value="CT">Connecticut</option>
+							  <option value="DE">Delaware</option>
+							  <option value="DC">District Of Columbia</option>
+							  <option value="FL">Florida</option>
+							  <option value="GA">Georgia</option>
+							  <option value="HI">Hawaii</option>
+							  <option value="ID">Idaho</option>
+							  <option value="IL">Illinois</option>
+							  <option value="IN">Indiana</option>
+							  <option value="IA">Iowa</option>
+							  <option value="KS">Kansas</option>
+							  <option value="KY">Kentucky</option>
+							  <option value="LA">Louisiana</option>
+							  <option value="ME">Maine</option>
+							  <option value="MD">Maryland</option>
+							  <option value="MA">Massachusetts</option>
+							  <option value="MI">Michigan</option>
+							  <option value="MN">Minnesota</option>
+							  <option value="MS">Mississippi</option>
+							  <option value="MO">Missouri</option>
+							  <option value="MT">Montana</option>
+							  <option value="NE">Nebraska</option>
+							  <option value="NV">Nevada</option>
+							  <option value="NH">New Hampshire</option>
+							  <option value="NJ">New Jersey</option>
+							  <option value="NM">New Mexico</option>
+							  <option value="NY">New York</option>
+							  <option value="NC">North Carolina</option>
+							  <option value="ND">North Dakota</option>
+							  <option value="OH">Ohio</option>
+							  <option value="OK">Oklahoma</option>
+							  <option value="OR">Oregon</option>
+							  <option value="PA">Pennsylvania</option>
+							  <option value="RI">Rhode Island</option>
+							  <option value="SC">South Carolina</option>
+							  <option value="SD">South Dakota</option>
+							  <option value="TN">Tennessee</option>
+							  <option value="TX">Texas</option>
+							  <option value="UT">Utah</option>
+							  <option value="VT">Vermont</option>
+							  <option value="VA">Virginia</option>
+							  <option value="WA">Washington</option>
+							  <option value="WV">West Virginia</option>
+							  <option value="WI">Wisconsin</option>
+							  <option value="WY">Wyoming</option>
+							</select>
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Zip/Postal Code:</label>
+							<input id="zip-edit-prof" type="text" name="zip" pattern="[0-9]{5}" title="Five digit zip code" />
+						</div>
+
+						<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Country:</label>
+							<input id="country-edit-prof" type="text" name="country"/>
+						</div>
+
+						<!--ACCOMPLISHMENT DESCRIPTION-->
+						<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Summary:</label>
+							<textarea id="summary-edit-prof" name="Summary" title="Summary" maxlength="2000"></textarea>
+						</div>
+
+						<!--SUBMIT-->
+						<input type="submit" name="login" id="submit-edit-prof" class="login loginmodal-submit" value="Update">
+					</form>
+				</div>
+				<div id="reg-err-msg" style="color:red;text-align: center;"></div>
+			</div>
+		</div>
+	</div>
 	
 </body>
 	

@@ -110,7 +110,7 @@
 		    echo "Error";
 		}
 
-	}//GET ALL PROJECTS FOR THE LOGGED IN USER
+	}//GET ALL PROJECTS FOR THE LOGGED IN USER; ALSO GET THE USER DATA
 	elseif(isset($_GET['view_proj'])){
 		if($_SESSION["UserType"] == "agency"){
 			//pull directly from the project table if they're an Agency
@@ -126,8 +126,17 @@
 			$res = $conn->query($sql1);
 			while($row = $res->fetch_assoc()) {
 				array_push($user, array('aname' => $row["AgencyCorporateName"],
-				'desc' => $row["Summary"],
-				'usertype' => "agency"));
+					'email' => $row["Email"],
+					'password' => $row["Password"],
+					'phone' => $row["Phone"],
+					'privacy' => $row["AgencyPrivacyState"],
+					'desc' => $row["Summary"],
+					'street' => $row["LocationStreet"],
+					'city' => $row["LocationCity"],
+					'state' => $row["LocationState"],
+					'zip' => $row["LocationPostalCode"],
+					'country' => $row["LocationCountry"],
+					'usertype' => "agency"));
 			}
 			
 		}else{
@@ -144,9 +153,17 @@
 
 			while($row = $res->fetch_assoc()) {
 				array_push($user, array('fname' => $row["TalentFirstName"],
-				'lname' => $row["TalentLastName"],
-				'desc' => $row["Summary"],
-				'usertype' => "talent"));
+					'lname' => $row["TalentLastName"],
+					'email' => $row["Email"],
+					'password' => $row["Password"],
+					'phone' => $row["Phone"],
+					'desc' => $row["Summary"],
+					'street' => $row["LocationStreet"],
+					'city' => $row["LocationCity"],
+					'state' => $row["LocationState"],
+					'zip' => $row["LocationPostalCode"],
+					'country' => $row["LocationCountry"],
+					'usertype' => "talent"));
 			}
 		}
 		
@@ -201,6 +218,55 @@
 		}
 		//Send Response with User & Projects
 		echo json_encode(array("accomplishments" => $accomplishments));
+	}//UPDATE USER PROFILE
+	elseif(isset($_POST['edit_profile'])){
+
+			$password_entry = $conn->real_escape_string($_POST['password']);
+			$phone_entry = $conn->real_escape_string($_POST['phone']);
+			$street_entry = $conn->real_escape_string($_POST['street']);
+			$city_entry = $conn->real_escape_string($_POST['city']);
+			$state_entry = $conn->real_escape_string($_POST['state']);
+			$zip_entry = $conn->real_escape_string($_POST['zip']);
+			$country_entry = $conn->real_escape_string($_POST['country']);
+			$desc_entry = $conn->real_escape_string($_POST['desc']);
+		
+		$utype_entry = $conn->real_escape_string($_POST['utype']);
+
+		//Update user profile of logged in user
+		if($utype_entry == "talent"){
+			//Get input from form
+			$fname_entry = $conn->real_escape_string($_POST['fname']);
+			$lname_entry = $conn->real_escape_string($_POST['lname']);
+			
+
+			$sql = "UPDATE `talent` SET `TalentFirstName` = '{$fname_entry}', 
+			`TalentLastName` = '{$lname_entry}', 
+			`Password` = '{$password_entry}', 
+			`Phone` = '{$phone_entry}', 
+			`Summary` = '{$desc_entry}', 
+			`LocationStreet` = '{$street_entry}', 
+			`LocationCity` = '{$city_entry}', 
+			`LocationState` = '{$state_entry}', 
+			`LocationPostalCode` = '{$zip_entry}', 
+			`LocationCountry` = '{$country_entry}' 
+			WHERE `UniqueId` = '{$_SESSION["Id"]}' LIMIT 1";
+		}else{
+
+			$aname_entry = $conn->real_escape_string($_POST['aname']);
+
+			$sql = "UPDATE `agency` SET `AgencyCorporateName` = '{$aname_entry}',
+			`Password` = '{$password_entry}', 
+			`Phone` = '{$phone_entry}', 
+			`Summary` = '{$desc_entry}', 
+			`LocationStreet` = '{$street_entry}', 
+			`LocationCity` = '{$city_entry}', 
+			`LocationState` = '{$state_entry}', 
+			`LocationPostalCode` = '{$zip_entry}', 
+			`LocationCountry` = '{$country_entry}' 
+			WHERE `UniqueId` = '{$_SESSION["Id"]}' LIMIT 1";
+		}
+		$conn->query($sql);
+		
 	}
 
 	$conn->close();
