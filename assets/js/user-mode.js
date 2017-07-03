@@ -11,7 +11,6 @@ $(document).ready(function(){
 				$('#newPA').attr('href','#newProjectModal');
 				$('#newAccomplishmentModal').empty();
 				$('li#menuAcc').remove();
-
 				loadUserForm(data.user);
 
 				/*HANDLE LOCATION SENSITIVITY FOR NEW PROJECTS*/
@@ -42,6 +41,7 @@ $(document).ready(function(){
 						$('#zip').attr('required', false);
 						$('#country').attr('required', false);
 					}
+				});
 
 					/*START/END DATE VALIDATION*/
 					$('#project-startdate').on('change', function(){
@@ -53,7 +53,10 @@ $(document).ready(function(){
 						document.getElementById("project-enddate").setAttribute("min", document.getElementById("project-startdate").value);
 					});
 
-				});
+					/*NEW PROJECT SUBMIT EVENT*/
+					$('#newProject').on('submit',function(e){newProject(e)});
+
+				
 			}else{
 				$('h2#username').html(data.user[0]["fname"] + " " + data.user[0]["lname"]);
 				$('p#user-desc').html(truncate(data.user[0]["desc"], 197));
@@ -91,6 +94,8 @@ $(document).ready(function(){
 					}
 				});
 
+				/*NEW ACCOMPLISHMENT SUBMIT EVENT*/
+				$('#newAccomplishment').on('submit',function(e){newAccomplishment(e)});
 			}
 
 			/*LOAD PROJECTS ONTO PAGE*/
@@ -99,104 +104,8 @@ $(document).ready(function(){
 		}
 	});
 
-	/*NEW ACCOMPLISHMENT*/
-	$('#newAccomplishment').submit(function(e){
-		e.preventDefault();
-		/**Pull values from form*/
-		var acctype = $('#acc-type').val();
-		var acctitle = $('#acc-name').val();
-		var from = $('#acc-fromdate').val();
-		var to = $('#acc-todate').val();
-		var on = $('#acc-ondate').val();
-		var url = $('#acc-url').val();
-		var licagency = $('#acc-la').val();
-		var licnum = $('#acc-ln').val();
-		var accdesc = $('#acc-desc').val();
-		var acc_talent = getCookie("UserId");
-		/**send a post request to server with the form values*/
-		$.ajax({
-			type: 'POST',
-			url: 'user_mode_request.php',
-			data: {
-				'new_acc': 1,
-				'acctype': acctype,
-				'acctitle': acctitle,
-				'from': from,
-				'to': to,
-				'on': on,
-				'url': url,
-				'licagency': licagency,
-				'licnum': licnum,
-				'accdesc': accdesc,
-				'acc_talent': acc_talent
-			},
-			success: function(data){
-				data = JSON.parse(data);
-				if(data.success){
-					$('#newAccomplishmentModal').removeClass('in');
-					$('.modal-backdrop').removeClass('in');
-					$('#newAccomplishmentModal').css('display','none');
-					$('.modal-backdrop').css('display','none');
-					displayAccomplishments(data);
-				}
-		      }
-		  });
-		return false;
-	});
-
-	/*NEW PROJECT*/
-	$('#newProject').submit(function(e){
-		e.preventDefault();
-		/**Pull values from form*/
-		var pname = $('#project-name').val();
-		var pdesc = $('#project-desc').val();
-		if($("#myonoffswitch").is(':checked') == true){
-			var privacystate = "Public";
-		}else{
-			var privacystate = "Private";
-		}
-		var project_agency = getCookie("UserId");
-		var sdate = document.getElementById("project-startdate").value;
-		var edate = document.getElementById("project-enddate").value;
-		var location_sensitive = $("#location-sensitive").val();
-		var street = $('#street').val();
-		var city = $('#city').val();
-		var state = $('#state').val();
-		var zip = $('#zip').val();
-		var country = $('#country').val();
-
-		/**send a post request to server with the form values*/
-		$.ajax({
-			type: 'POST',
-			url: 'user_mode_request.php',
-			data: {
-				'new_project': 1,
-				'pname': pname,
-				'pdesc': pdesc,
-				'pagency': project_agency,
-				'privacy': privacystate,
-				'sdate': sdate,
-				'edate': edate,
-				'location_sensitive': location_sensitive,
-				'street': street,
-				'city': city,
-				'state': state,
-				'zip': zip,
-				'country': country
-			},
-			success: function(data){
-				data = JSON.parse(data);
-				if(data.success){
-					$('#newProjectModal').removeClass('in');
-					$('.modal-backdrop').removeClass('in');
-					$('#newProjectModal').css('display','none');
-					$('.modal-backdrop').css('display','none');
-					displayProjects(data);
-				}
-		      }
-		  });
-		return false;
-	});
+	/*TOGGLE BETWEEN NEW/EDIT FOR ACCOMPLISHMENT & PROJECT FORMS */
+	$('#newPA').click(function(){newPAFormLayout();});
 
 	/*NAV-DRAWER FIXES*/
 	$('#menu-button').on('click',function(){
@@ -290,9 +199,6 @@ $(document).ready(function(){
 				'desc': desc
 			};
 		}
-		
-		
-
 		$.ajax({
 			type: 'POST',
 			url: 'user_mode_request.php',
@@ -334,6 +240,153 @@ $(document).ready(function(){
 		});
 	});
 
+	/*EDIT PROJECT|ACCOMPLISHMENT*/
+	$('.container #result-list').on('click', '.edit', function(){
+		newPAFormLayout();
+		var table = parseHref($(this).attr('href'));
+		var row = $(this).parent().parent().parent().attr('id');
+		if($('#newProject').length){
+			$('#submit-newproject').val('Update Project');
+			$('#submit-newproject').attr('id',row);
+			//alert("I'm here - EditPA");
+			$('#newProject').off('submit');
+			$('#newProject').attr('id','editProject');
+			$('#projectLabel').empty();
+			$('#projectLabel').html('Edit this Project');
+			/*Change the layout of the new project form to be that of the edit project form*/
+			$('#editProject .onoffswitch').toggle('false');//Hide Privacy Switch
+			$('#editProject').prepend(//Add a readonly field to show the privacy state
+					'<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">' + 
+						'<label>Privacy State:</label>' + 
+						'<input id="project-privacy" type="text" name="" style="background:#F1F3FA;" title="Project Privacy" readonly/>' + 
+					'</div>' + 
+					'<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">' + 
+						'<label>Active State:</label>' + 
+						'<select id="project-active-state" name="project-active-state">' + 
+							'<option value="Active">Active</option>' + 
+							'<option value="Inactive">Inactive</option>' + 
+						'</select>' + 
+					'</div>' + 
+					'<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">' + 
+						'<label>Completion State:</label>' + 
+						'<select id="project-completed-state" name="project-completed-state">' + 
+							'<option value="Completed">'+'Completed'+'</option>' + 
+							'<option value="In-Progress">In-Progress</option>' + 
+						'</select>' + 
+					'</div>');
+
+			$('#editProject').on('submit',function(e){
+				e.preventDefault();
+
+				//get data from form
+				var id = $('#editProject input[type="submit"]').attr('id');
+				//alert(id);
+				var complete = $('#project-completed-state').val();
+				var active = $('#project-active-state').val();
+				var name = $('#project-name').val();
+				var start = $('#project-startdate').val();
+				var end = $('#project-enddate').val();
+				var zone = $('#location-sensitive').val();
+				var street = $('#street').val();
+				var city = $('#city').val();
+				var state = $('#state').val();
+				var zip = $('#zip').val();
+				var country = $('#country').val();
+				var desc = $('#project-desc').val();
+
+				$.ajax({
+					type: 'POST',
+					url: 'user_mode_request.php',
+					data: {
+						'update_project': 1,
+						'id': id,
+						'active':active,
+						'complete':complete,
+						'name': name,
+						'start': start,
+						'end': end,
+						'zone': zone,
+						'street': street,
+						'city': city,
+						'state': state,
+						'zip': zip,
+						'country': country,
+						'desc': desc,
+					},
+					success: function(data){
+						location.reload();
+				    }
+				});
+			});
+
+		}else if($('#newAccomplishment').length){
+			newPAFormLayout();
+			$('#submit-newacc').val('Update Accomplishment');
+			$('#submit-newacc').attr('id',row);
+			$('#newAccomplishment').off('submit');
+			$('#newAccomplishment').attr('id','editAccomplishment');
+			$('#accomplishmentLabel').empty();
+			$('#accomplishmentLabel').html('Edit this Accomplishment');
+
+			//Change the layout of the new accomplishment form to be that of the edit accomplishment form*/
+			$('#editAccomplishment #acc-type').attr('disabled',true);//disable the accomplishment type picklist
+			$('#editAccomplishment #acc-type').css('background', '#F1F3FA');//colour background to notify users of it's disabled state
+
+			/*SUBMIT EVENT LISTENER FOR THE EDIT ACCOMPLISHMENT FORM*/
+			$('#editAccomplishment').on('submit',function(e){
+				e.preventDefault();
+
+				//get data from form
+				var id = $('#editAccomplishment input[type="submit"]').attr('id');
+				//alert(id);
+				var name = $('#acc-name').val();
+				var from = $('#acc-fromdate').val();
+				var to = $('#acc-todate').val();
+				var on = $('#acc-ondate').val();
+				var url = $('#acc-url').val();
+				var la = $('#acc-la').val();
+				var ln = $('#acc-ln').val();
+				var desc = $('#acc-desc').val();
+
+				$.ajax({
+					type: 'POST',
+					url: 'user_mode_request.php',
+					data: {
+						'update_acc': 1,
+						'id': id,
+						'name': name,
+						'from': from,
+						'to': to,
+						'on': on,
+						'url': url,
+						'la': la,
+						'ln': ln,
+						'desc': desc,
+					},
+					success: function(data){
+						location.reload();
+				    }
+				});
+			});
+		}
+
+		$.getJSON("user_mode_request.php", {'editPA':1, 'table':table, 'row':row},function(data){
+			//data = JSON.parse(data);
+			loadPAEditForm(data, table);
+		});
+	});
+
+	/*ADD A SUBMIT EVENT LISTENER TO THE EDIT PROJECT FORM*/
+	/*$('#editProject').submit(function(e){
+		e.preventDefault();
+
+		//get data from form
+		var id = $('#editProject input[type="submit"]').attr('id');
+		alert(id);
+
+	});*/
+	/*ADD A SUBMIT EVENT LISTENER TO THE EDIT ACCOMPLISHMENT FORM*/
+
 });
 
 function clearScreen(){
@@ -355,6 +408,172 @@ function toggleNewButton(id){
 	}else{
 		/*Hide "New Accomplishment/Project" Button"*/
 		$('#newPA').css('display', 'none');
+	}
+}
+
+function loadPAEditForm(PAData, PA){
+	//pull in data from either the project or the accomplishment table
+	//use that data to populate the field values of the newly edited form
+	if(PA == "newProjectModal"){
+		$('#project-privacy').val(PAData.projects[0]["privacy"]);
+		$('#project-name').val(PAData.projects[0]["name"]);
+		$('#project-active-state').val(PAData.projects[0]["active"]);
+		$('#project-completed-state').val(PAData.projects[0]["complete"]);
+		$('#project-startdate').val(PAData.projects[0]["start"]);
+		$('#project-enddate').val(PAData.projects[0]["end"]);
+		$('#location-sensitive').val(PAData.projects[0]["zone"]);
+		$('#street').val(PAData.projects[0]["street"]);
+		$('#city').val(PAData.projects[0]["city"]);
+		$('#state').val(PAData.projects[0]["state"]);
+		$('#zip').val(PAData.projects[0]["zip"]);
+		$('#country').val(PAData.projects[0]["country"]);
+		$('#project-desc').val(PAData.projects[0]["desc"]);
+
+	}else if(PA == "newAccomplishmentModal"){
+		$('#acc-type').val(PAData.accomplishments[0]["type"]).trigger("change");
+		$('#acc-name').val(PAData.accomplishments[0]["name"]);
+		$('#acc-fromdate').val(PAData.accomplishments[0]["from"]);
+		$('#acc-todate').val(PAData.accomplishments[0]["to"]);
+		$('#acc-ondate').val(PAData.accomplishments[0]["on"]);
+		$('#acc-url').val(PAData.accomplishments[0]["url"]);
+		$('#acc-la').val(PAData.accomplishments[0]["la"]);
+		$('#acc-ln').val(PAData.accomplishments[0]["ln"]);
+		$('#acc-desc').val(PAData.accomplishments[0]["desc"]);
+	}
+}
+
+function newProject(e){
+	e.preventDefault();
+	/**Pull values from form*/
+	var pname = $('#project-name').val();
+	var pdesc = $('#project-desc').val();
+	if($("#myonoffswitch").is(':checked') == true){
+		var privacystate = "Public";
+	}else{
+		var privacystate = "Private";
+	}
+	var project_agency = getCookie("UserId");
+	var sdate = document.getElementById("project-startdate").value;
+	var edate = document.getElementById("project-enddate").value;
+	var location_sensitive = $("#location-sensitive").val();
+	var street = $('#street').val();
+	var city = $('#city').val();
+	var state = $('#state').val();
+	var zip = $('#zip').val();
+	var country = $('#country').val();
+
+	/**send a post request to server with the form values*/
+	$.ajax({
+		type: 'POST',
+		url: 'user_mode_request.php',
+		data: {
+			'new_project': 1,
+			'pname': pname,
+			'pdesc': pdesc,
+			'pagency': project_agency,
+			'privacy': privacystate,
+			'sdate': sdate,
+			'edate': edate,
+			'location_sensitive': location_sensitive,
+			'street': street,
+			'city': city,
+			'state': state,
+			'zip': zip,
+			'country': country
+		},
+		success: function(data){
+			data = JSON.parse(data);
+			if(data.success){
+				$('#newProjectModal').removeClass('in');
+				$('.modal-backdrop').removeClass('in');
+				$('#newProjectModal').css('display','none');
+				$('.modal-backdrop').css('display','none');
+				displayProjects(data);
+			}
+	      }
+	  });
+	return false;
+}
+
+function newAccomplishment(e){
+	e.preventDefault();
+	/**Pull values from form*/
+	var acctype = $('#acc-type').val();
+	var acctitle = $('#acc-name').val();
+	var from = $('#acc-fromdate').val();
+	var to = $('#acc-todate').val();
+	var on = $('#acc-ondate').val();
+	var url = $('#acc-url').val();
+	var licagency = $('#acc-la').val();
+	var licnum = $('#acc-ln').val();
+	var accdesc = $('#acc-desc').val();
+	var acc_talent = getCookie("UserId");
+	/**send a post request to server with the form values*/
+	$.ajax({
+		type: 'POST',
+		url: 'user_mode_request.php',
+		data: {
+			'new_acc': 1,
+			'acctype': acctype,
+			'acctitle': acctitle,
+			'from': from,
+			'to': to,
+			'on': on,
+			'url': url,
+			'licagency': licagency,
+			'licnum': licnum,
+			'accdesc': accdesc,
+			'acc_talent': acc_talent
+		},
+		success: function(data){
+			data = JSON.parse(data);
+			if(data.success){
+				$('#newAccomplishmentModal').removeClass('in');
+				$('.modal-backdrop').removeClass('in');
+				$('#newAccomplishmentModal').css('display','none');
+				$('.modal-backdrop').css('display','none');
+				displayAccomplishments(data);
+			}
+	      }
+	  });
+	return false;
+}
+
+function newPAFormLayout(){
+	if($('#editProject').length){
+		//alert("I'm Here - NewPA");
+		//change the edit project form back to its normal layout, i.e. the new project form
+		$('#editProject input[type="submit"]').attr('id','submit-newproject');
+		$('#editProject').off('submit');
+		$('#editProject').attr('id','newProject');
+		$('#newProject').trigger('reset');
+
+		$('#projectLabel').empty();
+		$('#projectLabel').html('Start A New Project');
+
+		$('#newProject .onoffswitch').toggle('true');//Show Privacy Switch
+		$('#newProject #project-privacy').parent().remove();//Remove the readonly field that showed the privacy state
+		$('#newProject #project-completed-state').parent().remove();//Remove the readonly field that showed the active state
+		$('#newProject #project-active-state').parent().remove();//Remove the readonly field that showed the completion state
+
+		/*NEW ACCOMPLISHMENT SUBMIT EVENT*/
+		$('#newProject').on('submit',function(e){newProject(e)});
+
+	}else if($('#editAccomplishment').length){
+		//change the edit accomplishment form back to its normal layout, i.e. the new accomplishment form
+		$('#editAccomplishment input[type="submit"]').attr('id','submit-newacc');
+		$('#editAccomplishment').off('submit');
+		$('#editAccomplishment').attr('id','newAccomplishment');
+		$('#newAccomplishment').trigger('reset');
+
+		$('#accomplishmentLabel').empty();
+		$('#accomplishmentLabel').html('Share A New Accomplishment');
+
+		$('#newAccomplishment #acc-type').attr('disabled',false);//enable the accomplishment type picklist
+		$('#newAccomplishment #acc-type').css('background', '#FFFFFF');//remove the colour from the background
+
+		/*NEW ACCOMPLISHMENT SUBMIT EVENT*/
+		$('#newAccomplishment').on('submit',function(e){newAccomplishment(e)});
 	}
 }
 
@@ -391,7 +610,7 @@ function displayProjects(dataArr){
 	$.each(dataArr.projects, function(){
 		if(this.paid == getCookie("UserId")){
 			ableToDelete = '<div class="toolbar"><a href="#project" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a></div>';
-			ableToEdit = '<a href="#project" class="edit" style="text-decoration:underline;">Edit</a>';
+			ableToEdit = '<a href="#newProjectModal" data-toggle="modal" class="edit" style="text-decoration:underline;">Edit</a>';
 		}else{
 			ableToDelete = '';
 			ableToEdit = '';
@@ -422,13 +641,14 @@ function displayAccomplishments(dataArr){
 	$.each(dataArr.accomplishments, function(){
 		if(this.atid == getCookie("UserId")){
 			ableToDelete = '<div class="toolbar"><a href="#accomplishment" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a></div>';
-			ableToEdit = '<a href="' + this.url + '" class="edit" style="text-decoration:underline;">Edit</a>';
+			//ableToEdit = '<a href="' + this.url + '" class="edit" style="text-decoration:underline;">Edit</a>';
+			ableToEdit = '<a href="#newAccomplishmentModal" data-toggle="modal" class="edit" style="text-decoration:underline;">Edit</a>';
 		}else{
 			ableToDelete = '';
 			ableToEdit = '';
 		}
 		$('div#result-list').append(
-			'<div class="col-md-3 col-sm-4 parAccompishment" id="' + this.id +'">' + 
+			'<div class="col-md-3 col-sm-4 parAccomplishment" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 					ableToDelete + 
 					'<a href="#accomplishment" class="view">' + 
@@ -439,7 +659,7 @@ function displayAccomplishments(dataArr){
 							'<h4>' + this.name + 
 							'<div class="pull-right badge">' + this.type + '</div></h4>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-							ableToEdit +
+							ableToEdit + 
 						'</div>' + 
 					'</a>' + 
 				'</div>' + 

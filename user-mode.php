@@ -163,7 +163,7 @@
 		<div class="modal-dialog">
 			<div class="loginmodal-container">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h1>Start A New Project</h1>
+				<h1 id="projectLabel">Start A New Project</h1>
 				<form id="newProject" name="newProject">
 					<!--PROJECT PRIVACY STATE-->
 					<div class="onoffswitch" style="margin:auto;">
@@ -176,25 +176,26 @@
 
 		            <!--PROJECT NAME-->
 					<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
-						<input id="project-name" type="text" name="projectName" placeholder="Project Name *" title="Project Name" required/>
+						<label>Project Name: *</label>
+						<input id="project-name" type="text" name="projectName" placeholder="Project Name" title="Project Name" required/>
 					</div>
 
 					<!--START/END DATES-->
 					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
-						<label>Start Date *</label>
+						<label>Start Date: *</label>
 						<input id="project-startdate" type="date" name="projectStartDate" placeholder="MM/DD/YYYY" title="Start Date" required/>
 					</div>
 
 					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
-						<label>End Date</label>
+						<label>End Date:</label>
 						<input id="project-enddate" type="date" name="projectEndDate" placeholder="MM/DD/YYYY" title="End Date"/>
 					</div>
 
 					<!--LOCATION SENSITIVITY-->
 					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Location Sensitivty:</label>
 						<select name="location-sensitive" id="location-sensitive">
-							<option value="None" selected="selected">Location Sensitive?</option>
-							<option value="None">None</option>
+							<option value="None" selected="selected">None</option>
 							<option value="City">City</option>
 							<option value="State">State</option>
 							<option value="ZIP">ZIP</option>
@@ -204,14 +205,17 @@
 
 					<!--ADDRESS-->
 					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+					<label>Street:</label>
 						<input id="street" type="text" name="street" placeholder="Street" />			
 					</div>
 
 					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>City:</label>
 						<input id="city" type="text" name="city" placeholder="City"/>
 					</div>
 
 					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>State:</label>
 						<select name="state" id="state">
 						  <option value="" selected="selected">Select a State</option>
 						  <option value="AL">Alabama</option>
@@ -269,15 +273,18 @@
 					</div>
 
 					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Zip/Postal Code:</label>
 						<input id="zip" type="text" name="zip" placeholder="Zip/Postal Code" pattern="[0-9]{5}" title="Five digit zip code" />
 					</div>
 
 					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Country:</label>
 						<input id="country" type="text" name="country" placeholder="Country"/>
 					</div>
 
 					<!--PROJECT DESCRIPTION-->
 					<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Project Description:</label>
 						<textarea id="project-desc" name="projectDescription" placeholder="Project Description" title="Project Description" maxlength="2000"></textarea>
 					</div>
 
@@ -294,7 +301,7 @@
 		<div class="modal-dialog">
 			<div class="loginmodal-container">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h1>Share A New Accomplishment</h1>
+				<h1 id="accomplishmentLabel">Share A New Accomplishment</h1>
 				<form id="newAccomplishment" name="newAccomplishment">
 
 					<!--ACCOMPLISHMENT TYPE-->
@@ -353,7 +360,7 @@
 					</div>
 
 					<!--SUBMIT-->
-					<input type="submit" name="newAccomplishment" id="submit-newacc" class="login loginmodal-submit" value="New Accomplishment">
+					<input type="submit" name="newAccomplishment-submit" id="submit-newacc" class="login loginmodal-submit" value="New Accomplishment">
 				</form>
 				<div id="login-err-msg" style="color:red;text-align: center;"></div>
 			</div>

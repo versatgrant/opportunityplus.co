@@ -110,7 +110,7 @@
 		    echo "Error";
 		}
 
-	}//GET ALL PROJECTS FOR THE LOGGED IN USER; ALSO GET THE USER DATA
+	}//INITIAL LOGIN; GET ALL PROJECTS FOR THE LOGGED IN USER; ALSO GET THE USER DATA
 	elseif(isset($_GET['view_proj'])){
 		if($_SESSION["UserType"] == "agency"){
 			//pull directly from the project table if they're an Agency
@@ -197,7 +197,7 @@
 	elseif(isset($_GET['view_acc'])){
 		//pull directly from the accomplishments table
 		$sql = "SELECT * FROM `accomplishment` WHERE `AccomplishmentTalentId` = '{$_SESSION["Id"]}' LIMIT 50";
-		//Store Projects Returned
+		//Store Accomplishments Returned
 		$accomplishments = array();
 		$res = $conn->query($sql);
 		if ($res->num_rows > 0) {
@@ -216,11 +216,10 @@
 					'desc' => $row["AccomplishmentDescription"]));
 			}
 		}
-		//Send Response with User & Projects
+		//Send Response with Accomplishments
 		echo json_encode(array("accomplishments" => $accomplishments));
 	}//UPDATE USER PROFILE
 	elseif(isset($_POST['edit_profile'])){
-
 			$password_entry = $conn->real_escape_string($_POST['password']);
 			$phone_entry = $conn->real_escape_string($_POST['phone']);
 			$street_entry = $conn->real_escape_string($_POST['street']);
@@ -229,8 +228,7 @@
 			$zip_entry = $conn->real_escape_string($_POST['zip']);
 			$country_entry = $conn->real_escape_string($_POST['country']);
 			$desc_entry = $conn->real_escape_string($_POST['desc']);
-		
-		$utype_entry = $conn->real_escape_string($_POST['utype']);
+			$utype_entry = $conn->real_escape_string($_POST['utype']);
 
 		//Update user profile of logged in user
 		if($utype_entry == "talent"){
@@ -250,7 +248,7 @@
 			`LocationPostalCode` = '{$zip_entry}', 
 			`LocationCountry` = '{$country_entry}' 
 			WHERE `UniqueId` = '{$_SESSION["Id"]}' LIMIT 1";
-		}else{
+		}elseif($utype_entry == "agency"){
 
 			$aname_entry = $conn->real_escape_string($_POST['aname']);
 
@@ -265,9 +263,123 @@
 			`LocationCountry` = '{$country_entry}' 
 			WHERE `UniqueId` = '{$_SESSION["Id"]}' LIMIT 1";
 		}
-		$conn->query($sql);
-		
+		$conn->query($sql);	
+	}//GET PROJECT|ACCOMPLISHMENT DATA
+	elseif(isset($_GET['editPA'])){
+		//Get input from form
+		$table_entry = $conn->real_escape_string($_GET['table']);
+		$id_entry = $conn->real_escape_string($_GET['row']);
+
+		if($table_entry == "newProjectModal"){
+			//Build SQL statement
+			$sql = "SELECT * FROM `project` WHERE (`ProjectUniqueId` = '{$id_entry}') ";
+
+			//Store Projects Returned
+			$projects = array();
+			$res = $conn->query($sql);
+			if ($res->num_rows > 0) {
+				// output data of each record
+				while($row = $res->fetch_assoc()) {
+					array_push($projects, array('name' => $row["ProjectName"],
+						'active' => $row["ProjectActiveState"],
+						'complete' => $row["ProjectCompletionState"],
+						'privacy' => $row["ProjectPrivacyState"],
+						'zone' => $row["ProjectLocationSensitive"],
+						'desc' => $row["ProjectDescription"],
+						'start' => $row["ProjectStartDate"],
+						'end' => $row["ProjectEndDate"],
+						'street' => $row["ProjectLocationStreet"],
+						'city' => $row["ProjectLocationCity"],
+						'state' => $row["ProjectLocationState"],
+						'zip' => $row["ProjectLocationPostalCode"],
+						'country' => $row["ProjectLocationCountry"],
+						'cost' => $row["ProjectTotalCost"]));
+				}
+			}
+			//Send Response with Projects
+			echo json_encode(array("projects" => $projects));
+		}elseif($table_entry == "newAccomplishmentModal"){
+			//Build SQL statement
+			$sql = "SELECT * FROM `accomplishment` WHERE (`AccomplishmentUniqueId` = '{$id_entry}') ";
+
+			//Store Accomplishments Returned
+			$accomplishments = array();
+			$res = $conn->query($sql);
+			if ($res->num_rows > 0) {
+				// output data of each record
+				while($row = $res->fetch_assoc()) {
+					array_push($accomplishments, array('name' => $row["AccomplishmentName"],
+						'type' => $row["AccomplishmentType"],
+						'from' => $row["AccomplishmentFromDate"],
+						'to' => $row["AccomplishmentToDate"],
+						'on' => $row["AccomplishmentOnDate"],
+						'url' => $row["AccomplishmentURL"],
+						'la' => $row["AccomplishementLicenseAgency"],
+						'ln' => $row["AccomplishmentLicenseNumber"],
+						'desc' => $row["AccomplishmentDescription"]));
+				}
+			}
+			//Send Response with Accomplishments
+			echo json_encode(array("accomplishments" => $accomplishments));
+		}
+	}//Update Projects
+	elseif(isset($_POST['update_project'])){
+		//Get input from form
+		$id_entry = $conn->real_escape_string($_POST['id']);
+		$active_entry = $conn->real_escape_string($_POST['active']);
+		$complete_entry = $conn->real_escape_string($_POST['complete']);
+		$name_entry = $conn->real_escape_string($_POST['name']);
+		$start_entry = $conn->real_escape_string($_POST['start']);
+		$end_entry = $conn->real_escape_string($_POST['end']);
+		$zone_entry = $conn->real_escape_string($_POST['zone']);
+		$street_entry = $conn->real_escape_string($_POST['street']);
+		$city_entry = $conn->real_escape_string($_POST['city']);
+		$state_entry = $conn->real_escape_string($_POST['state']);
+		$zip_entry = $conn->real_escape_string($_POST['zip']);
+		$country_entry = $conn->real_escape_string($_POST['country']);
+		$desc_entry = $conn->real_escape_string($_POST['desc']);
+
+		$sql = "UPDATE `project` SET `ProjectName` = '{$name_entry}', 
+		`ProjectActiveState` = '{$active_entry}', 
+		`ProjectCompletionState` = '{$complete_entry}', 
+		`ProjectStartDate` = '{$start_entry}', 
+		`ProjectEndDate` = '{end_entry}', 
+		`ProjectLocationSensitive` = '{$zone_entry}',
+		`ProjectDescription` = '{$desc_entry}',
+		`ProjectLocationStreet` = '{$street_entry}', 
+		`ProjectLocationCity` = '{$city_entry}', 
+		`ProjectLocationState` = '{$state_entry}', 
+		`ProjectLocationPostalCode` = '{$zip_entry}', 
+		`ProjectLocationCountry` = '{$country_entry}' 
+		WHERE `ProjectUniqueId` = '{$id_entry}'";
+
+		$conn->query($sql);	
+	}//Update Accomplishments
+	elseif(isset($_POST['update_acc'])){
+		//Get input from form
+		$id_entry = $conn->real_escape_string($_POST['id']);
+		$name_entry = $conn->real_escape_string($_POST['name']);
+		$from_entry = $conn->real_escape_string($_POST['from']);
+		$to_entry = $conn->real_escape_string($_POST['to']);
+		$on_entry = $conn->real_escape_string($_POST['on']);
+		$la_entry = $conn->real_escape_string($_POST['la']);
+		$ln_entry = $conn->real_escape_string($_POST['ln']);
+		$url_entry = $conn->real_escape_string($_POST['url']);
+		$desc_entry = $conn->real_escape_string($_POST['desc']);
+
+		$sql = "UPDATE `accomplishment` SET `AccomplishmentName` = '{$name_entry}', 
+		`AccomplishmentFromDate` = '{$from_entry}', 
+		`AccomplishmentToDate` = '{$to_entry}', 
+		`AccomplishmentOnDate` = '{$on_entry}', 
+		`AccomplishmentURL` = '{$url_entry}', 
+		`AccomplishementLicenseAgency` = '{$la_entry}',
+		`AccomplishmentLicenseNumber` = '{$ln_entry}',
+		`AccomplishmentDescription` = '{$desc_entry}'
+		WHERE `AccomplishmentUniqueId` = '{$id_entry}'";
+
+		$conn->query($sql);	
 	}
+
 
 	$conn->close();
 	exit();
