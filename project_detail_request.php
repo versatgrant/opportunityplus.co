@@ -71,6 +71,7 @@
 
 			/**/
 			array_push($milestone, array('id' => $m_row["MilestoneUniqueId"],
+				'projectid' => $m_row["MilestoneProjectId"],
 				'name' => $m_row["MilestoneName"],
 				'pos' => $m_row["MilestoneOrderPosition"],
 				'start' => $m_row["MilestoneStartDate"],
@@ -79,5 +80,39 @@
 		}
 		echo json_encode(array("project" => $project, "milestone" => $milestone));
 
+	}/*NEW MILESTONE*/
+	elseif(isset($_POST["new_milestone"])){
+		/*Get values from form*/
+		$projectid_entry = $conn->real_escape_string($_POST['projectid']);
+		$name_entry = $conn->real_escape_string($_POST['name']);
+		$start_entry = $conn->real_escape_string($_POST['start']);
+		$end_entry = $conn->real_escape_string($_POST['end']);
+		$pos_entry = $conn->real_escape_string($_POST['pos']);
+
+		/*Insert that Milestone*/
+		$m_sql = "INSERT INTO `milestone` (`MilestoneProjectId`, `MilestoneName`, `MilestoneOrderPosition`, `MilestoneStartDate`, `MilestoneEndDate`) VALUES ('{$projectid_entry}', '{$name_entry}', '{$pos_entry}', '{$start_entry}', '{$end_entry}')";
+		$newMilestone = $conn->query($m_sql);
+		if($newMilestone){
+			/*Get The Milestone You Just Inserted*/
+			$id = $conn->insert_id;
+			$m_sql = "SELECT * FROM `milestone` WHERE `MilestoneUniqueId` = '{$id}'";
+			$milestone = array();
+			$m_res = $conn->query($m_sql);
+			/*New Milestones Have No Task*/
+			$tasks = array();
+			while($m_row = $m_res->fetch_assoc()) {
+				array_push($milestone, array('id' => $m_row["MilestoneUniqueId"],
+					'projectid' => $m_row["MilestoneProjectId"],
+					'name' => $m_row["MilestoneName"],
+					'pos' => $m_row["MilestoneOrderPosition"],
+					'start' => $m_row["MilestoneStartDate"],
+					'end' => $m_row["MilestoneEndDate"],
+					'tasks' => $tasks));
+			}
+			echo json_encode(array("milestone" => $milestone));
+		}
 	}
+
+	$conn->close();
+	exit();
 ?>

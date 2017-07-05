@@ -4,6 +4,11 @@ $(document).ready(function(){
 		if(data.user == "No Users Detected"){
 			window.location = "index.php";
 		}else{
+
+			/*HIDE PROJECT DETAIL BUTTONS*/
+			$('#newMilestone').css('display', 'none');
+			$('#viewProjDetails').css('display', 'none');
+
 			$('h2#username').empty();
 			if(getCookie("UserType") == "agency"){
 				$('h2#username').html(data.user[0]["aname"]);
@@ -99,7 +104,7 @@ $(document).ready(function(){
 			}
 
 			/*LOAD PROJECTS ONTO PAGE*/
-			//clearScreen();
+			clearScreen();
 			displayProjects(data);
 		}
 	});
@@ -122,6 +127,13 @@ $(document).ready(function(){
 			$('#menuProjReq').removeClass('active');
 			$('#menuAcc').removeClass('active');
 
+			/*HIDE PROJECT DETAIL BUTTONS*/
+			$('#newMilestone').css('display', 'none');
+			$('#viewProjDetails').css('display', 'none');
+
+			/*Set appropriate styling on result container*/
+			$('div#result-list').css('flex-wrap','wrap');
+
 			toggleNewButton($(this).attr('id'));
 
 			//display all projects
@@ -135,6 +147,13 @@ $(document).ready(function(){
 			$('#menuProj').removeClass('active');
 			$('#menuAcc').removeClass('active');
 
+			/*HIDE PROJECT DETAIL BUTTONS*/
+			$('#newMilestone').css('display', 'none');
+			$('#viewProjDetails').css('display', 'none');
+
+			/*Set appropriate styling on result container*/
+			$('div#result-list').css('flex-wrap','wrap');
+
 			toggleNewButton($(this).attr('id'));
 
 		}else if($(this).attr('id') == "menuAcc"){
@@ -142,6 +161,13 @@ $(document).ready(function(){
 			$(this).addClass('active');
 			$('#menuProj').removeClass('active');
 			$('#menuProjReq').removeClass('active');
+
+			/*HIDE PROJECT DETAIL BUTTONS*/
+			$('#newMilestone').css('display', 'none');
+			$('#viewProjDetails').css('display', 'none');
+
+			/*Set appropriate styling on result container*/
+			$('div#result-list').css('flex-wrap','wrap');
 
 			toggleNewButton($(this).attr('id'));
 
@@ -620,7 +646,7 @@ function displayProjects(dataArr){
 			'<div class="col-md-3 col-sm-4 parProject" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 				ableToDelete + 
-					'<a href="#project" class="view"  data-project-access="false">' + 
+					'<a href="#project" class="view"  data-project-access="' + this.access + '" style="height:inherit;">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">' + 
 							'<center><i class="fa fa-tasks" style="color:#16A085"></i></center>' + 
 						'</div>' + 
@@ -652,7 +678,7 @@ function displayAccomplishments(dataArr){
 			'<div class="col-md-3 col-sm-4 parAccomplishment" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 					ableToDelete + 
-					'<a href="#accomplishment" class="view">' + 
+					'<a href="#accomplishment" class="view" style="height:inherit;>' + 
 						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(250, 188, 9, 0.1)">' + 
 							'<center><i class="fa fa-trophy" style="color:#fabc09"> </i></center>' + 
 						'</div>' + 
@@ -674,7 +700,7 @@ function displayTalents(dataArr){
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4 parTalent" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
-					'<a href="#talent" class="view">' + 
+					'<a href="#talent" class="view" style="height:inherit;">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(51, 105, 232, 0.1)">' + 
 							'<center><i class = "fa fa-user" style="color:#3369e8"></i></center>' + 
 						'</div>' + 
@@ -699,7 +725,7 @@ function displayAgencies(dataArr){
 			'<div class="col-md-3 col-sm-4 parAgency" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 					'<a href="#agency" class="view">' +
-						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(213, 15, 37, 0.1)">' + 
+						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(213, 15, 37, 0.1);height:inherit;">' + 
 							'<center><i class="fa fa-building" style="color:#d50f25"> </i></center>' + 
 						'</div>' + 
 						'<div class="wrimagecard-topimage_title">' + 

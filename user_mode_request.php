@@ -114,16 +114,16 @@
 	elseif(isset($_GET['view_proj'])){
 		if($_SESSION["UserType"] == "agency"){
 			//pull directly from the project table if they're an Agency
-			$sql = "SELECT * FROM `project` WHERE `ProjectAgencyId` = '{$_SESSION["Id"]}' LIMIT 50";
+			$p_sql = "SELECT * FROM `project` WHERE `ProjectAgencyId` = '{$_SESSION["Id"]}' LIMIT 50";
 
 			//Get the Corporate Name of that Agency
-			$sql1 = "SELECT * FROM `agency` WHERE `UniqueId` = '{$_SESSION["Id"]}' LIMIT 1";
+			$u_sql = "SELECT * FROM `agency` WHERE `UniqueId` = '{$_SESSION["Id"]}' LIMIT 1";
 
 			//Store User Info Returned
 			$user = array();
 
 			//Get User Info
-			$res = $conn->query($sql1);
+			$res = $conn->query($u_sql);
 			while($row = $res->fetch_assoc()) {
 				array_push($user, array('aname' => $row["AgencyCorporateName"],
 					'email' => $row["Email"],
@@ -141,15 +141,15 @@
 			
 		}else{
 			//if they're a Talent, check the project request table for projects they have access to 
-			$sql = "SELECT * FROM `project` WHERE `ProjectUniqueId` IN (SELECT `ProjectRequestProjectId` FROM `projectrequest` WHERE (`ProjectRequestTalentId` = '{$_SESSION["Id"]}' AND `ProjectRequestAcceptedStatus` = TRUE AND `ProjectRequestRecindedStatus` = FALSE)) LIMIT 50";
+			$p_sql = "SELECT * FROM `project` WHERE `ProjectUniqueId` IN (SELECT `ProjectRequestProjectId` FROM `projectrequest` WHERE (`ProjectRequestTalentId` = '{$_SESSION["Id"]}' AND `ProjectRequestAcceptedStatus` = TRUE AND `ProjectRequestRecindedStatus` = FALSE)) LIMIT 50";
 			//Get the First & Last name of that Talent
-			$sql1 = "SELECT * FROM `talent` WHERE `UniqueId` = '{$_SESSION["Id"]}' LIMIT 1";
+			$u_sql = "SELECT * FROM `talent` WHERE `UniqueId` = '{$_SESSION["Id"]}' LIMIT 1";
 
 			//Store User Info Returned
 			$user = array();
 
 			//Get User Info
-			$res = $conn->query($sql1);
+			$res = $conn->query($u_sql);
 
 			while($row = $res->fetch_assoc()) {
 				array_push($user, array('fname' => $row["TalentFirstName"],
@@ -169,9 +169,9 @@
 		
 		//Store Projects Returned
 		$projects = array();
-		$res = $conn->query($sql);
+		$res = $conn->query($p_sql);
 		if ($res->num_rows > 0) {
-			// output data of each record
+			//output data of each record
 			while($row = $res->fetch_assoc()) {
 				array_push($projects, array('id' => $row["ProjectUniqueId"],
 					'paid' => $row["ProjectAgencyId"], 
@@ -188,7 +188,8 @@
 					'state' => $row["ProjectLocationState"],
 					'zip' => $row["ProjectLocationPostalCode"],
 					'country' => $row["ProjectLocationCountry"],
-					'cost' => $row["ProjectTotalCost"]));
+					'cost' => $row["ProjectTotalCost"],
+					'access' => "true"));
 			}
 		}
 		//Send Response with User & Projects

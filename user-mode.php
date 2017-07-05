@@ -14,7 +14,9 @@
 	<button id="submit-logout" type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 10px;right:10px; display: block;"><i class="glyphicon glyphicon-log-out"></i></button>
 	<a id="newPA" href="#" data-toggle="modal"><button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 45px;right:10px; display: block;"><i class="glyphicon glyphicon-plus"></i></button></a>
 	</button>
-	<a id="viewProjDetails" href="#ProjectDetails" data-toggle="modal"><button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 80px;right:10px; display: block;"><i class="glyphicon glyphicon-eye-open"></i></button></a>
+	<a id="newMilestone" href="#newMilestoneModal" data-toggle="modal"><button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 45px;right:10px; display: block;"><i class="glyphicon glyphicon-plus"></i></button></a>
+	</button>
+	<a id="viewProjDetails" href="#ProjectDetails" data-toggle="modal"><button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:absolute;top: 80px;right:10px; display: block;"><i class="glyphicon glyphicon-eye-open"></i></button></a>
 
 	<!-- MENU DRAWER -->
 	<div id="drawerExample" class="dw-xs-10 dw-sm-6 dw-md-4 fold" aria-labelledby="drawerExample" style="position:fixed;z-index: 500;height: 100%">
@@ -70,9 +72,9 @@
 	</div>
 
 	<!--RESULT CONTAINER-->
-	<div class="container" style="position:absolute;top:0px;z-index:499;width:100%;padding:10px 15px;">
-		<div class="row fix results" id="result-list" style="padding:0px 40px;">
-			<div class="col-md-3 col-sm-4 parProject" id="sampleProject">
+	<div class="container" style="position:absolute;top:0px;z-index:499;width:100%;padding:10px 15px;height: inherit;">
+		<div class="row fix results" id="result-list" style="padding:0px 40px;height: inherit;overflow-y: auto">
+			<!--div class="col-md-3 col-sm-4 parProject" id="sampleProject">
 				<div class="wrimagecard wrimagecard-topimage">
 					<div class="toolbar">
 						<a href="#accomplishment" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a>
@@ -158,8 +160,12 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div-->
 
+
+	
+		</div>
+	</div>
 
 	<!--NEW PROJECT FORM-->
 	<div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -516,6 +522,43 @@
 			</div>
 		</div>
 	</div>
+
+	<!--NEW MILESTONE FORM-->
+	<div class="modal fade" id="newMilestoneModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="loginmodal-container">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h1 id="milestoneLabel">Add A New Milestone</h1>
+				<form id="newMilestoneForm" name="newMilestone">
+
+		            <!--MILESTONE NAME-->
+					<div class="col-md-8 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Milestone Title</label>
+						<input id="new-milestone-name" type="text" name="milestoneName" placeholder="Milestone Title *" title="Milestone Title" required/>
+					</div>
+
+					<!--MILESTONE NAME-->
+					<div class="col-md-4 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Milestone #:</label>
+						<input id="new-milestone-pos" type="text" name="milestonePos" placeholder="Milestone # *" title="Milestone #" required/>
+					</div>
+
+					<!--START DATE-->
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Milestone (Start):</label>
+						<input id="new-milestone-startdate" type="date" name="milestoneStartDate" placeholder="MM/DD/YYYY" title="Start Date"/>
+					</div>
+					<!--END DATE-->
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Milestone (End):</label>
+						<input id="new-milestone-enddate" type="date" name="milestoneEndDate" placeholder="MM/DD/YYYY" title="End Date"/>
+					</div>
+
+					<!--SUBMIT-->
+					<input type="submit" name="newMilestone-submit" id="submit-newmilestone" class="login loginmodal-submit" value="New Milestone"/>
+				</form>
+				<div id="login-err-msg" style="color:red;text-align: center;"></div>
+			</div>
 	
 </body>
 	

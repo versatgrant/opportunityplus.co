@@ -9,6 +9,9 @@ $(document).ready(function(e){
 	});
 
     $('#submit-search').on('click', function(){
+    	/*Set appropriate styling on result container*/
+    	$('div#result-list').css('flex-wrap','wrap');
+
     	/**Pull values from form*/
     	var table = $('.input-group #search_param').val();
     	var searchterm = $('#search-value').val();
