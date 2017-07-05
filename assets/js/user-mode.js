@@ -677,7 +677,7 @@ function displayAccomplishments(dataArr){
 			'<div class="col-md-3 col-sm-4 parAccomplishment" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 					ableToDelete + 
-					'<a href="#accomplishment" class="view" style="height:inherit;>' + 
+					'<a href="#accomplishment" class="view" style="height:inherit;"">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(250, 188, 9, 0.1)">' + 
 							'<center><i class="fa fa-trophy" style="color:#fabc09"> </i></center>' + 
 						'</div>' + 
