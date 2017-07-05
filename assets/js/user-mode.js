@@ -646,7 +646,7 @@ function displayProjects(dataArr){
 			'<div class="col-md-3 col-sm-4 parProject" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 				ableToDelete + 
-					'<a href="#project" class="view"  data-project-access="' + this.access + '" style="height:inherit;">' + 
+					'<a href="#project" class="view"  data-project-access="true" style="height:inherit;">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">' + 
 							'<center><i class="fa fa-tasks" style="color:#16A085"></i></center>' + 
 						'</div>' + 

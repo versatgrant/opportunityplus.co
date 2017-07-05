@@ -10,7 +10,7 @@ $(document).ready(function(){
 				$('div#result-list').css('flex-wrap','nowrap');
 
 				var project = $(this);
-				if(project.data('project-access') == true){//should be true
+				if($(this).data('project-access') == true){//should be true
 					//alert("You do have access to this project");
 					/*get Project Id to be used to build the project detail page*/
 					var id = $(this).parent().parent().attr('id');
