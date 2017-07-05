@@ -538,7 +538,6 @@ function newAccomplishment(e){
 	$.ajax({
 		type: 'POST',
 		url: 'user_mode_request.php',
-		contentType: 'text/plain',
 		data: {
 			'new_acc': 1,
 			'acctype': acctype,
