@@ -1,16 +1,27 @@
         $(function () {
             var kanbanCol = $('.panel-body');
             kanbanCol.css('max-height', (window.innerHeight - 150) + 'px');
+            /*ADDED BY NICHOLAS GRANT*/
+
+            $.each(kanbanCol, function(){
+                var headerfooterHeight = $(this).next('.panel-footer').css('height');
+                var bodyHeight = $(this).css('height');
+                headerfooterHeight = parseInt(headerfooterHeight.replace( /^\D+/g, '')) * 2;
+                bodyHeight = parseInt(bodyHeight.replace( /^\D+/g, ''));
+                var milestoneHeight = (headerfooterHeight + bodyHeight) + 'px';
+                $(this).parent().css('height', milestoneHeight);
+            });
+            /*ADDED BY NICHOLAS GRANT*/
 
             var kanbanColCount = parseInt(kanbanCol.length);
             $('.container-fluid').css('min-width', (kanbanColCount * 350) + 'px');
 
             draggableInit();
 
-            $('.panel-heading').click(function() {
+            /*$('.panel-heading').click(function() {
                 var $panelBody = $(this).parent().children('.panel-body');
                 $panelBody.slideToggle();
-            });
+            });*/
         });
 
         function draggableInit() {

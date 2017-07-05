@@ -7,11 +7,14 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/user-mode.css">
 	<link rel="stylesheet" href="assets/css/login/loginModal.css">
+	<link href="assets/css/kanbanstyle.css" rel="stylesheet" type="text/css">
 </head>
 <body class="has-drawer">
 	<!-- FLOATING BUTTONS -->
 	<button id="submit-logout" type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 10px;right:10px; display: block;"><i class="glyphicon glyphicon-log-out"></i></button>
 	<a id="newPA" href="#" data-toggle="modal"><button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 45px;right:10px; display: block;"><i class="glyphicon glyphicon-plus"></i></button></a>
+	</button>
+	<a id="viewProjDetails" href="#ProjectDetails" data-toggle="modal"><button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 80px;right:10px; display: block;"><i class="glyphicon glyphicon-eye-open"></i></button></a>
 
 	<!-- MENU DRAWER -->
 	<div id="drawerExample" class="dw-xs-10 dw-sm-6 dw-md-4 fold" aria-labelledby="drawerExample" style="position:fixed;z-index: 500;height: 100%">
@@ -520,6 +523,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-drawer/1.0.6/js/drawer.min.js"></script>
 	<script src="assets/js/user-mode.js"></script>
+	<script src="assets/js/project_detail.js"></script>
+	<!--script src="assets/js/kanban.js"></script-->
 	<script src="assets/js/search.js"></script>
 	<script src="assets/js/logout.js"></script>
 

@@ -311,7 +311,7 @@ $(document).ready(function(){
 						'state': state,
 						'zip': zip,
 						'country': country,
-						'desc': desc,
+						'desc': desc
 					},
 					success: function(data){
 						location.reload();
@@ -512,6 +512,7 @@ function newAccomplishment(e){
 	$.ajax({
 		type: 'POST',
 		url: 'user_mode_request.php',
+		contentType: 'text/plain',
 		data: {
 			'new_acc': 1,
 			'acctype': acctype,
@@ -619,7 +620,7 @@ function displayProjects(dataArr){
 			'<div class="col-md-3 col-sm-4 parProject" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 				ableToDelete + 
-					'<a href="#project" class="view">' + 
+					'<a href="#project" class="view"  data-project-access="false">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">' + 
 							'<center><i class="fa fa-tasks" style="color:#16A085"></i></center>' + 
 						'</div>' + 
