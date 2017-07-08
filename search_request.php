@@ -35,7 +35,7 @@
 					'city' => $row["LocationCity"],
 					'state' => $row["LocationState"],
 					'zip' => $row["LocationPostalCode"],
-					'country' => $row["LocationCountry"],));
+					'country' => $row["LocationCountry"]));
 			}
 			echo json_encode(array("agencies" => $agencies));
 		}elseif ($table_entry== "talent") {
@@ -52,13 +52,35 @@
 					'city' => $row["LocationCity"],
 					'state' => $row["LocationState"],
 					'zip' => $row["LocationPostalCode"],
-					'country' => $row["LocationCountry"],));
+					'country' => $row["LocationCountry"]));
 			}
 			echo json_encode(array("talents" => $talents));
 		}else{
+			//set default project access as false
+			$access = "false";
+
 			$projects = array();
 			while($row = $res->fetch_assoc()) {
+				$talentAccess_sql = "";
+				/*DETERMINE WHETHER OR NOT THIS TALENT OR AGENCY HAS ACCESS TO THIS PROJECT*/
+				if($_SESSION["UserType"] == "talent"){
+					$talentAccess_sql = "SELECT * FROM `projectrequest` WHERE ((`ProjectRequestTalentId` = '{$_SESSION["Id"]}') AND (`ProjectRequestAcceptedStatus` = 1) AND (`ProjectRequestRecindedStatus` = 0))";
+					$talentAccess_res = $conn->query($talentAccess_sql);
+					$talentAccess = array();
+				}
 				
+
+				
+				if($_SESSION["UserType"] == "agency"){
+					if($_SESSION["Id"] == $row["ProjectAgencyId"]){
+						$access = "true";
+					}
+				}elseif(count($talentAccess_res->num_rows) > 1){
+					$access = "true";
+
+					echo $talentAccess_res->num_rows ;
+				}
+
 				array_push($projects, array('id' => $row["ProjectUniqueId"], 
 					'paid' => $row["ProjectAgencyId"],
 					'name' => $row["ProjectName"],
@@ -75,7 +97,8 @@
 					'state' => $row["ProjectLocationState"],
 					'zip' => $row["ProjectLocationPostalCode"],
 					'country' => $row["ProjectLocationCountry"],
-					'cost' => $row["ProjectTotalCost"]));
+					'cost' => $row["ProjectTotalCost"],
+					'access' => $access));
 			}
 			echo json_encode(array("projects" => $projects));
 		}

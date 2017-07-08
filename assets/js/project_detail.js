@@ -6,14 +6,14 @@ $(document).ready(function(){
 		}else{
 			$('.container #result-list').on('click', '.parProject .view', function(){
 
-				showProjectDetailButtons();
-				$('div#result-list').css('flex-wrap','nowrap');
-
 				var project = $(this);
-				if($(this).data('project-access') == true){//should be true
+				if(project.data('project-access') == true){
+					showProjectDetailButtons();
+					$('div#result-list').css('flex-wrap','nowrap');
 					//alert("You do have access to this project");
 					/*get Project Id to be used to build the project detail page*/
-					var id = $(this).parent().parent().attr('id');
+					var id = project.parent().parent().attr('id');
+					//alert(id);
 					$.ajax({
 						type:"GET",
 						url:"project_detail_request.php",
@@ -77,11 +77,65 @@ $(document).ready(function(){
 		});
 	});
 
+	/*ADD TASKS*/
+
 	/*VIEW PROJECT ONCLICK LISTENER*/
 	//send a get json to load the form fields
 
-	/*VIEW MILESTONE ONSUBMIT LISTENER*/
+	/*EDIT MILESTONE ONCLICK LISTENER*/
+	$('.container #result-list').on('click', '.editMilestone', function(){
+		/*GET THE ID OF THE MILESTONE*/
+		var id = $(this).parent().parent().data('milestone-id');
+		//alert(id);
+		/*SEND A GETJSON REQUEST TO GET ALL THE DETAILS OF THE MILESTONE*/
+		$.getJSON("project_detail_request.php", {'get_milestone':1, 'id': id},function(data){
+			/*POPULATE MILESTONE EDIT FORM WITH RETURNED VALUES*/
+			$('#edit-milestone-id').val(data.milestone[0].id);
+			$('#edit-milestone-name').val(data.milestone[0].name);
+			$('#edit-milestone-pos').val(data.milestone[0].pos);
+			$('#edit-milestone-startdate').val(data.milestone[0].start);
+			$('#edit-milestone-enddate').val(data.milestone[0].start);
+		});
+	});
+
 	//UPDATE MILESTONE ONSUBMIT LISTENER
+	$('#editMilestoneForm').on('submit', function(e){
+		e.preventDefault();
+		//alert("edit milestone form submitted");
+		/*GET VALUES FROM FORM FIELDS*/
+		var id = $('#edit-milestone-id').val();
+		var name = $('#edit-milestone-name').val();
+		var pos = $('#edit-milestone-pos').val();
+		var start = $('#edit-milestone-startdate').val();
+		var end = $('#edit-milestone-enddate').val();
+
+		/*SEND THOSE VALUES TO THE SERVER*/
+		$.ajax({
+			type:"POST",
+			url:"project_detail_request.php",
+			dataType: "json",
+			data:{
+				'edit_milestone':1,
+				'id':id,
+				'name':name,
+				'pos':pos,
+				'start':start,
+				'end':end
+			},
+			success:function(data){
+				/*CLOSE MODAL*/
+				$('#editMilestoneModal').removeClass('in');
+				$('.modal-backdrop').removeClass('in');
+				$('#editMilestoneModal').css('display','none');
+				$('.modal-backdrop').css('display','none');
+				/*RESET MILESTONES ON SCREEN*/
+				reloadProjectDetails(getCookie("ProjectId"));
+				/*LOAD kanban.js*/
+				$.getScript("assets/js/kanban.js");
+				//buildProjViewModal();
+			}
+		});
+	});
 
 });
 
@@ -89,21 +143,23 @@ function buildMilestones(milestone){
 	$.each(milestone, function(){
 		//alert("Got a Milestone: "+this.name);
 		$('div#result-list').append(
-			'<div class="panel panel-primary kanban-col" data-project-id="'+ this.projectid +'">' + 
-				'<div class="panel-heading">' + 
-					this.name + 
-					'<i class="fa fa-lg fa-pencil pull-right"></i>' + 
-				'</div>' + 
-				' <div class="panel-body" style="height:auto;">' + 
-					'<div id="' + this.id + '" class="kanban-centered">' + 
-						buildTasks(this.id, this.tasks) +
-					'</div>' + 
-				'</div>' + 
-				'<div class="panel-footer">' + 
-					'<a href="#">Add a task...</a>' + 
-				'</div>' + 
+			'<div class="panel panel-primary kanban-col" data-project-id="'+ this.projectid +'" data-milestone-id="' + this.id + '">' + 
+			'<div class="panel-heading">' + 
+			this.name + 
+			'<a href="#editMilestoneModal" class="editMilestone pull-right" data-toggle="modal"> ' + 
+			'<i class="fa fa-lg fa-pencil" style="color:#FFFFFF;"></i>' + 
+			'</a>' + 
+			'</div>' + 
+			' <div class="panel-body" style="height:auto;">' + 
+			'<div class="kanban-centered">' + 
+			buildTasks(this.id, this.tasks) + 
+			'</div>' + 
+			'</div>' + 
+			'<div class="panel-footer">' + 
+			'<a href="#newTaskModal" class="newTask" data-toggle="modal">Add a task...</a>' + 
+			'</div>' + 
 			'</div>'
-		);
+			);
 	});
 }
 
@@ -112,19 +168,19 @@ function buildTasks(milestoneId, tasks){
 	$.each(tasks, function(){
 		if(this.milestone == milestoneId){
 			taskCode += 
-			'<article class="kanban-entry" id="'+ this.id + '">' + 
-				'<div class="kanban-entry-inner">' + 
-					'<div class="kanban-label">' + 
-						'<h2><span style="color:black;">' + this.name + '</span></h2>' + 
-						'<p>' + 
-							truncate(this.desc, 197) + 
-							'<br>' + 
-								'<a href="#" style="text-decoration:underline;color:black;">Edit</a>' + 
-								'<span class="pull-right badge Public">' + this.completed + '</span>' +
-							'<br>' + 
-						'</p>' + 
-					'</div>' + 
-				'</div>' + 
+			'<article class="kanban-entry" data-task-id="'+ this.id + '">' + 
+			'<div class="kanban-entry-inner">' + 
+			'<div class="kanban-label">' + 
+			'<h2><span style="color:black;">' + this.name + '</span></h2>' + 
+			'<p>' + 
+			truncate(this.desc, 197) + 
+			'<br>' + 
+			'<a href="#" style="text-decoration:underline;color:black;">Edit</a>' + 
+			'<span class="pull-right badge Public">' + this.completed + '</span>' +
+			'<br>' + 
+			'</p>' + 
+			'</div>' + 
+			'</div>' + 
 			'</article>';
 		}		
 	});
@@ -145,8 +201,29 @@ function showProjectDetailButtons(){
 }
 
 function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires="+d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	var d = new Date();
+	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	var expires = "expires="+d.toUTCString();
+	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function reloadProjectDetails(id){
+	showProjectDetailButtons();
+	$('div#result-list').css('flex-wrap','nowrap');
+	$.ajax({
+		type:"GET",
+		url:"project_detail_request.php",
+		dataType: "json",
+		async: false,
+		data:{
+			'view_proj_detail':1, 
+			'id':id
+		},
+		success:function(data){
+			clearScreen();
+			/*BUILD MILESTONES*/
+			buildMilestones(data.milestone);
+			//buildProjViewModal();
+		}
+	});
 }

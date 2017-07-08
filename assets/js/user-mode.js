@@ -136,6 +136,8 @@ $(document).ready(function(){
 
 			toggleNewButton($(this).attr('id'));
 
+			closeNavDrawer();
+
 			//display all projects
 			$.getJSON("user_mode_request.php", {'view_proj':1},function(data){
 				clearScreen();
@@ -156,6 +158,8 @@ $(document).ready(function(){
 
 			toggleNewButton($(this).attr('id'));
 
+			closeNavDrawer();
+
 		}else if($(this).attr('id') == "menuAcc"){
 			//alert("clicked on Accomplishment");
 			$(this).addClass('active');
@@ -170,6 +174,8 @@ $(document).ready(function(){
 			$('div#result-list').css('flex-wrap','wrap');
 
 			toggleNewButton($(this).attr('id'));
+
+			closeNavDrawer();
 
 			//display all accomplishments
 			$.getJSON("user_mode_request.php", {'view_acc':1},function(data){
@@ -582,7 +588,7 @@ function newPAFormLayout(){
 		$('#newProject #project-completed-state').parent().remove();//Remove the readonly field that showed the active state
 		$('#newProject #project-active-state').parent().remove();//Remove the readonly field that showed the completion state
 
-		/*NEW ACCOMPLISHMENT SUBMIT EVENT*/
+		/*NEW PROJECT SUBMIT EVENT*/
 		$('#newProject').on('submit',function(e){newProject(e)});
 
 	}else if($('#editAccomplishment').length){
@@ -634,29 +640,34 @@ function loadUserForm(UserData){
 
 function displayProjects(dataArr){
 	$.each(dataArr.projects, function(){
-		if(this.paid == getCookie("UserId")){
+		if(this.paid == getCookie("UserId") && getCookie("UserType")  == "agency"){
 			ableToDelete = '<div class="toolbar"><a href="#project" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a></div>';
 			ableToEdit = '<a href="#newProjectModal" data-toggle="modal" class="edit" style="text-decoration:underline;">Edit</a>';
 		}else{
 			ableToDelete = '';
 			ableToEdit = '';
 		}
+
+		if(this.access == "false"){
+			//alert("You do not have access to: "+this.name);
+		}
+
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4 parProject" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 				ableToDelete + 
-					'<a href="#project" class="view"  data-project-access="true" style="height:inherit;">' + 
+					'<a href="#project" class="view"  data-project-access="' + this.access + '" style="height:inherit;">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">' + 
 							'<center><i class="fa fa-tasks" style="color:#16A085"></i></center>' + 
-						'</div>' + 
+						'</div>' +  
+					'</a>' + 
 						'<div class="wrimagecard-topimage_title">' + 
-							'<h4>' + this.name + 
+							'<h4>' + truncate(this.name, 22) + 
 							'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
 							ableToEdit + 
-						'</div>' + 
-					'</a>' + 
+						'</div>' +
 				'</div>' + 
 			'</div>'
 		);
@@ -665,7 +676,7 @@ function displayProjects(dataArr){
 
 function displayAccomplishments(dataArr){
 	$.each(dataArr.accomplishments, function(){
-		if(this.atid == getCookie("UserId")){
+		if(this.atid == getCookie("UserId") && getCookie("UserType") == "talent"){
 			ableToDelete = '<div class="toolbar"><a href="#accomplishment" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a></div>';
 			//ableToEdit = '<a href="' + this.url + '" class="edit" style="text-decoration:underline;">Edit</a>';
 			ableToEdit = '<a href="#newAccomplishmentModal" data-toggle="modal" class="edit" style="text-decoration:underline;">Edit</a>';
@@ -677,12 +688,12 @@ function displayAccomplishments(dataArr){
 			'<div class="col-md-3 col-sm-4 parAccomplishment" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 					ableToDelete + 
-					'<a href="#accomplishment" class="view" style="height:inherit;"">' + 
+					'<a href="#accomplishment" class="view" style="height:inherit;">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(250, 188, 9, 0.1)">' + 
 							'<center><i class="fa fa-trophy" style="color:#fabc09"> </i></center>' + 
 						'</div>' + 
 						'<div class="wrimagecard-topimage_title">' + 
-							'<h4>' + this.name + 
+							'<h4>' + truncate(this.name, 22) + 
 							'<div class="pull-right badge">' + this.type + '</div></h4>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
 							ableToEdit + 
@@ -704,7 +715,7 @@ function displayTalents(dataArr){
 							'<center><i class = "fa fa-user" style="color:#3369e8"></i></center>' + 
 						'</div>' + 
 						'<div class="wrimagecard-topimage_title">' + 
-							'<h4>' + this.fname + ' ' + this.lname + '</h4>' + 
+							'<h4>' + truncate(this.fname+" "+this.lname, 22) +'</h4>' + 
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
 							'<a href="#talent" class="projects" style="text-decoration:underline;">Projects</a>' + 
@@ -723,12 +734,12 @@ function displayAgencies(dataArr){
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4 parAgency" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
-					'<a href="#agency" class="view">' +
+					'<a href="#agency" class="view" style="height:inherit;">' +
 						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(213, 15, 37, 0.1);height:inherit;">' + 
 							'<center><i class="fa fa-building" style="color:#d50f25"> </i></center>' + 
 						'</div>' + 
 						'<div class="wrimagecard-topimage_title">' + 
-							'<h4>' + this.aname + 
+							'<h4>' + truncate(this.aname, 22) + 
 							'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
@@ -771,4 +782,8 @@ function getCookie(cname) {
 		}
 	}
 	return "";
+}
+
+function closeNavDrawer(){
+	$('#menu-button').trigger('click');
 }

@@ -12,6 +12,7 @@ $(document).ready(function(){
           //do something with the data via front-end framework
           removeCookie("UserType");
           removeCookie("UserId");
+          removeCookie("ProjectId");
           window.location = "index.php";
         }
       });

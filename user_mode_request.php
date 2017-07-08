@@ -86,7 +86,8 @@
 					'state' => $row["ProjectLocationState"],
 					'zip' => $row["ProjectLocationPostalCode"],
 					'country' => $row["ProjectLocationCountry"],
-					'cost' => $row["ProjectTotalCost"]));
+					'cost' => $row["ProjectTotalCost"],
+					'access' => "true"));
 			}
 			echo json_encode(array("success" => $newProject, "projects" => $project));
 		}

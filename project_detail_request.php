@@ -111,6 +111,42 @@
 			}
 			echo json_encode(array("milestone" => $milestone));
 		}
+	}/*GET MILESTONE INFO*/
+	elseif(isset($_GET["get_milestone"])){
+		/*MILESTONE INFO*/
+		$id_entry = $conn->real_escape_string($_GET['id']);
+
+		/*GET MILESTONE*/
+		$m_sql = "SELECT * FROM `milestone` WHERE (`MilestoneUniqueId` = '{$id_entry}')";
+		$milestone = array();
+		$m_res = $conn->query($m_sql);
+		while($m_row = $m_res->fetch_assoc()) {
+			array_push($milestone, array('id' => $m_row["MilestoneUniqueId"],
+				'projectid' => $m_row["MilestoneProjectId"],
+				'name' => $m_row["MilestoneName"],
+				'pos' => $m_row["MilestoneOrderPosition"],
+				'start' => $m_row["MilestoneStartDate"],
+				'end' => $m_row["MilestoneEndDate"]));
+		}
+		echo json_encode(array("milestone" => $milestone));
+	}/*UPDATE MILESTONE*/
+	elseif(isset($_POST["edit_milestone"])){
+		/*Get values from form*/
+		$id_entry = $conn->real_escape_string($_POST['id']);
+		$name_entry = $conn->real_escape_string($_POST['name']);
+		$start_entry = $conn->real_escape_string($_POST['start']);
+		$end_entry = $conn->real_escape_string($_POST['end']);
+		$pos_entry = $conn->real_escape_string($_POST['pos']);
+
+		$m_sql = "UPDATE `milestone` SET `MilestoneName` = '{$name_entry}', 
+			`MilestoneOrderPosition` = '{$pos_entry}', 
+			`MilestoneStartDate` = '{$start_entry}', 
+			`MilestoneEndDate` = '{$end_entry}'
+			WHERE `MilestoneUniqueId` = '{$id_entry}' LIMIT 1";
+		$milestone = array();
+		$m_res = $conn->query($m_sql);
+
+		echo $m_res;
 	}
 
 	$conn->close();
