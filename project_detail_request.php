@@ -147,6 +147,47 @@
 		$m_res = $conn->query($m_sql);
 
 		echo $m_res;
+	}/*GET TALENTS FOR NEW TASK*/
+	elseif(isset($_GET["get_task_talents"])){
+		/*Get values from form*/
+		$id_entry = $conn->real_escape_string($_GET['id']);
+
+		###################################
+		###################################
+		###CHANGE THE PR ACCEPTED STATUS###
+		###################################
+		###################################
+
+		$prt_sql = "SELECT `ProjectRequestTalentId` FROM `projectrequest` WHERE ((`ProjectRequestProjectId` = '{$id_entry}') AND (`ProjectRequestAcceptedStatus` = 1) AND (`ProjectRequestRecindedStatus` = 0))";
+		$taskTalents = array();
+		$prt_res = $conn->query($prt_sql);
+		while($prt_row = $prt_res->fetch_assoc()) {
+
+			$tt_sql = "SELECT `UniqueId`, `TalentFirstName`, `TalentLastName` FROM `talent` WHERE `UniqueId` = '{$prt_row["ProjectRequestTalentId"]}' LIMIT 1";
+			$tt_res = $conn->query($tt_sql);
+
+			while($tt_row = $tt_res->fetch_assoc()) {
+				array_push($taskTalents, array('id' => $tt_row["UniqueId"],
+					'fname' => $tt_row["TalentFirstName"],
+					'lname' => $tt_row["TalentLastName"]));
+			}
+			
+		}
+
+		echo json_encode(array("taskTalents" => $taskTalents));
+	}/*NEW TASK*/
+	elseif(isset($_POST["new_task"])){
+		/*Get values from form*/
+		$milestoneId_entry = $conn->real_escape_string($_POST['milestoneId']);
+		$name_entry = $conn->real_escape_string($_POST['name']);
+		$talentId_entry = $conn->real_escape_string($_POST['talentId']);
+		$amount_entry = $conn->real_escape_string($_POST['amount']);
+		$desc_entry = $conn->real_escape_string($_POST['desc']);
+		$completed_entry = $conn->real_escape_string($_POST['completed']);
+
+		$t_sql = "INSERT INTO `task` (`TaskMilestoneId`, `TaskAssignedTalentId`, `TaskName`, `TaskDescription`, `TaskFinalPayAmount`, `TaskCompletionState`) VALUES ('{$milestoneId_entry}', '{$talentId_entry}', '{$name_entry}', '{$desc_entry}', '{$amount_entry}', '{$completed_entry}')";
+		$newMilestone = $conn->query($t_sql);
+		echo $newMilestone;
 	}
 
 	$conn->close();

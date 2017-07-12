@@ -28,6 +28,9 @@
                         <article class="kanban-entry" id="item1">
                             <div class="kanban-entry-inner">
                                 <div class="kanban-label">
+                                    <div class="toolbar">
+                                        <a href="#accomplishment" class="pull-right tool delete" style="color: black;"><span class="glyphicon glyphicon-remove"></span></a>
+                                    </div>
                                     <h2><a href="#">Art Ramadani</a> <span>posted a status update</span></h2>
                                     <p>
                                         Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how cordial two promise. Greatly who affixed suppose but enquire compact prepare all put. Added forth chief trees but rooms think may.

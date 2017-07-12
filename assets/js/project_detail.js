@@ -78,6 +78,60 @@ $(document).ready(function(){
 	});
 
 	/*ADD TASKS*/
+	$('.container #result-list').on('click', 'a.newTask', function(){
+		//alert('new task button clicked');
+		/*GET TALENTS THAT HAVE ACCESS TO THIS PROJECT*/
+		var id = getCookie("ProjectId");
+		$('#task-milestone-id').val($(this).parent().parent().data('milestone-id'));
+		//alert(id);
+		$.getJSON("project_detail_request.php", {'get_task_talents':1, 'id': id},function(data){
+			$('#new-task-talent').empty();
+			$.each(data.taskTalents, function(){
+				$('#new-task-talent').append('<option value="'+this.id+'">'+this.fname+' '+this.lname+'</option>');
+			});
+		});
+	});
+
+	/*NEW TASK ONSUBMIT LISTENER*/
+	$('#newTaskForm').on('submit', function(e){
+		e.preventDefault();
+		/*GET VALUES FROM FORM*/
+		var milestoneId = $('#task-milestone-id').val();
+		var taskName = $('#new-task-name').val();
+		var assignedTalent = $('#new-task-talent').val();
+		var taskAmount = $('#new-task-amount').val();
+		var taskDescription = $('#new-task-desc').val();
+		var taskCompletionState = $('#new-task-completion').val();
+
+		$.ajax({
+			type:"POST",
+			url:"project_detail_request.php",
+			dataType: "json",
+			data:{
+				'new_task':1,
+				'milestoneId':milestoneId,
+				'name':taskName,
+				'talentId':assignedTalent,
+				'amount':assignedTalent,
+				'desc':taskDescription,
+				'completed':taskCompletionState
+			},
+			success:function(data){
+				//alert("Successful Task Posting");
+				/*CLOSE MODAL*/
+				$('#newTaskModal').removeClass('in');
+				$('.modal-backdrop').removeClass('in');
+				$('#newTaskModal').css('display','none');
+				$('.modal-backdrop').css('display','none');
+				/*RESET MILESTONES ON SCREEN*/
+				reloadProjectDetails(getCookie("ProjectId"));
+				/*LOAD kanban.js*/
+				$.getScript("assets/js/kanban.js");
+				//buildProjViewModal();
+			}
+		});
+	});
+
 
 	/*VIEW PROJECT ONCLICK LISTENER*/
 	//send a get json to load the form fields
@@ -144,20 +198,20 @@ function buildMilestones(milestone){
 		//alert("Got a Milestone: "+this.name);
 		$('div#result-list').append(
 			'<div class="panel panel-primary kanban-col" data-project-id="'+ this.projectid +'" data-milestone-id="' + this.id + '">' + 
-			'<div class="panel-heading">' + 
-			this.name + 
-			'<a href="#editMilestoneModal" class="editMilestone pull-right" data-toggle="modal"> ' + 
-			'<i class="fa fa-lg fa-pencil" style="color:#FFFFFF;"></i>' + 
-			'</a>' + 
-			'</div>' + 
-			' <div class="panel-body" style="height:auto;">' + 
-			'<div class="kanban-centered">' + 
-			buildTasks(this.id, this.tasks) + 
-			'</div>' + 
-			'</div>' + 
-			'<div class="panel-footer">' + 
-			'<a href="#newTaskModal" class="newTask" data-toggle="modal">Add a task...</a>' + 
-			'</div>' + 
+				'<div class="panel-heading">' + 
+					this.name + 
+					'<a href="#editMilestoneModal" class="editMilestone pull-right" data-toggle="modal"> ' + 
+						'<i class="fa fa-lg fa-pencil" style="color:#FFFFFF;"></i>' + 
+					'</a>' + 
+				'</div>' + 
+				'<div class="panel-body" style="height:auto;">' + 
+					'<div class="kanban-centered">' + 
+						buildTasks(this.id, this.tasks) + 
+					'</div>' + 
+				'</div>' + 
+				'<div class="panel-footer">' + 
+					'<a href="#newTaskModal" class="newTask" data-toggle="modal">Add a task...</a>' + 
+				'</div>' + 
 			'</div>'
 			);
 	});
@@ -168,19 +222,24 @@ function buildTasks(milestoneId, tasks){
 	$.each(tasks, function(){
 		if(this.milestone == milestoneId){
 			taskCode += 
-			'<article class="kanban-entry" data-task-id="'+ this.id + '">' + 
-			'<div class="kanban-entry-inner">' + 
-			'<div class="kanban-label">' + 
-			'<h2><span style="color:black;">' + this.name + '</span></h2>' + 
-			'<p>' + 
-			truncate(this.desc, 197) + 
-			'<br>' + 
-			'<a href="#" style="text-decoration:underline;color:black;">Edit</a>' + 
-			'<span class="pull-right badge Public">' + this.completed + '</span>' +
-			'<br>' + 
-			'</p>' + 
-			'</div>' + 
-			'</div>' + 
+			'<article class="kanban-entry" data-task-id="'+ this.id + '" data-milestone-id="' + this.milestone + '">' + 
+				'<div class="kanban-entry-inner">' + 
+					'<div class="kanban-label">' + 
+						'<div class="toolbar">' + 
+							'<a href="#accomplishment" class="pull-right tool delete" style="color: black;">' + 
+								'<span class="glyphicon glyphicon-remove"></span>' + 
+							'</a>' + 
+						'</div>' + 
+						'<h2><span style="color:black;">' + this.name + '</span></h2>' + 
+						'<p>' + 
+							truncate(this.desc, 197) + 
+							'<br>' + 
+								'<a href="#" style="text-decoration:underline;color:black;">Edit</a>' + 
+								'<span class="pull-right badge Public">' + this.completed + '</span>' +
+							'<br>' + 
+						'</p>' + 
+					'</div>' + 
+				'</div>' + 
 			'</article>';
 		}		
 	});
