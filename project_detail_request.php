@@ -177,6 +177,7 @@
 		echo json_encode(array("taskTalents" => $taskTalents));
 	}/*NEW TASK*/
 	elseif(isset($_POST["new_task"])){
+
 		/*Get values from form*/
 		$milestoneId_entry = $conn->real_escape_string($_POST['milestoneId']);
 		$name_entry = $conn->real_escape_string($_POST['name']);
@@ -184,10 +185,31 @@
 		$amount_entry = $conn->real_escape_string($_POST['amount']);
 		$desc_entry = $conn->real_escape_string($_POST['desc']);
 		$completed_entry = $conn->real_escape_string($_POST['completed']);
-
 		$t_sql = "INSERT INTO `task` (`TaskMilestoneId`, `TaskAssignedTalentId`, `TaskName`, `TaskDescription`, `TaskFinalPayAmount`, `TaskCompletionState`) VALUES ('{$milestoneId_entry}', '{$talentId_entry}', '{$name_entry}', '{$desc_entry}', '{$amount_entry}', '{$completed_entry}')";
-		$newMilestone = $conn->query($t_sql);
-		echo $newMilestone;
+		$newTask = $conn->query($t_sql);
+		if (!$newTask) {
+		   die($conn->error);
+		}else{
+			echo $newTask;
+		}
+	}/*GET TASK DETAILS*/
+	elseif(isset($_GET["edit_task"])){
+		/*Get Task Id*/
+		$id_entry = $conn->real_escape_string($_GET['id']);
+
+		$t_sql = "SELECT * FROM `task` WHERE `TaskUniqueId` = '{$id_entry}' LIMIT 1";
+		$task = array();
+		$t_res = $conn->query($t_sql);
+		while($t_row = $t_res->fetch_assoc()) {
+			array_push($task, array('id' => $t_row["TaskUniqueId"],
+				'milestone' => $t_row["TaskMilestoneId"],
+				'talent' => $t_row["TaskAssignedTalentId"],
+				'name' => $t_row["TaskName"],
+				'desc' => $t_row["TaskDescription"],
+				'amount' => $t_row["TaskFinalPayAmount"],
+				'completed' => $t_row["TaskCompletionState"]));
+		}
+		echo json_encode(array("task" => $task));
 	}
 
 	$conn->close();

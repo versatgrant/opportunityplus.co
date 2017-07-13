@@ -77,23 +77,17 @@ $(document).ready(function(){
 		});
 	});
 
-	/*ADD TASKS*/
+	/*NEW TASK ONCLICK LISTENER*/
 	$('.container #result-list').on('click', 'a.newTask', function(){
 		//alert('new task button clicked');
 		/*GET TALENTS THAT HAVE ACCESS TO THIS PROJECT*/
-		var id = getCookie("ProjectId");
-		$('#task-milestone-id').val($(this).parent().parent().data('milestone-id'));
-		//alert(id);
-		$.getJSON("project_detail_request.php", {'get_task_talents':1, 'id': id},function(data){
-			$('#new-task-talent').empty();
-			$.each(data.taskTalents, function(){
-				$('#new-task-talent').append('<option value="'+this.id+'">'+this.fname+' '+this.lname+'</option>');
-			});
-		});
+		/*PASS THIS TO A FUNCTION*/
+		getTaskTalent_new($(this));
 	});
 
 	/*NEW TASK ONSUBMIT LISTENER*/
 	$('#newTaskForm').on('submit', function(e){
+		//alert("");
 		e.preventDefault();
 		/*GET VALUES FROM FORM*/
 		var milestoneId = $('#task-milestone-id').val();
@@ -117,7 +111,6 @@ $(document).ready(function(){
 				'completed':taskCompletionState
 			},
 			success:function(data){
-				//alert("Successful Task Posting");
 				/*CLOSE MODAL*/
 				$('#newTaskModal').removeClass('in');
 				$('.modal-backdrop').removeClass('in');
@@ -132,6 +125,29 @@ $(document).ready(function(){
 		});
 	});
 
+	/*EDIT TASK ONCLICK LISTENER*/
+	$('.container #result-list').on('click', '.editTask', function(){
+		//alert("task edit button clicked");
+
+		getTaskTalent_edit($(this));
+
+		/*GET TASK ID*/
+		var id = $(this).parent().parent().parent().parent().data('task-id');
+
+		/*GET VALUES FROM DATABASE*/
+		$.getJSON("project_detail_request.php", {'edit_task':1, 'id': id},function(data){
+			/*PUSH VALUES INTO FORM*/
+			$('#edit-task-milestone-id').val(data.task[0].milestone);
+			$('#edit-task-name').val(data.task[0].name);
+			$('#edit-task-completion').val(data.task[0].completed);
+			$('#edit-task-talent').val(data.task[0].talent);
+			$('#edit-task-amount').val(data.task[0].amount);
+			$('#edit-task-desc').val(data.task[0].desc);
+		});
+
+	});
+
+	/*UPDATE TAKE ONSUBMIT LISTENER*/
 
 	/*VIEW PROJECT ONCLICK LISTENER*/
 	//send a get json to load the form fields
@@ -221,12 +237,20 @@ function buildTasks(milestoneId, tasks){
 	var taskCode = "";
 	$.each(tasks, function(){
 		if(this.milestone == milestoneId){
+
+			if(this.completed == 1){
+				var completed = "Completed";
+			}else{
+				var completed = "In-Progress";
+			}
+
+
 			taskCode += 
 			'<article class="kanban-entry" data-task-id="'+ this.id + '" data-milestone-id="' + this.milestone + '">' + 
 				'<div class="kanban-entry-inner">' + 
 					'<div class="kanban-label">' + 
 						'<div class="toolbar">' + 
-							'<a href="#accomplishment" class="pull-right tool delete" style="color: black;">' + 
+							'<a href="#task" class="pull-right tool delete" style="color: black;">' + 
 								'<span class="glyphicon glyphicon-remove"></span>' + 
 							'</a>' + 
 						'</div>' + 
@@ -234,8 +258,8 @@ function buildTasks(milestoneId, tasks){
 						'<p>' + 
 							truncate(this.desc, 197) + 
 							'<br>' + 
-								'<a href="#" style="text-decoration:underline;color:black;">Edit</a>' + 
-								'<span class="pull-right badge Public">' + this.completed + '</span>' +
+								'<a href="#editTaskModal" class="editTask" data-toggle="modal" style="text-decoration:underline;color:black;">Edit</a>' + 
+								'<span class="pull-right badge ' + completed + '">' + completed + '</span>' +
 							'<br>' + 
 						'</p>' + 
 					'</div>' + 
@@ -284,5 +308,31 @@ function reloadProjectDetails(id){
 			buildMilestones(data.milestone);
 			//buildProjViewModal();
 		}
+	});
+}
+
+function getTaskTalent_edit(thisOBJ){
+	var id = getCookie("ProjectId");
+	$('#edit-task-milestone-id').val(thisOBJ.parent().parent().parent().parent().parent().parent().parent().data('milestone-id'));
+	//alert(id);
+	$.getJSON("project_detail_request.php", {'get_task_talents':1, 'id': id},function(data){
+		$('#edit-task-talent').empty();
+		$.each(data.taskTalents, function(){
+			$('#edit-task-talent').append('<option value="'+this.id+'">'+this.fname+' '+this.lname+'</option>');
+		});
+
+		//FINISH EDITING THIS FUNCTION; IT SHOULD PULL ALL THE TALENTS THAT HAVE ACCESS TO thIS PROJECT AND SET THE TALENT THAT HAS ACCESS TO THIS TASK AS THE SELECTED TALENTS
+	});
+}
+
+function getTaskTalent_new(thisOBJ){
+	var id = getCookie("ProjectId");
+	$('#task-milestone-id').val(thisOBJ.parent().parent().data('milestone-id'));
+	//alert(id);
+	$.getJSON("project_detail_request.php", {'get_task_talents':1, 'id': id},function(data){
+		$('#new-task-talent').empty();
+		$.each(data.taskTalents, function(){
+			$('#new-task-talent').append('<option value="'+this.id+'">'+this.fname+' '+this.lname+'</option>');
+		});
 	});
 }

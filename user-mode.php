@@ -529,7 +529,7 @@
 		<div class="modal-dialog">
 			<div class="loginmodal-container">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h1 id="milestoneLabel">Add A New Milestone</h1>
+				<h1 id="editMilestoneLabel">Add A New Milestone</h1>
 				<form id="newMilestoneForm" name="newMilestone">
 
 		            <!--MILESTONE NAME-->
@@ -568,7 +568,7 @@
 		<div class="modal-dialog">
 			<div class="loginmodal-container">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h1 id="taskLabel">Add A New Task</h1>
+				<h1 id="newTaskLabel">Add A New Task</h1>
 				<form id="newTaskForm" name="newTask">
 
 					<!--PARENT MILESTONE ID FOR THIS TASK-->
@@ -620,7 +620,7 @@
 		<div class="modal-dialog">
 			<div class="loginmodal-container">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h1 id="milestoneLabel">Edit This Milestone</h1>
+				<h1 id="editMilestoneLabel">Edit This Milestone</h1>
 				<form id="editMilestoneForm" name="editMilestone">
 
 					<!--MILESTONE ID-->
@@ -651,6 +651,60 @@
 
 					<!--SUBMIT-->
 					<input type="submit" name="editMilestone-submit" id="submit-editmilestone" class="login loginmodal-submit" value="Edit Milestone"/>
+				</form>
+				<div class="login-help pull-right">
+					<a href="#">Delete This Milestone?</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--EDIT TASK FORM-->
+	<div class="modal fade" id="editTaskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="loginmodal-container">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h1 id="editTaskLabel">Edit This Task</h1>
+				<form id="editTaskForm" name="editTask">
+
+					<!--PARENT MILESTONE ID FOR THIS TASK-->
+					<input id="edit-task-milestone-id" type="hidden" name="milestoneId"/>
+
+		            <!--TASK NAME-->
+					<div class="col-md-7 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Task Name *</label>
+						<input id="edit-task-name" type="text" name="taskName" placeholder="Task Name *" title="Task name" required/>
+					</div>
+
+					<!--TASK COMPLETION STATE -->
+					<div class="col-md-5 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Completion State *</label>
+						<select name="task-completion-state" id="edit-task-completion" required>
+							<option value=0>In-Progress</option>
+							<option value=1>Completed</option>
+						</select>
+					</div>
+
+					<!--TASK ASSIGNED TALENT-->
+					<div class="col-md-8 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Assigned Talent *:</label>
+						<select name="task-talent" id="edit-task-talent" required></select>
+					</div>
+
+					<!--TASK PAYMENT AMOUNT-->
+					<div class="col-md-4 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Payment Amount *:</label>
+						<input id="edit-task-amount" type="text" name="taskAmount" placeholder="$$$ *" title="Payment Amount" required/>
+					</div>
+
+					<!--TASK DESCRIPTION-->
+					<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Description:</label>
+						<textarea id="edit-task-desc" name="Description" title="Task Description" maxlength="2000"></textarea>
+					</div>
+
+					<!--SUBMIT-->
+					<input type="submit" name="newTask-submit" id="submit-newtask" class="login loginmodal-submit" value="Edit Task"/>
 				</form>
 				<div id="login-err-msg" style="color:red;text-align: center;"></div>
 			</div>

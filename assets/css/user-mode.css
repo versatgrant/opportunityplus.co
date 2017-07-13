@@ -42,6 +42,10 @@ body {
 .Public{
     background-color:#16A085;
 }
+
+.Completed{
+    background-color:#16A085;
+}
 .Private{
     background-color:#d50f25;
 }
