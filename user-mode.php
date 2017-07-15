@@ -667,6 +667,9 @@
 				<h1 id="editTaskLabel">Edit This Task</h1>
 				<form id="editTaskForm" name="editTask">
 
+					<!--THIS TASK'S ID-->
+					<input id="edit-task-id" type="hidden" name="taskId"/>
+
 					<!--PARENT MILESTONE ID FOR THIS TASK-->
 					<input id="edit-task-milestone-id" type="hidden" name="milestoneId"/>
 

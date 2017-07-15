@@ -210,6 +210,26 @@
 				'completed' => $t_row["TaskCompletionState"]));
 		}
 		echo json_encode(array("task" => $task));
+	}/*UPDATE TASKS*/
+	elseif(isset($_POST["update_task"])){
+		/*Get values from form*/
+		$id_entry = $conn->real_escape_string($_POST['id']);
+		$name_entry = $conn->real_escape_string($_POST['name']);
+		$completed_entry = $conn->real_escape_string($_POST['completed']);
+		$talent_entry = $conn->real_escape_string($_POST['talent']);
+		$amount_entry = $conn->real_escape_string($_POST['amount']);
+		$desc_entry = $conn->real_escape_string($_POST['desc']);
+
+		$t_sql = "UPDATE `task` SET `TaskName` = '{$name_entry}', 
+			`TaskDescription` = '{$desc_entry}',
+			`TaskAssignedTalentId` = '{$talent_entry}', 
+			`TaskFinalPayAmount` = '{$amount_entry}', 
+			`TaskCompletionState` = '{$completed_entry}'
+			WHERE `TaskUniqueId` = '{$id_entry}' LIMIT 1";
+
+			$t_res = $conn->query($t_sql);
+
+			echo $t_res;
 	}
 
 	$conn->close();

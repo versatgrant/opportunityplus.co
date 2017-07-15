@@ -133,6 +133,7 @@ $(document).ready(function(){
 
 		/*GET TASK ID*/
 		var id = $(this).parent().parent().parent().parent().data('task-id');
+		$('#edit-task-id').val(id);
 
 		/*GET VALUES FROM DATABASE*/
 		$.getJSON("project_detail_request.php", {'edit_task':1, 'id': id},function(data){
@@ -147,7 +148,44 @@ $(document).ready(function(){
 
 	});
 
-	/*UPDATE TAKE ONSUBMIT LISTENER*/
+	/*UPDATE TASK ONSUBMIT LISTENER*/
+	$('#editTaskForm').on('submit', function(e){
+		e.preventDefault();
+		/*GET FORM VALUES*/
+		var id = $('#edit-task-id').val();
+		var name = $('#edit-task-name').val();
+		var completed = $('#edit-task-completion').val();
+		var talent = $('#edit-task-talent').val();
+		var amount = $('#edit-task-amount').val();
+		var desc = $('#edit-task-desc').val();
+
+		$.ajax({
+			type:"POST",
+			url:"project_detail_request.php",
+			dataType: "json",
+			data:{
+				'update_task':1,
+				'id':id,
+				'name':name,
+				'completed':completed,
+				'talent':talent,
+				'amount':amount,
+				'desc':desc
+			},
+			success:function(data){
+				/*CLOSE MODAL*/
+				$('#editTaskModal').removeClass('in');
+				$('.modal-backdrop').removeClass('in');
+				$('#editTaskModal').css('display','none');
+				$('.modal-backdrop').css('display','none');
+				/*RESET MILESTONES ON SCREEN*/
+				reloadProjectDetails(getCookie("ProjectId"));
+				/*LOAD kanban.js*/
+				$.getScript("assets/js/kanban.js");
+				//buildProjViewModal();
+			}
+		});
+	});
 
 	/*VIEW PROJECT ONCLICK LISTENER*/
 	//send a get json to load the form fields
