@@ -243,33 +243,37 @@ $(document).ready(function(){
 
 	/*DELETE PROJECT|ACCOMPLISHMENT*/
 	$('.container #result-list').on('click', '.delete', function(){
-		/**Pull values from form*/
-		var table = parseHref($(this).attr('href'));
-		var row = $(this).parent().parent().parent().attr('id');
-		$.ajax({
-			type: 'POST',
-			url: 'user_mode_request.php',
-			data: {
-				'del_pa': 1,
-				'table': table,
-				'id': row
-			},
-			success: function(data){
-				if(data == "Deleted"){
-					if(table == "project"){
-						window.location = "user-mode.php";
-					}else{
-						$.getJSON("user_mode_request.php", {'view_acc':1},function(data){
-							clearScreen();
-							displayAccomplishments(data);
-						});
+		/*ARE YOU SURE*/
+		var del = confirm("Are you sure?");
+		if(del){
+			/**Pull values from form*/
+			var table = parseHref($(this).attr('href'));
+			var row = $(this).parent().parent().parent().attr('id');
+			$.ajax({
+				type: 'POST',
+				url: 'user_mode_request.php',
+				data: {
+					'del_pa': 1,
+					'table': table,
+					'id': row
+				},
+				success: function(data){
+					if(data == "Deleted"){
+						if(table == "project"){
+							window.location = "user-mode.php";
+						}else{
+							$.getJSON("user_mode_request.php", {'view_acc':1},function(data){
+								clearScreen();
+								displayAccomplishments(data);
+							});
+						}
+						
+					}else if(data == "Error"){
+						alert("Someone has access to this project. You must recind access before this project can be deleted.");
 					}
-					
-				}else if(data == "Error"){
-					alert("Someone has access to this project. You must recind access before this project can be deleted.");
-				}
-		    }
-		});
+			    }
+			});
+		}
 	});
 
 	/*EDIT PROJECT|ACCOMPLISHMENT*/

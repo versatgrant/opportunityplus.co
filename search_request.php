@@ -56,11 +56,10 @@
 			}
 			echo json_encode(array("talents" => $talents));
 		}else{
-			//set default project access as false
-			$access = "false";
-
 			$projects = array();
 			while($row = $res->fetch_assoc()) {
+				//set default project access as false
+				$access = "false";
 				$talentAccess_sql = "";
 				/*DETERMINE WHETHER OR NOT THIS TALENT OR AGENCY HAS ACCESS TO THIS PROJECT*/
 				if($_SESSION["UserType"] == "talent"){
@@ -78,7 +77,7 @@
 				}elseif(count($talentAccess_res->num_rows) > 1){
 					$access = "true";
 
-					echo $talentAccess_res->num_rows ;
+					//echo $talentAccess_res->num_rows ;
 				}
 
 				array_push($projects, array('id' => $row["ProjectUniqueId"], 
