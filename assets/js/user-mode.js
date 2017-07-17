@@ -241,6 +241,22 @@ $(document).ready(function(){
 		});
 	});
 
+	/*SEND PROJECT REQUEST*/
+	$('.container #result-list').on('click', '.projreq', function(){
+		$.ajax({
+				type: 'POST',
+				url: 'user_mode_request.php',
+				data: {
+					'proj_req': 1,
+					'talent': getCookie("UserId"),
+					'sender': 'Talent'
+				},
+				success: function(data){
+
+			    }
+			});
+	});
+
 	/*DELETE PROJECT|ACCOMPLISHMENT*/
 	$('.container #result-list').on('click', '.delete', function(){
 		/*ARE YOU SURE*/
@@ -647,17 +663,24 @@ function displayProjects(dataArr){
 		if(this.paid == getCookie("UserId") && getCookie("UserType")  == "agency"){
 			ableToDelete = '<div class="toolbar"><a href="#project" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a></div>';
 			ableToEdit = '<a href="#newProjectModal" data-toggle="modal" class="edit" style="text-decoration:underline;">Edit</a>';
+			projReq = '';
 		}else{
 			ableToDelete = '';
 			ableToEdit = '';
+		}
+
+		if(getCookie("UserType")  == "talent"){
+				projReq = '<a href="#projectRequest" class="projreq" style="text-decoration:underline;">Project Request</a>';
 		}
 
 		if(this.access == "false"){
 			//alert("You do not have access to: "+this.name);
 		}
 
+		var _ = '#'+this.id;
+
 		$('div#result-list').append(
-			'<div class="col-md-3 col-sm-4 parProject" id="' + this.id +'">' + 
+			'<div class="col-md-3 col-sm-4 parProject" id="' + this.id +'" style="min-width:250px;max-width:350px;">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 				ableToDelete + 
 					'<a href="#project" class="view"  data-project-access="' + this.access + '" style="height:inherit;">' + 
@@ -671,10 +694,13 @@ function displayProjects(dataArr){
 							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
 							ableToEdit + 
+							projReq + 
 						'</div>' +
 				'</div>' + 
 			'</div>'
 		);
+		$(_).css('height', $(_).children().first().css('height'));
+		$(_).css('margin-bottom', '15px');
 	});
 }
 

@@ -356,7 +356,7 @@
 		WHERE `ProjectUniqueId` = '{$id_entry}'";
 
 		$conn->query($sql);	
-	}//Update Accomplishments
+	}//UPDATE ACCOMPLISHMENTS
 	elseif(isset($_POST['update_acc'])){
 		//Get input from form
 		$id_entry = $conn->real_escape_string($_POST['id']);
@@ -380,6 +380,9 @@
 		WHERE `AccomplishmentUniqueId` = '{$id_entry}'";
 
 		$conn->query($sql);	
+	}//NEW PROJECT REQUESTS
+	elseif(isset($_POST['proj_req'])){
+
 	}
 
 

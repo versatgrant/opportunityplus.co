@@ -76,8 +76,6 @@
 					}
 				}elseif(count($talentAccess_res->num_rows) > 1){
 					$access = "true";
-
-					//echo $talentAccess_res->num_rows ;
 				}
 
 				array_push($projects, array('id' => $row["ProjectUniqueId"], 

@@ -230,7 +230,7 @@ $(document).ready(function(){
 		/*SEND A GETJSON REQUEST TO GET ALL THE DETAILS OF THE MILESTONE*/
 		$.getJSON("project_detail_request.php", {'get_milestone':1, 'id': id},function(data){
 			/*POPULATE MILESTONE EDIT FORM WITH RETURNED VALUES*/
-			$('#edit-milestone-id').val(data.project[0].id);
+			$('#edit-milestone-id').val(data.milestone[0].id);
 			$('#edit-milestone-name').val(data.milestone[0].name);
 			$('#edit-milestone-pos').val(data.milestone[0].pos);
 			$('#edit-milestone-startdate').val(data.milestone[0].start);
