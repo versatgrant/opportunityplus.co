@@ -187,8 +187,40 @@ $(document).ready(function(){
 		});
 	});
 
-	/*VIEW PROJECT ONCLICK LISTENER*/
-	//send a get json to load the form fields
+	/*VIEW PROJECT DETAILS ONCLICK LISTENER*/
+	$('#viewProjDetails').on('click', function(){
+		//send a get json to load the form fields
+		var id = getCookie("ProjectId");
+		$.getJSON("project_detail_request.php", {'get_proj_details':1, 'id': id},function(data){
+			/*POPULATE PROJECT VIEW FORM WITH RETURNED VALUES*/
+			if(data.project[0].privacy == "Private"){
+				$('#view-project-myonoffswitch').prop('checked', false);
+			}else if(data.project[0].privacy == "Public"){
+				$('#view-project-myonoffswitch').prop('checked', true);
+			}
+			$('#view-project-name').val(data.project[0].name);
+			$('#view-project-startdate').val(data.project[0].start);
+			$('#view-project-enddate').val(data.project[0].end);
+
+			$('#view-project-location-sensitive').empty();
+			$('#view-project-location-sensitive').append('<option value="'+ data.project[0].zone +'">' + data.project[0].zone + '</option>');
+			$('#view-project-location-sensitive').val(data.project[0].zone);
+			$('#view-project-street').val(data.project[0].street);
+			$('#view-project-city').val(data.project[0].city);
+
+			$('#view-project-state').empty();
+			$('#view-project-state').append('<option value="'+ data.project[0].state +'">' + data.project[0].state + '</option>');
+			$('#view-project-state').val(data.project[0].state);
+
+			$('#view-project-zip').val(data.project[0].zip);
+			$('#view-project-country').val(data.project[0].country);
+			$('#view-project-desc').val(data.project[0].desc);
+			$('#view-project-cost').val(data.project[0].cost);
+
+
+		});
+	});
+	
 
 	/*EDIT MILESTONE ONCLICK LISTENER*/
 	$('.container #result-list').on('click', '.editMilestone', function(){
@@ -198,7 +230,7 @@ $(document).ready(function(){
 		/*SEND A GETJSON REQUEST TO GET ALL THE DETAILS OF THE MILESTONE*/
 		$.getJSON("project_detail_request.php", {'get_milestone':1, 'id': id},function(data){
 			/*POPULATE MILESTONE EDIT FORM WITH RETURNED VALUES*/
-			$('#edit-milestone-id').val(data.milestone[0].id);
+			$('#edit-milestone-id').val(data.project[0].id);
 			$('#edit-milestone-name').val(data.milestone[0].name);
 			$('#edit-milestone-pos').val(data.milestone[0].pos);
 			$('#edit-milestone-startdate').val(data.milestone[0].start);

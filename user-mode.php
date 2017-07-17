@@ -17,7 +17,7 @@
 	</button>
 	<a id="newMilestone" href="#newMilestoneModal" data-toggle="modal"><button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:fixed;top: 45px;right:10px; display: block;"><i class="glyphicon glyphicon-plus"></i></button></a>
 	</button>
-	<a id="viewProjDetails" href="#ProjectDetailsModal" data-toggle="modal"><button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:absolute;top: 80px;right:10px; display: block;"><i class="glyphicon glyphicon-eye-open"></i></button></a>
+	<a id="viewProjDetails" href="#projectDetailModal" data-toggle="modal"><button type="button" class="btn btn-primary btn-sm btn-circle pull-right" style="z-index: 500;position:absolute;top: 80px;right:10px; display: block;"><i class="glyphicon glyphicon-eye-open"></i></button></a>
 
 	<!-- MENU DRAWER -->
 	<div id="drawerExample" class="dw-xs-10 dw-sm-6 dw-md-4 fold" aria-labelledby="drawerExample" style="position:fixed;z-index: 500;height: 100%">
@@ -708,6 +708,93 @@
 
 					<!--SUBMIT-->
 					<input type="submit" name="newTask-submit" id="submit-newtask" class="login loginmodal-submit" value="Edit Task"/>
+				</form>
+				<div id="login-err-msg" style="color:red;text-align: center;"></div>
+			</div>
+		</div>
+	</div>
+
+	<!--PROJECT DETAILS FORM-->
+	<div class="modal fade" id="projectDetailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="loginmodal-container">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h1 id="projectDetailLabel">Project Details</h1>
+				<form id="viewProjectDetail" name="viewProjectDetail">
+					<!--PROJECT PRIVACY STATE-->
+					<div class="onoffswitch" style="margin:auto;">
+					    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="view-project-myonoffswitch" readonly="">
+					    <label class="onoffswitch-label" for="myonoffswitch">
+					        <span class="onoffswitch-inner"></span>
+					        <span class="onoffswitch-switch"></span>
+					    </label>
+					</div>
+
+		            <!--PROJECT NAME-->
+					<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Project Name: *</label>
+						<input id="view-project-name" type="text" style="background:#F1F3FA;" name="projectName" title="Project Name" readonly/>
+					</div>
+
+					<!--START/END DATES-->
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Start Date: *</label>
+						<input id="view-project-startdate" type="date" style="background:#F1F3FA;" name="projectStartDate" placeholder="MM/DD/YYYY" title="Start Date" readonly/>
+					</div>
+
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>End Date:</label>
+						<input id="view-project-enddate" type="date" style="background:#F1F3FA;" name="projectEndDate" placeholder="MM/DD/YYYY" title="End Date" readonly/>
+					</div>
+
+					<!--LOCATION SENSITIVITY-->
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Location Sensitivty:</label>
+						<select name="location-sensitive" style="background:#F1F3FA;" id="view-project-location-sensitive" disabled>
+							<option value="None" selected="selected">None</option>
+						</select>
+					</div>
+
+					<!--ADDRESS-->
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+					<label>Street:</label>
+						<input id="view-project-street" type="text" style="background:#F1F3FA;" name="street" readonly/>			
+					</div>
+
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>City:</label>
+						<input id="view-project-city" type="text" style="background:#F1F3FA;" name="city" readonly/>
+					</div>
+
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>State:</label>
+						<select name="state" id="view-project-state" style="background:#F1F3FA;" disabled>
+						  <option value="" selected="selected">Select a State</option>
+						</select>
+					</div>
+
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Zip/Postal Code:</label>
+						<input id="view-project-zip" type="text" style="background:#F1F3FA;" name="zip" pattern="[0-9]{5}" title="Five digit zip code" readonly/>
+					</div>
+
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Country:</label>
+						<input id="view-project-country" type="text" style="background:#F1F3FA;" name="country" readonly/>
+					</div>
+
+					<!--PROJECT DESCRIPTION-->
+					<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Project Description:</label>
+						<textarea id="view-project-desc" style="background:#F1F3FA;" name="projectDescription" title="Project Description" maxlength="2000" readonly></textarea>
+					</div>
+
+					<!--PROJECT DESCRIPTION-->
+					<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<label>Total Cost:</label>
+						<input id="view-project-cost" type="text" style="background:#F1F3FA;" name="cost" readonly/>
+					</div>
+
 				</form>
 				<div id="login-err-msg" style="color:red;text-align: center;"></div>
 			</div>

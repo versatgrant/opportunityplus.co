@@ -230,6 +230,34 @@
 			$t_res = $conn->query($t_sql);
 
 			echo $t_res;
+	}/*GET PROJECT DETAILS*/
+	elseif(isset($_GET["get_proj_details"])){
+		/*Get Project Id*/
+		$id_entry = $conn->real_escape_string($_GET['id']);
+
+		$p_sql = "SELECT * FROM `project` WHERE `ProjectUniqueId` = '{$id_entry}' LIMIT 1";
+		$project = array();
+		$p_res = $conn->query($p_sql);
+		while($row = $p_res->fetch_assoc()) {
+			array_push($project, array('id' => $row["ProjectUniqueId"],
+				'paid' => $row["ProjectAgencyId"], 
+				'name' => $row["ProjectName"],
+				'active' => $row["ProjectActiveState"],
+				'complete' => $row["ProjectCompletionState"],
+				'privacy' => $row["ProjectPrivacyState"],
+				'zone' => $row["ProjectLocationSensitive"],
+				'desc' => $row["ProjectDescription"],
+				'start' => $row["ProjectStartDate"],
+				'end' => $row["ProjectEndDate"],
+				'street' => $row["ProjectLocationStreet"],
+				'city' => $row["ProjectLocationCity"],
+				'state' => $row["ProjectLocationState"],
+				'zip' => $row["ProjectLocationPostalCode"],
+				'country' => $row["ProjectLocationCountry"],
+				'cost' => $row["ProjectTotalCost"]));
+		}
+		echo json_encode(array("project" => $project));
+
 	}
 
 	$conn->close();
