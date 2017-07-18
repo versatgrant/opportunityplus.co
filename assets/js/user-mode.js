@@ -249,7 +249,8 @@ $(document).ready(function(){
 				data: {
 					'proj_req': 1,
 					'talent': getCookie("UserId"),
-					'sender': 'Talent'
+					'sender': 'Talent',
+					'project':$(this).parent().parent().parent().attr('id')
 				},
 				success: function(data){
 
@@ -680,7 +681,7 @@ function displayProjects(dataArr){
 		var _ = '#'+this.id;
 
 		$('div#result-list').append(
-			'<div class="col-md-3 col-sm-4 parProject" id="' + this.id +'" style="min-width:250px;max-width:350px;">' + 
+			'<div class="col-md-3 col-sm-4 parProject" id="' + this.id +'" style="min-width:250px;">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 				ableToDelete + 
 					'<a href="#project" class="view"  data-project-access="' + this.access + '" style="height:inherit;">' + 

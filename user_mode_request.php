@@ -382,6 +382,29 @@
 		$conn->query($sql);	
 	}//NEW PROJECT REQUESTS
 	elseif(isset($_POST['proj_req'])){
+		/*GET PROJREQ DETAILS*/
+		$talent_entry = $conn->real_escape_string($_POST['talent']);
+		$sender_entry = $conn->real_escape_string($_POST['sender']);
+		$project_entry = $conn->real_escape_string($_POST['project']);
+
+		/*GET AGENCY DETAILS*/
+		$praid_sql = "SELECT `ProjectAgencyId` FROM `project` WHERE `ProjectUniqueId` = '{$project_entry}' LIMIT 1";
+		$praid_res = $conn->query($praid_sql);
+		while($praid_row = $praid_res->fetch_assoc()){
+
+			/*INSERT PROJECT REQUEST*/
+			$projreq_sql = "INSERT INTO `projectrequest` (`ProjectRequestProjectId`, `ProjectRequestTalentId`, `ProjectRequestAgencyId`, `ProjectRequestSender`, `ProjectRequestAcceptedStatus`, `ProjectRequestRecindedStatus`) VALUES ('{$project_entry}', '{$talent_entry}', '{$praid_row["ProjectAgencyId"]}', '{$sender_entry}', 1, 0)";
+
+			$projreq_res = $conn->query($projreq_sql);
+			if (!$projreq_res) {
+			   die($conn->error);
+			}else{
+				echo $projreq_res;
+			}
+
+			$pra_sql = "SELECT `AgencyCorporateName` FROM `agency` WHERE `UniqueId` = '{$praid_row["ProjectAgencyId"]}'";
+
+		}
 
 	}
 
