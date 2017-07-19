@@ -37,16 +37,15 @@ $(document).ready(function(e){
 			success: function(data){
 		        	//do something with the data via front-end framework
 		        	if(data.error == "No Results"){
-		        		$('ul#result-list').empty();
-		        		$('ul#result-list').append("<li>" + data.error + "</li>");
+		        		clearScreen(data, "No Results");
 		        	}else if(table == "talent"){
-		        		clearScreen();
+		        		clearScreen(data, "Talents");
 		        		displayTalents(data);
 		        	}else if(table == "agency"){
-		        		clearScreen();
+		        		clearScreen(data, "Agencies");
 		        		displayAgencies(data);
 		        	}else if(table == "project"){
-		        		clearScreen();
+		        		clearScreen(data, "Projects");
 		        		displayProjects(data);
 		        	}
 		        }

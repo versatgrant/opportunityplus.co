@@ -25,7 +25,7 @@ $(document).ready(function(){
 						},
 						success:function(data){
 							setCookie("ProjectId", data.project[0].id, 10);
-							clearScreen();
+							clearScreen(data, "Milestone");
 							/*BUILD MILESTONES*/
 							buildMilestones(data.milestone);
 							//buildProjViewModal();
@@ -68,6 +68,8 @@ $(document).ready(function(){
 				$('.modal-backdrop').removeClass('in');
 				$('#newMilestoneModal').css('display','none');
 				$('.modal-backdrop').css('display','none');
+				/*REMOVE NO MILESTONES LABEL OF THERE*/
+				$('noContent').toggle(false);;
 				/*ADD MILESTONE TO SCREEN*/
 				buildMilestones(data.milestone);
 				/*load kanban.js*/
@@ -373,7 +375,7 @@ function reloadProjectDetails(id){
 			'id':id
 		},
 		success:function(data){
-			clearScreen();
+			clearScreen(data, "Miletsone");
 			/*BUILD MILESTONES*/
 			buildMilestones(data.milestone);
 			//buildProjViewModal();

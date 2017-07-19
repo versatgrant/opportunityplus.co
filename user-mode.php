@@ -168,10 +168,6 @@
 		</div>
 	</div>
 
-	<!--NO CONTENT DIV-->
-	<div align="center" id="noContent" style="text-align: center;">
-		<h1 style="font-size: 30px;font-weight: bold;color: #FFFFFF">No Content</h1>
-	</div>
 
 	<!--NEW PROJECT FORM-->
 	<div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -804,6 +800,11 @@
 				<div id="login-err-msg" style="color:red;text-align: center;"></div>
 			</div>
 		</div>
+	</div>
+
+	<!--NO CONTENT DIV-->
+	<div align="center" id="noContent" style="text-align: center;position: absolute;width:100%;margin: auto;">
+		<h1 id="noContentHeader" style="font-size: 100px;font-weight: bold;color: #FFFFFF; text-shadow: 2px 2px #333333;">No Projects</h1>
 	</div>
 	
 </body>

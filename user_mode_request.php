@@ -99,7 +99,7 @@
 		$id_entry = $conn->real_escape_string($_POST['id']);
 		//Delete component from Database
 		if($table_entry == 'project'){
-			$sql = "DELETE FROM `projectrequest` WHERE (`ProjectRequestProjectId` = '{$id_entry}' AND (`ProjectRequestAcceptedStatus` = 0 OR `ProjectRequestRecindedStatus` = 1))";
+			$sql = "DELETE FROM `projectrequest` WHERE (`ProjectRequestProjectId` = '{$id_entry}' AND (`ProjectRequestAcceptedStatus` = 'Sent' OR `ProjectRequestAcceptedStatus` = 'Rejected' OR `ProjectRequestRecindedStatus` = 1))";
 			$conn->query($sql);
 			$sql = "DELETE FROM `project` WHERE `ProjectUniqueId` = '{$id_entry}'";
 		}else{
@@ -143,7 +143,7 @@
 			
 		}else{
 			//if they're a Talent, check the project request table for projects they have access to 
-			$p_sql = "SELECT * FROM `project` WHERE `ProjectUniqueId` IN (SELECT `ProjectRequestProjectId` FROM `projectrequest` WHERE (`ProjectRequestTalentId` = '{$_SESSION["Id"]}' AND `ProjectRequestAcceptedStatus` = TRUE AND `ProjectRequestRecindedStatus` = FALSE)) LIMIT 50";
+			$p_sql = "SELECT * FROM `project` WHERE `ProjectUniqueId` IN (SELECT `ProjectRequestProjectId` FROM `projectrequest` WHERE (`ProjectRequestTalentId` = '{$_SESSION["Id"]}' AND `ProjectRequestAcceptedStatus` = 'Accepted' AND `ProjectRequestRecindedStatus` = 0)) LIMIT 50";
 			//Get the First & Last name of that Talent
 			$u_sql = "SELECT * FROM `talent` WHERE `UniqueId` = '{$_SESSION["Id"]}' LIMIT 1";
 

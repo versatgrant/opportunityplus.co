@@ -104,7 +104,7 @@ $(document).ready(function(){
 			}
 
 			/*LOAD PROJECTS ONTO PAGE*/
-			clearScreen();
+			clearScreen(data, "Project");
 			displayProjects(data);
 		}
 	});
@@ -140,7 +140,7 @@ $(document).ready(function(){
 
 			//display all projects
 			$.getJSON("user_mode_request.php", {'view_proj':1},function(data){
-				clearScreen();
+				clearScreen(data, "Project");
 				displayProjects(data);
 			});
 
@@ -179,7 +179,7 @@ $(document).ready(function(){
 
 			//display all accomplishments
 			$.getJSON("user_mode_request.php", {'view_acc':1},function(data){
-				clearScreen();
+				clearScreen(data, "Accomplishment");
 				displayAccomplishments(data);
 			});
 		} 
@@ -253,7 +253,7 @@ $(document).ready(function(){
 					'project':$(this).parent().parent().parent().attr('id')
 				},
 				success: function(data){
-
+					location.reload();
 			    }
 			});
 	});
@@ -280,7 +280,7 @@ $(document).ready(function(){
 							window.location = "user-mode.php";
 						}else{
 							$.getJSON("user_mode_request.php", {'view_acc':1},function(data){
-								clearScreen();
+								clearScreen(data, "Accomplishment");
 								displayAccomplishments(data);
 							});
 						}
@@ -433,7 +433,7 @@ $(document).ready(function(){
 	$('#menuProjReq').on('click', function(){
 		$.getJSON("user_mode_request.php", {'view_projReq':1,'id':getCookie("UserId"),'type':getCookie("UserType")}, function(data){
 			//data = JSON.parse(data);
-			clearScreen();
+			clearScreen(data, "Project Request");
 			displayProjectRequests(data);
 		});
 	});
@@ -451,9 +451,45 @@ $(document).ready(function(){
 
 });
 
-function clearScreen(){
-	
+function clearScreen(data, dataType){
+	$('#noContent').toggle(false);
 	$('div#result-list').empty();
+	if(dataType == "Project"){
+		if(data.projects.length == 0){
+			//alert(data.projects.length);
+			$('#noContent').toggle(true);
+			$('#noContentHeader').empty();
+			$('#noContentHeader').html('No Projects');
+		}
+	}else if(dataType == "Project Request"){
+		if(data.projreq.length == 0){
+			//alert(data.projects.length);
+			$('#noContent').toggle(true);
+			$('#noContentHeader').empty();
+			$('#noContentHeader').html('No Project Requests');
+		}
+	}else if(dataType == "Accomplishment"){
+		if(data.accomplishments.length == 0){
+			//alert(data.projects.length);
+			$('#noContent').toggle(true);
+			$('#noContentHeader').empty();
+			$('#noContentHeader').html('No Accomplishments');
+		}
+	}else if(dataType == "Milestone"){
+		if(data.milestone.length == 0){
+			alert("");
+			$('#noContent').toggle(true);
+			$('#noContentHeader').empty();
+			$('#noContentHeader').html('No Milestones');
+		}
+	}else if(dataType == "No Results"){
+		if(data.error == "No Results"){
+			//alert(data.projects.length);
+			$('#noContent').toggle(true);
+			$('#noContentHeader').empty();
+			$('#noContentHeader').html('No Results');
+		}
+	}
 }
 
 function toggleNewButton(id){
@@ -750,6 +786,7 @@ function displayProjectRequests(dataArr){
 							'<div class="pull-right badge ' + this.status + '">' + this.status + '</div></h4>' + 
 							'<h6>' + this.talentname + ' sent a project request to ' + this.agencyname + '. </h6>' +
 							accept + 
+							seperator + 
 							reject + 
 						'</div>' +
 				'</div>' + 
