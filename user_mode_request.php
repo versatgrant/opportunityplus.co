@@ -453,6 +453,28 @@
 		//Send Response with Project Requests
 		echo json_encode(array("projreq" => $projreq));
 
+	}//ACCEPT PROJECT REQUESTS
+	elseif(isset($_GET['accept_projReq'])){
+		//Get input from form
+		$id_entry = $conn->real_escape_string($_GET['id']);
+		$status_entry = $conn->real_escape_string($_GET['status']);
+
+		$sql = "UPDATE `projectrequest` SET `ProjectRequestAcceptedStatus` = '{$status_entry}'
+			WHERE `ProjectRequestUniqueId` = '{$id_entry}'";
+
+		$res = $conn->query($sql);
+		echo $res;
+	}//REJECT PROJECT REQUESTS
+	elseif(isset($_GET['reject_projReq'])){
+		//Get input from form
+		$id_entry = $conn->real_escape_string($_GET['id']);
+		$status_entry = $conn->real_escape_string($_GET['status']);
+
+		$sql = "UPDATE `projectrequest` SET `ProjectRequestAcceptedStatus` = '{$status_entry}'
+			WHERE `ProjectRequestUniqueId` = '{$id_entry}'";
+
+		$res = $conn->query($sql);
+		echo $res;
 	}
 
 

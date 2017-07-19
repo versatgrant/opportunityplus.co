@@ -438,6 +438,21 @@ $(document).ready(function(){
 		});
 	});
 
+	/*ACCEPT PROJECT REQUEST*/
+	$('.container #result-list').on('click','projreqAccept',function(){
+		var id = $(this).parent().parent().parent().attr('id');
+		$.getJSON("user_mode_request.php", {'accept_projReq':1,'id':id, 'status':"Accepted"}, function(data){
+			location.reload();
+		});
+	});
+	/*REJECT PROJECT REQUESTS*/
+	$('.container #result-list').on('click','projreqReject',function(){
+		var id = $(this).parent().parent().parent().attr('id');
+		$.getJSON("user_mode_request.php", {'reject_projReq':1,'id':id, 'status':"Rejected"}, function(data){
+			location.reload();
+		});
+	});
+
 	/*ADD A SUBMIT EVENT LISTENER TO THE EDIT PROJECT FORM*/
 	/*$('#editProject').submit(function(e){
 		e.preventDefault();
