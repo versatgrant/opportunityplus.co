@@ -87,7 +87,8 @@
 					'zip' => $row["ProjectLocationPostalCode"],
 					'country' => $row["ProjectLocationCountry"],
 					'cost' => $row["ProjectTotalCost"],
-					'access' => "true"));
+					'access' => "true",
+					'sent' => "true"));
 			}
 			echo json_encode(array("success" => $newProject, "projects" => $project));
 		}
@@ -380,7 +381,7 @@
 		WHERE `AccomplishmentUniqueId` = '{$id_entry}'";
 
 		$conn->query($sql);	
-	}//NEW PROJECT REQUESTS
+	}//NEW PROJECT REQUEST
 	elseif(isset($_POST['proj_req'])){
 		/*GET PROJREQ DETAILS*/
 		$talent_entry = $conn->real_escape_string($_POST['talent']);
@@ -393,7 +394,7 @@
 		while($praid_row = $praid_res->fetch_assoc()){
 
 			/*INSERT PROJECT REQUEST*/
-			$projreq_sql = "INSERT INTO `projectrequest` (`ProjectRequestProjectId`, `ProjectRequestTalentId`, `ProjectRequestAgencyId`, `ProjectRequestSender`, `ProjectRequestAcceptedStatus`, `ProjectRequestRecindedStatus`) VALUES ('{$project_entry}', '{$talent_entry}', '{$praid_row["ProjectAgencyId"]}', '{$sender_entry}', 1, 0)";
+			$projreq_sql = "INSERT INTO `projectrequest` (`ProjectRequestProjectId`, `ProjectRequestTalentId`, `ProjectRequestAgencyId`, `ProjectRequestSender`, `ProjectRequestAcceptedStatus`, `ProjectRequestRecindedStatus`) VALUES ('{$project_entry}', '{$talent_entry}', '{$praid_row["ProjectAgencyId"]}', '{$sender_entry}', 'Sent', 0)";
 
 			$projreq_res = $conn->query($projreq_sql);
 			if (!$projreq_res) {
@@ -405,6 +406,52 @@
 			$pra_sql = "SELECT `AgencyCorporateName` FROM `agency` WHERE `UniqueId` = '{$praid_row["ProjectAgencyId"]}'";
 
 		}
+
+	}//VIEW PROJECT REQUESTS
+	elseif(isset($_GET['view_projReq'])){
+		/*Get Request Details*/
+		$id_entry = $conn->real_escape_string($_GET['id']);
+		$type_entry = $conn->real_escape_string($_GET['type']);
+
+		if($type_entry == "talent"){
+			$projreq_sql = "SELECT * FROM `projectrequest` WHERE `ProjectRequestTalentId` = '{$id_entry}'";
+		}elseif($type_entry == "agency"){
+			$projreq_sql = "SELECT * FROM `projectrequest` WHERE `ProjectRequestAgencyId` = '{$id_entry}'";
+		}
+		$projreq_res = $conn->query($projreq_sql);
+		$projreq = array();
+
+		while ($projreq_row = $projreq_res->fetch_assoc()) {
+			$talentname='';
+			$agencyname='';
+			$projectname='';
+
+			/*GET THE NAMES OF THE TALENT, AGENCY AND PROJECT*/
+			$talentname_sql = "SELECT * FROM `talent` WHERE `UniqueId` = '{$projreq_row["ProjectRequestTalentId"]}'";
+			$talentname_res = $conn->query($talentname_sql);
+			while ($talentname_row = $talentname_res->fetch_assoc()) {
+				$talentname = $talentname_row["TalentFirstName"]." ".$talentname_row["TalentLastName"];
+			}
+			$projectname_sql = "SELECT * FROM `project` WHERE `ProjectUniqueId` = '{$projreq_row["ProjectRequestProjectId"]}'";
+			$projectname_res = $conn->query($projectname_sql);
+			while ($projectname_row = $projectname_res->fetch_assoc()) {
+				$projectname = $projectname_row["ProjectName"];
+			}
+			$agencyname_sql = "SELECT * FROM `agency` WHERE `UniqueId` = '{$projreq_row["ProjectRequestAgencyId"]}'";
+			$agencyname_res = $conn->query($agencyname_sql);
+			while ($agencyname_row = $agencyname_res->fetch_assoc()) {
+				$agencyname = $agencyname_row["AgencyCorporateName"];
+			}
+
+
+			array_push($projreq, array('id' => $projreq_row["ProjectRequestUniqueId"],
+				'status' => $projreq_row["ProjectRequestAcceptedStatus"],
+				'projectname' => $projectname,
+				'talentname' => $talentname,
+				'agencyname' => $agencyname));
+		}
+		//Send Response with Project Requests
+		echo json_encode(array("projreq" => $projreq));
 
 	}
 

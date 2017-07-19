@@ -46,7 +46,16 @@ body {
 .Completed{
     background-color:#16A085;
 }
+
+.Accepted{
+    background-color:#16A085;
+}
+
 .Private{
+    background-color:#d50f25;
+}
+
+.Rejected{
     background-color:#d50f25;
 }
 

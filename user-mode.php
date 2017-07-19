@@ -168,6 +168,11 @@
 		</div>
 	</div>
 
+	<!--NO CONTENT DIV-->
+	<div align="center" id="noContent" style="text-align: center;">
+		<h1 style="font-size: 30px;font-weight: bold;color: #FFFFFF">No Content</h1>
+	</div>
+
 	<!--NEW PROJECT FORM-->
 	<div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 		<div class="modal-dialog">

@@ -60,22 +60,34 @@
 			while($row = $res->fetch_assoc()) {
 				//set default project access as false
 				$access = "false";
+				$sent = "false";
 				$talentAccess_sql = "";
+				$talentAccess_res = 0;
+				$prSent_sql="";
+				$prSent_res=0;
+
 				/*DETERMINE WHETHER OR NOT THIS TALENT OR AGENCY HAS ACCESS TO THIS PROJECT*/
 				if($_SESSION["UserType"] == "talent"){
-					$talentAccess_sql = "SELECT * FROM `projectrequest` WHERE ((`ProjectRequestTalentId` = '{$_SESSION["Id"]}') AND (`ProjectRequestAcceptedStatus` = 1) AND (`ProjectRequestRecindedStatus` = 0))";
+					$talentAccess_sql = "SELECT * FROM `projectrequest` WHERE ((`ProjectRequestTalentId` = '{$_SESSION["Id"]}') AND (`ProjectRequestAcceptedStatus` = 'Accepted') AND (`ProjectRequestRecindedStatus` = 0) AND (`ProjectRequestProjectId` = '{$row["ProjectUniqueId"]}')) LIMIT 1";
 					$talentAccess_res = $conn->query($talentAccess_sql);
-					$talentAccess = array();
+
+					$prSent_sql = "SELECT * FROM `projectrequest` WHERE ((`ProjectRequestTalentId` = '{$_SESSION["Id"]}') AND (`ProjectRequestProjectId` = '{$row["ProjectUniqueId"]}')) LIMIT 1";
+					$prSent_res = $conn->query($prSent_sql);
 				}
 				
 
-				
 				if($_SESSION["UserType"] == "agency"){
 					if($_SESSION["Id"] == $row["ProjectAgencyId"]){
 						$access = "true";
 					}
-				}elseif(count($talentAccess_res->num_rows) > 1){
-					$access = "true";
+				}else{
+					if(count($prSent_res->fetch_assoc()) > 0){
+						$sent="true";
+						if(count($talentAccess_res->fetch_assoc()) > 0){
+							//echo count($talentAccess_res->fetch_assoc());
+							$access = "true";
+						}
+					}
 				}
 
 				array_push($projects, array('id' => $row["ProjectUniqueId"], 
@@ -95,7 +107,8 @@
 					'zip' => $row["ProjectLocationPostalCode"],
 					'country' => $row["ProjectLocationCountry"],
 					'cost' => $row["ProjectTotalCost"],
-					'access' => $access));
+					'access' => $access,
+					'sent'=>$sent));
 			}
 			echo json_encode(array("projects" => $projects));
 		}

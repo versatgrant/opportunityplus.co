@@ -429,6 +429,15 @@ $(document).ready(function(){
 		});
 	});
 
+	/*VIEW PROJECT REQUESTS*/
+	$('#menuProjReq').on('click', function(){
+		$.getJSON("user_mode_request.php", {'view_projReq':1,'id':getCookie("UserId"),'type':getCookie("UserType")}, function(data){
+			//data = JSON.parse(data);
+			clearScreen();
+			displayProjectRequests(data);
+		});
+	});
+
 	/*ADD A SUBMIT EVENT LISTENER TO THE EDIT PROJECT FORM*/
 	/*$('#editProject').submit(function(e){
 		e.preventDefault();
@@ -443,6 +452,7 @@ $(document).ready(function(){
 });
 
 function clearScreen(){
+	
 	$('div#result-list').empty();
 }
 
@@ -661,6 +671,7 @@ function loadUserForm(UserData){
 
 function displayProjects(dataArr){
 	$.each(dataArr.projects, function(){
+		var projReq=''; var ableToDelete=''; var ableToEdit='';
 		if(this.paid == getCookie("UserId") && getCookie("UserType")  == "agency"){
 			ableToDelete = '<div class="toolbar"><a href="#project" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a></div>';
 			ableToEdit = '<a href="#newProjectModal" data-toggle="modal" class="edit" style="text-decoration:underline;">Edit</a>';
@@ -670,7 +681,7 @@ function displayProjects(dataArr){
 			ableToEdit = '';
 		}
 
-		if(getCookie("UserType")  == "talent"){
+		if(getCookie("UserType")  == "talent" && this.access == "false" && this.sent == "false"){
 				projReq = '<a href="#projectRequest" class="projreq" style="text-decoration:underline;">Project Request</a>';
 		}
 
@@ -702,6 +713,48 @@ function displayProjects(dataArr){
 		);
 		$(_).css('height', $(_).children().first().css('height'));
 		$(_).css('margin-bottom', '15px');
+	});
+}
+
+function displayProjectRequests(dataArr){
+	var accept=''; var reject=''; var seperator='';
+
+	$.each(dataArr.projreq, function(){
+		/*Only Agencies can accept or delete projects*/
+		if(getCookie("UserType") == "agency"){
+			if(this.status == "Sent"){
+				accept = '<a href="#accept" class="projreqAccept" style="text-decoration:underline;">Accept Request</a>'; //Something
+				seperator = ' | ';
+				reject = '<a href="#reject" class="projreqReject" style="text-decoration:underline;">Reject Request</a>';//Something
+			}else if(this.status == "Accepted"){
+				accept = '';//Nothing
+				seperator = '';
+				reject = '<a href="#reject" class="projreqReject" style="text-decoration:underline;">Reject Request</a>';//Something
+			}else if(this.status == "Rejected"){
+				accept = '<a href="#accept" class="projreqAccept" style="text-decoration:underline;">Accept Request</a>';//Something
+				seperator = '';
+				reject = '';//Nothing
+			}
+		}
+
+		$('div#result-list').append(
+			'<div class="col-md-3 col-sm-4 parProjectReq" id="' + this.id +'" style="min-width:250px;">' + 
+				'<div class="wrimagecard wrimagecard-topimage">' + 
+					'<a href="#project" class="view" style="height:inherit;">' + 
+						'<div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">' + 
+							'<center><i class="fa fa-rss" style="color:#16A085"></i></center>' + 
+						'</div>' +  
+					'</a>' + 
+						'<div class="wrimagecard-topimage_title">' + 
+							'<h4>' + truncate(this.projectname+' Project Request', 22) + 
+							'<div class="pull-right badge ' + this.status + '">' + this.status + '</div></h4>' + 
+							'<h6>' + this.talentname + ' sent a project request to ' + this.agencyname + '. </h6>' +
+							accept + 
+							reject + 
+						'</div>' +
+				'</div>' + 
+			'</div>'
+		);
 	});
 }
 
