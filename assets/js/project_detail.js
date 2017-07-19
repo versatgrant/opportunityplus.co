@@ -68,8 +68,8 @@ $(document).ready(function(){
 				$('.modal-backdrop').removeClass('in');
 				$('#newMilestoneModal').css('display','none');
 				$('.modal-backdrop').css('display','none');
-				/*REMOVE NO MILESTONES LABEL OF THERE*/
-				$('noContent').toggle(false);;
+				/*REMOVE NO MILESTONES LABEL IF THERE*/
+				$('#noContent').toggle(false);
 				/*ADD MILESTONE TO SCREEN*/
 				buildMilestones(data.milestone);
 				/*load kanban.js*/

@@ -439,14 +439,14 @@ $(document).ready(function(){
 	});
 
 	/*ACCEPT PROJECT REQUEST*/
-	$('.container #result-list').on('click','projreqAccept',function(){
+	$('.container #result-list').on('click','.projreqAccept',function(){
 		var id = $(this).parent().parent().parent().attr('id');
 		$.getJSON("user_mode_request.php", {'accept_projReq':1,'id':id, 'status':"Accepted"}, function(data){
 			location.reload();
 		});
 	});
 	/*REJECT PROJECT REQUESTS*/
-	$('.container #result-list').on('click','projreqReject',function(){
+	$('.container #result-list').on('click','.projreqReject',function(){
 		var id = $(this).parent().parent().parent().attr('id');
 		$.getJSON("user_mode_request.php", {'reject_projReq':1,'id':id, 'status':"Rejected"}, function(data){
 			location.reload();
@@ -492,7 +492,6 @@ function clearScreen(data, dataType){
 		}
 	}else if(dataType == "Milestone"){
 		if(data.milestone.length == 0){
-			alert("");
 			$('#noContent').toggle(true);
 			$('#noContentHeader').empty();
 			$('#noContentHeader').html('No Milestones');
@@ -602,6 +601,7 @@ function newProject(e){
 				$('.modal-backdrop').removeClass('in');
 				$('#newProjectModal').css('display','none');
 				$('.modal-backdrop').css('display','none');
+				$('#noContent').toggle(false);
 				displayProjects(data);
 			}
 	      }

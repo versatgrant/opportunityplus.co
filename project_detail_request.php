@@ -158,7 +158,7 @@
 		###################################
 		###################################
 
-		$prt_sql = "SELECT `ProjectRequestTalentId` FROM `projectrequest` WHERE ((`ProjectRequestProjectId` = '{$id_entry}') AND (`ProjectRequestAcceptedStatus` = `Accepted`) AND (`ProjectRequestRecindedStatus` = 0))";
+		$prt_sql = "SELECT `ProjectRequestTalentId` FROM `projectrequest` WHERE ((`ProjectRequestProjectId` = '{$id_entry}') AND (`ProjectRequestAcceptedStatus` = 'Accepted') AND (`ProjectRequestRecindedStatus` = 0))";
 		$taskTalents = array();
 		$prt_res = $conn->query($prt_sql);
 		while($prt_row = $prt_res->fetch_assoc()) {
