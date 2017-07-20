@@ -285,7 +285,7 @@ function buildMilestones(milestone){
 	$.each(milestone, function(){
 		//alert("Got a Milestone: "+this.name);
 		$('div#result-list').append(
-			'<div class="panel panel-primary kanban-col" data-project-id="'+ this.projectid +'" data-milestone-id="' + this.id + '">' + 
+			'<div class="panel panel-primary kanban-col" data-project-id="'+ this.projectid +'" data-milestone-id="' + this.id + '" style="max-width:100%;">' + 
 				'<div class="panel-heading">' + 
 					this.name + 
 					'<a href="#editMilestoneModal" class="editMilestone pull-right" data-toggle="modal"> ' + 

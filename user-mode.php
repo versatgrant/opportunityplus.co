@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/user-mode.css">
 	<link rel="stylesheet" href="assets/css/login/loginModal.css">
 	<link href="assets/css/kanbanstyle.css" rel="stylesheet" type="text/css">
+	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png" />
 </head>
 <body class="has-drawer">
 	<!-- FLOATING BUTTONS -->

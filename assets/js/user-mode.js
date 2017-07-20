@@ -646,6 +646,7 @@ function newAccomplishment(e){
 				$('.modal-backdrop').removeClass('in');
 				$('#newAccomplishmentModal').css('display','none');
 				$('.modal-backdrop').css('display','none');
+				$('#noContent').toggle(false);
 				displayAccomplishments(data);
 			}
 	      }
