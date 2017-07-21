@@ -475,6 +475,62 @@
 
 		$res = $conn->query($sql);
 		echo $res;
+	}//GET USER DETAILS
+	elseif(isset($_GET['view_prof_details'])){
+		//Get input from form
+		$id_entry = $conn->real_escape_string($_GET['id']);
+		$type_entry = $conn->real_escape_string($_GET['type']);
+		if($type_entry == "agency"){
+			//Get the Corporate Name of that Agency
+			$u_sql = "SELECT * FROM `agency` WHERE `UniqueId` = '{$id_entry}' LIMIT 1";
+
+			//Store User Info Returned
+			$user = array();
+
+			//Get User Info
+			$res = $conn->query($u_sql);
+			while($row = $res->fetch_assoc()) {
+				array_push($user, array('aname' => $row["AgencyCorporateName"],
+					'email' => $row["Email"],
+					'password' => $row["Password"],
+					'phone' => $row["Phone"],
+					'privacy' => $row["AgencyPrivacyState"],
+					'desc' => $row["Summary"],
+					'street' => $row["LocationStreet"],
+					'city' => $row["LocationCity"],
+					'state' => $row["LocationState"],
+					'zip' => $row["LocationPostalCode"],
+					'country' => $row["LocationCountry"],
+					'usertype' => "agency"));
+			}
+			
+		}else{
+			//Get the First & Last name of that Talent
+			$u_sql = "SELECT * FROM `talent` WHERE `UniqueId` = '{$id_entry}' LIMIT 1";
+
+			//Store User Info Returned
+			$user = array();
+
+			//Get User Info
+			$res = $conn->query($u_sql);
+
+			while($row = $res->fetch_assoc()) {
+				array_push($user, array('fname' => $row["TalentFirstName"],
+					'lname' => $row["TalentLastName"],
+					'email' => $row["Email"],
+					'password' => $row["Password"],
+					'phone' => $row["Phone"],
+					'desc' => $row["Summary"],
+					'street' => $row["LocationStreet"],
+					'city' => $row["LocationCity"],
+					'state' => $row["LocationState"],
+					'zip' => $row["LocationPostalCode"],
+					'country' => $row["LocationCountry"],
+					'usertype' => "talent"));
+			}
+		}
+		//Send Response with User & Projects
+		echo json_encode(array("user" => $user));
 	}
 
 

@@ -293,6 +293,15 @@ $(document).ready(function(){
 		}
 	});
 
+	/*VIEW PROFILE DETAILS*/
+	$('.container #result-list').on('click', '.viewProfDetails', function(){
+		var id=$(this).parent().parent().attr('id');
+		var type=$(this).data('datatype');
+		$.getJSON("user_mode_request.php", {'view_prof_details':1, 'id':id, 'type': type}, function(data){
+			viewUserProfile(data.user, type);
+		});
+	});
+
 	/*EDIT PROJECT|ACCOMPLISHMENT*/
 	$('.container #result-list').on('click', '.edit', function(){
 		newPAFormLayout();
@@ -721,6 +730,43 @@ function loadUserForm(UserData){
 	}
 }
 
+function viewUserProfile(UserData, type){
+	//get all input fields from the form and set their values to be that of the current user's
+	$('#utype-view-prof').attr('value', UserData[0]["usertype"]);
+	$('#email-view-prof').attr('value', UserData[0]["email"]);
+	$('#password-view-prof').attr('value', UserData[0]["password"]);
+	$('#phone-view-prof').attr('value', UserData[0]["phone"]);
+	$('#street-view-prof').attr('value', UserData[0]["street"]);
+	$('#city-view-prof').attr('value', UserData[0]["city"]);
+
+	$('#state-view-prof').empty();
+	$('#state-view-prof').append('<option value="'+ UserData[0]["state"] +'">' + UserData[0]["state"] + '</option>');
+	$('#state-view-prof').val(UserData[0]["state"]);
+
+	$('#zip-view-prof').attr('value', UserData[0]["zip"]);
+	$('#country-view-prof').attr('value', UserData[0]["country"]);
+	$('#summary-view-prof').val(UserData[0]["desc"]);
+
+	if(type == "talent"){
+		$('#utype-view-prof').parent().removeClass('col-md-6');
+		$('#utype-view-prof').parent().addClass('col-md-12');
+
+		$('#atype-view-prof').parent().toggle(false);
+		$('#aname-view-prof').parent().toggle(false);
+		$('#fname-view-prof').attr('value', UserData[0]["fname"]);
+		$('#lname-view-prof').attr('value', UserData[0]["lname"]);
+		$('#fname-view-prof').parent().toggle(true);
+		$('#lname-view-prof').parent().toggle(true);
+	}else{
+		$('#fname-view-prof').parent().toggle(false);
+		$('#lname-view-prof').parent().toggle(false);
+		$('#atype-view-prof').attr('value', UserData[0]["privacy"]);
+		$('#aname-view-prof').attr('value', UserData[0]["aname"]);
+		$('#atype-view-prof').parent().toggle(true);
+		$('#aname-view-prof').parent().toggle(true);
+	}
+}
+
 function displayProjects(dataArr){
 	$.each(dataArr.projects, function(){
 		var projReq=''; var ableToDelete=''; var ableToEdit='';
@@ -789,6 +835,8 @@ function displayProjectRequests(dataArr){
 			}
 		}
 
+		var _ = '#'+this.id;
+
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4 parProjectReq" id="' + this.id +'" style="min-width:250px;">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
@@ -807,7 +855,9 @@ function displayProjectRequests(dataArr){
 					'</div>' +
 				'</div>' + 
 			'</div>'
-		);
+		);		
+		$(_).css('height', $(_).children().first().css('height'));
+		$(_).css('margin-bottom', '15px');
 	});
 }
 
@@ -815,17 +865,19 @@ function displayAccomplishments(dataArr){
 	$.each(dataArr.accomplishments, function(){
 		if(this.atid == getCookie("UserId") && getCookie("UserType") == "talent"){
 			ableToDelete = '<div class="toolbar"><a href="#accomplishment" class="pull-right tool delete" style="padding-right: 10px;"><span class="glyphicon glyphicon-remove"></span></a></div>';
-			//ableToEdit = '<a href="' + this.url + '" class="edit" style="text-decoration:underline;">Edit</a>';
 			ableToEdit = '<a href="#newAccomplishmentModal" data-toggle="modal" class="edit" style="text-decoration:underline;">Edit</a>';
 		}else{
 			ableToDelete = '';
 			ableToEdit = '';
 		}
+
+		var _ = '#'+this.id;
+
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4 parAccomplishment" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
 					ableToDelete + 
-					'<a href="#accomplishment" class="view" style="height:inherit;">' + 
+					'<a href="#" class="view" data-datatype="accomplishment" style="height:inherit;">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(250, 188, 9, 0.1)">' + 
 							'<center><i class="fa fa-trophy" style="color:#fabc09"> </i></center>' + 
 						'</div>' +  
@@ -839,15 +891,20 @@ function displayAccomplishments(dataArr){
 				'</div>' + 
 			'</div>'
 		);
+		$(_).css('height', $(_).children().first().css('height'));
+		$(_).css('margin-bottom', '15px');
 	});
 }
 
 function displayTalents(dataArr){
 	$.each(dataArr.talents, function(){
+
+		var _ = '#'+this.id;
+
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4 parTalent" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
-					'<a href="#talent" class="view" style="height:inherit;">' + 
+					'<a href="#viewProfileModal" data-toggle="modal" class="viewProfDetails" data-datatype="talent" style="height:inherit;">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(51, 105, 232, 0.1)">' + 
 							'<center><i class = "fa fa-user" style="color:#3369e8"></i></center>' + 
 						'</div>' +  
@@ -856,23 +913,28 @@ function displayTalents(dataArr){
 						'<h4>' + truncate(this.fname+" "+this.lname, 22) +'</h4>' + 
 						'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 						'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-						'<a href="#talent" class="projects" style="text-decoration:underline;">Projects</a>' + 
+						'<a href="#" class="viewTalentProjects" style="text-decoration:underline;">Projects</a>' + 
 						'<span> | </span>' + 
-						'<a href="#talent" class="accomplishments" style="text-decoration:underline;">Accomplishments</a>' + 
+						'<a href="#" class="viewTalentAccomplishments" style="text-decoration:underline;">Accomplishments</a>' + 
 					'</div>' +
 				'</div>' + 
 			'</div>'
 		);
+		$(_).css('height', $(_).children().first().css('height'));
+		$(_).css('margin-bottom', '15px');
 	});
 }
 
 function displayAgencies(dataArr){
 	$.each(dataArr.agencies, function(){
+
+		var _ = '#'+this.id;
+
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4 parAgency" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
-					'<a href="#viewProfileModal" data-toggle="modal" class="view" style="height:inherit;">' +
-						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(213, 15, 37, 0.1);height:inherit;">' + 
+					'<a href="#viewProfileModal" data-toggle="modal" class="viewProfDetails" data-datatype="agency" style="height:inherit;">' +
+						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(213, 15, 37, 0.1);">' + 
 							'<center><i class="fa fa-building" style="color:#d50f25"> </i></center>' + 
 						'</div>' +  
 					'</a>' + 
@@ -881,11 +943,13 @@ function displayAgencies(dataArr){
 						'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
 						'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
 						'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-						'<a href="#agency" class="projects" style="text-decoration:underline;">Projects</a>' + 
+						'<a href="#" class="viewAgencyProjects" style="text-decoration:underline;">Projects</a>' + 
 					'</div>' +
 				'</div>' + 
 			'</div>'
 		);
+		$(_).css('height', $(_).children().first().css('height'));
+		$(_).css('margin-bottom', '15px');
 	});
 }
 
