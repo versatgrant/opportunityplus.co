@@ -803,6 +803,99 @@
 		</div>
 	</div>
 
+	<!--VIEW PROFILE FORM-->
+	<div class="modal fade" id="viewProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="loginmodal-container row">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h1>View User Profile</h1><br>
+				<div>
+					<form id="viewProfile" name="viewProfile">
+						<!--USER TYPE-->
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>User Type:</label>
+							<input id="utype-view-prof" type="text" name="utype" style="background: #F1F3FA;"  readonly/>
+						</div>
+
+						<!--AGENCY TYPE-->
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Agency Type:</label>
+							<input id="atype-view-prof" type="text" name="atype" class="form-agency" style="background: #F1F3FA;" readonly/>
+						</div>
+
+						<!--USER NAMES-->
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>First Name:</label>
+							<input id="fname-view-prof" class="form-talent" type="text" name="fname" style="background: #F1F3FA;"  readonly/>
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Last Name:</label>
+							<input id="lname-view-prof" class="form-talent"  type="text" name="lname" style="background: #F1F3FA;"  readonly/>
+						</div>
+
+						<div class="col-md-12" style="padding-left:5px;padding-right:5px;">
+							<label>Company Name:</label>
+							<input id="aname-view-prof" class="form-agency" type="text" name="cname" style="background: #F1F3FA;"  readonly/>
+						</div>
+
+						<!--EMAIL/PASSWORD-->
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Email:</label>
+							<input id="email-view-prof" type="text" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Must be an email address" style="background: #F1F3FA;" style="background: #F1F3FA;"  readonly/>
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Password:</label>
+							<input id="password-view-prof" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" style="background: #F1F3FA;"  readonly/>
+						</div>
+
+						<!--PHONE-->
+						<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Phone:</label>
+							<input id="phone-view-prof" type="text" name="phone" pattern="\d{3}[\-]\d{3}[\-]\d{4}" title="XXX-XXX-XXXX" style="background: #F1F3FA;"  readonly/>
+						</div>
+
+						<!--ADDRESS-->
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Street:</label>
+							<input id="street-view-prof" type="text" name="street" style="background: #F1F3FA;"  readonly/>			
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>City:</label>
+							<input id="city-view-prof" type="text" name="city" style="background: #F1F3FA;"  readonly/>
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>State:</label>
+							<select name="state" id="state-view-prof" style="background: #F1F3FA;"  readonly>
+							</select>
+						</div>
+
+						<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Zip/Postal Code:</label>
+							<input id="zip-view-prof" type="text" name="zip" pattern="[0-9]{5}" title="Five digit zip code" style="background: #F1F3FA;"  readonly/>
+						</div>
+
+						<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Country:</label>
+							<input id="country-view-prof" type="text" name="country" style="background: #F1F3FA;"  readonly/>
+						</div>
+
+						<!--ACCOMPLISHMENT DESCRIPTION-->
+						<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
+							<label>Summary:</label>
+							<textarea id="summary-view-prof" name="Summary" title="Summary" maxlength="2000" style="background: #F1F3FA;"  ></textarea>
+						</div>
+
+					</form>
+				</div>
+				<div id="reg-err-msg" style="color:red;text-align: center;"></div>
+			</div>
+		</div>
+	</div>
+
 	<!--NO CONTENT DIV-->
 	<div align="center" id="noContent" style="text-align: center;position: absolute;width:100%;margin: auto;">
 		<h1 id="noContentHeader" style="font-size: 100px;font-weight: bold;color: #FFFFFF; text-shadow: 2px 2px #333333;">No Projects</h1>

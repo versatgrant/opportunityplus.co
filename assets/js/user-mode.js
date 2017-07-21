@@ -752,14 +752,14 @@ function displayProjects(dataArr){
 							'<center><i class="fa fa-tasks" style="color:#16A085"></i></center>' + 
 						'</div>' +  
 					'</a>' + 
-						'<div class="wrimagecard-topimage_title">' + 
-							'<h4>' + truncate(this.name, 22) + 
-							'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
-							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
-							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-							ableToEdit + 
-							projReq + 
-						'</div>' +
+					'<div class="wrimagecard-topimage_title">' + 
+						'<h4>' + truncate(this.name, 22) + 
+						'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
+						'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
+						'<h6>' + truncate(this.desc, 97) + '</h6>' + 
+						ableToEdit + 
+						projReq + 
+					'</div>' +
 				'</div>' + 
 			'</div>'
 		);
@@ -797,14 +797,14 @@ function displayProjectRequests(dataArr){
 							'<center><i class="fa fa-rss" style="color:#16A085"></i></center>' + 
 						'</div>' +  
 					'</a>' + 
-						'<div class="wrimagecard-topimage_title">' + 
-							'<h4>' + truncate(this.projectname+' Project Request', 22) + 
-							'<div class="pull-right badge ' + this.status + '">' + this.status + '</div></h4>' + 
-							'<h6>' + this.talentname + ' sent a project request to ' + this.agencyname + '. </h6>' +
-							accept + 
-							seperator + 
-							reject + 
-						'</div>' +
+					'<div class="wrimagecard-topimage_title">' + 
+						'<h4>' + truncate(this.projectname+' Project Request', 22) + 
+						'<div class="pull-right badge ' + this.status + '">' + this.status + '</div></h4>' + 
+						'<h6>' + this.talentname + ' sent a project request to ' + this.agencyname + '. </h6>' +
+						accept + 
+						seperator + 
+						reject + 
+					'</div>' +
 				'</div>' + 
 			'</div>'
 		);
@@ -828,14 +828,14 @@ function displayAccomplishments(dataArr){
 					'<a href="#accomplishment" class="view" style="height:inherit;">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(250, 188, 9, 0.1)">' + 
 							'<center><i class="fa fa-trophy" style="color:#fabc09"> </i></center>' + 
-						'</div>' + 
-						'<div class="wrimagecard-topimage_title">' + 
-							'<h4>' + truncate(this.name, 22) + 
-							'<div class="pull-right badge">' + this.type + '</div></h4>' + 
-							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-							ableToEdit + 
-						'</div>' + 
+						'</div>' +  
 					'</a>' + 
+					'<div class="wrimagecard-topimage_title">' + 
+						'<h4>' + truncate(this.name, 22) + 
+						'<div class="pull-right badge">' + this.type + '</div></h4>' + 
+						'<h6>' + truncate(this.desc, 97) + '</h6>' + 
+						ableToEdit + 
+					'</div>' +
 				'</div>' + 
 			'</div>'
 		);
@@ -850,16 +850,16 @@ function displayTalents(dataArr){
 					'<a href="#talent" class="view" style="height:inherit;">' + 
 						'<div class="wrimagecard-topimage_header" style="background-color: rgba(51, 105, 232, 0.1)">' + 
 							'<center><i class = "fa fa-user" style="color:#3369e8"></i></center>' + 
-						'</div>' + 
-						'<div class="wrimagecard-topimage_title">' + 
-							'<h4>' + truncate(this.fname+" "+this.lname, 22) +'</h4>' + 
-							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
-							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-							'<a href="#talent" class="projects" style="text-decoration:underline;">Projects</a>' + 
-							'<span> | </span>' + 
-							'<a href="#talent" class="accomplishments" style="text-decoration:underline;">Accomplishments</a>' + 
-						'</div>' + 
+						'</div>' +  
 					'</a>' + 
+					'<div class="wrimagecard-topimage_title">' + 
+						'<h4>' + truncate(this.fname+" "+this.lname, 22) +'</h4>' + 
+						'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
+						'<h6>' + truncate(this.desc, 97) + '</h6>' + 
+						'<a href="#talent" class="projects" style="text-decoration:underline;">Projects</a>' + 
+						'<span> | </span>' + 
+						'<a href="#talent" class="accomplishments" style="text-decoration:underline;">Accomplishments</a>' + 
+					'</div>' +
 				'</div>' + 
 			'</div>'
 		);
@@ -871,18 +871,18 @@ function displayAgencies(dataArr){
 		$('div#result-list').append(
 			'<div class="col-md-3 col-sm-4 parAgency" id="' + this.id +'">' + 
 				'<div class="wrimagecard wrimagecard-topimage">' + 
-					'<a href="#agency" class="view" style="height:inherit;">' +
+					'<a href="#viewProfileModal" data-toggle="modal" class="view" style="height:inherit;">' +
 						'<div class="wrimagecard-topimage_header" style="background-color:  rgba(213, 15, 37, 0.1);height:inherit;">' + 
 							'<center><i class="fa fa-building" style="color:#d50f25"> </i></center>' + 
-						'</div>' + 
-						'<div class="wrimagecard-topimage_title">' + 
-							'<h4>' + truncate(this.aname, 22) + 
-							'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
-							'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
-							'<h6>' + truncate(this.desc, 97) + '</h6>' + 
-							'<a href="#agency" class="projects" style="text-decoration:underline;">Projects</a>' + 
-						'</div>' + 
+						'</div>' +  
 					'</a>' + 
+					'<div class="wrimagecard-topimage_title">' + 
+						'<h4>' + truncate(this.aname, 22) + 
+						'<div class="pull-right badge ' + this.privacy + '">' + this.privacy + '</div></h4>' + 
+						'<h6>' + this.city + ', ' + this.state + ' ' + this.zip + ', ' + this.country + '</h6>' + 
+						'<h6>' + truncate(this.desc, 97) + '</h6>' + 
+						'<a href="#agency" class="projects" style="text-decoration:underline;">Projects</a>' + 
+					'</div>' +
 				'</div>' + 
 			'</div>'
 		);

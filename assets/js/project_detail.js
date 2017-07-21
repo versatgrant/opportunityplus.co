@@ -32,7 +32,12 @@ $(document).ready(function(){
 						}
 					});
 				}else{
-					alert('You don\'t have access to this project. Send a project request to gain access.');
+					//Get Project Id
+					var id = project.parent().parent().attr('id');
+					/*TOGGLE THE PROJECT VIEW FORM*/
+					$('#viewProjDetails').trigger('click');
+					//send a get json to load the form fields
+					viewProjectDetails(id);
 				}
 				/*load kanban.js*/
 				$.getScript("assets/js/kanban.js");
@@ -191,38 +196,11 @@ $(document).ready(function(){
 
 	/*VIEW PROJECT DETAILS ONCLICK LISTENER*/
 	$('#viewProjDetails').on('click', function(){
-		//send a get json to load the form fields
+		//Get Project Id
 		var id = getCookie("ProjectId");
-		$.getJSON("project_detail_request.php", {'get_proj_details':1, 'id': id},function(data){
-			/*POPULATE PROJECT VIEW FORM WITH RETURNED VALUES*/
-			if(data.project[0].privacy == "Private"){
-				$('#view-project-myonoffswitch').prop('checked', false);
-			}else if(data.project[0].privacy == "Public"){
-				$('#view-project-myonoffswitch').prop('checked', true);
-			}
-			$('#view-project-name').val(data.project[0].name);
-			$('#view-project-startdate').val(data.project[0].start);
-			$('#view-project-enddate').val(data.project[0].end);
-
-			$('#view-project-location-sensitive').empty();
-			$('#view-project-location-sensitive').append('<option value="'+ data.project[0].zone +'">' + data.project[0].zone + '</option>');
-			$('#view-project-location-sensitive').val(data.project[0].zone);
-			$('#view-project-street').val(data.project[0].street);
-			$('#view-project-city').val(data.project[0].city);
-
-			$('#view-project-state').empty();
-			$('#view-project-state').append('<option value="'+ data.project[0].state +'">' + data.project[0].state + '</option>');
-			$('#view-project-state').val(data.project[0].state);
-
-			$('#view-project-zip').val(data.project[0].zip);
-			$('#view-project-country').val(data.project[0].country);
-			$('#view-project-desc').val(data.project[0].desc);
-			$('#view-project-cost').val(data.project[0].cost);
-
-
-		});
+		//send a get json to load the form fields
+		viewProjectDetails(id);
 	});
-	
 
 	/*EDIT MILESTONE ONCLICK LISTENER*/
 	$('.container #result-list').on('click', '.editMilestone', function(){
@@ -282,6 +260,11 @@ $(document).ready(function(){
 });
 
 function buildMilestones(milestone){
+	if(getCookie("UserType") == "talent"){
+		var addTask = 'style="display:none;"';
+	}else{
+		var addTask = '';
+	}
 	$.each(milestone, function(){
 		//alert("Got a Milestone: "+this.name);
 		$('div#result-list').append(
@@ -297,7 +280,7 @@ function buildMilestones(milestone){
 						buildTasks(this.id, this.tasks) + 
 					'</div>' + 
 				'</div>' + 
-				'<div class="panel-footer">' + 
+				'<div class="panel-footer"'+addTask+'>' + 
 					'<a href="#newTaskModal" class="newTask" data-toggle="modal">Add a task...</a>' + 
 				'</div>' + 
 			'</div>'
@@ -406,5 +389,34 @@ function getTaskTalent_new(thisOBJ){
 		$.each(data.taskTalents, function(){
 			$('#new-task-talent').append('<option value="'+this.id+'">'+this.fname+' '+this.lname+'</option>');
 		});
+	});
+}
+
+function viewProjectDetails(id){
+	$.getJSON("project_detail_request.php", {'get_proj_details':1, 'id': id},function(data){
+		/*POPULATE PROJECT VIEW FORM WITH RETURNED VALUES*/
+		if(data.project[0].privacy == "Private"){
+			$('#view-project-myonoffswitch').prop('checked', false);
+		}else if(data.project[0].privacy == "Public"){
+			$('#view-project-myonoffswitch').prop('checked', true);
+		}
+		$('#view-project-name').val(data.project[0].name);
+		$('#view-project-startdate').val(data.project[0].start);
+		$('#view-project-enddate').val(data.project[0].end);
+
+		$('#view-project-location-sensitive').empty();
+		$('#view-project-location-sensitive').append('<option value="'+ data.project[0].zone +'">' + data.project[0].zone + '</option>');
+		$('#view-project-location-sensitive').val(data.project[0].zone);
+		$('#view-project-street').val(data.project[0].street);
+		$('#view-project-city').val(data.project[0].city);
+
+		$('#view-project-state').empty();
+		$('#view-project-state').append('<option value="'+ data.project[0].state +'">' + data.project[0].state + '</option>');
+		$('#view-project-state').val(data.project[0].state);
+
+		$('#view-project-zip').val(data.project[0].zip);
+		$('#view-project-country').val(data.project[0].country);
+		$('#view-project-desc').val(data.project[0].desc);
+		$('#view-project-cost').val(data.project[0].cost);
 	});
 }
