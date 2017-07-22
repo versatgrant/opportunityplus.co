@@ -30,6 +30,8 @@ $(document).ready(function(){
 	$('#register').submit(function(e){
 		e.preventDefault();
 		/**Pull values from form*/
+
+
 		var fname = $('#fname').val();
 		var lname = $('#lname').val();
 		var email = $('#email-register').val();
@@ -48,6 +50,7 @@ $(document).ready(function(){
 		var state = $('#state').val();
 		var zip = $('#zip').val();
 		var country = $('#country').val();
+		var captcha_response = $('#g-recaptcha-response').val();
 
 		/**send a post request to server with the form values*/
 		$.ajax({
@@ -67,15 +70,21 @@ $(document).ready(function(){
 				'city': city,
 				'state': state,
 				'zip': zip,
-				'country': country
+				'country': country,
+				'g-recaptcha-response': captcha_response
 			},
 			success: function(data){
 		          //do something with the data via front-end framework
 		          if (data == "User Already Exists"){
 		          	$('div#reg-err-msg').html(data);
-		          }else{
+		          	grecaptcha.reset();
+		          }else if(data == 1){
 		          	alert("Successfully Registered");
 		          	window.location = "index.php";
+		          }else if(data == 0){
+		          	$('div#reg-err-msg').html("The was an error with your registration. Please try again.");
+		          }else if(data == "Not Verified"){
+		          	$('div#reg-err-msg').html('Please Click the "I\'m not a robot" verification checkbox to register your account.');
 		          }
 		      }
 		  });

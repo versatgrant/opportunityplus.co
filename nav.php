@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="assets/css/Navigation-with-Button1.css">
 	<link rel="stylesheet" href="assets/css/Projects-Horizontal.css">
 	<link rel="stylesheet" href="assets/css/login/loginModal.css">
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
 <body>
@@ -191,6 +192,10 @@
 
 						<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
 							<input id="country" type="text" name="country" placeholder="Country"/>
+						</div>
+
+						<div align="center" class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;margin-bottom:10px;">
+							<div class="g-recaptcha" data-sitekey="6Ld15ykUAAAAACXVh2oVbGlhEkPw7mExjOpV7EOV"></div>
 						</div>
 
 						<!--SUBMIT-->
