@@ -462,6 +462,17 @@ $(document).ready(function(){
 		});
 	});
 
+	/*VIEW AGENCY PROJECTS*/
+	$('.container #result-list').on('click', '.viewAgencyProjects', function(){
+		var id = $(this).parent().parent().parent().attr('id');
+
+		$.getJSON("user_mode_request.php", {'load_agency_projects':1,'id':id}, function(data){
+			/*LOAD PROJECTS ONTO PAGE*/
+			clearScreen(data, "Project");
+			displayProjects(data);
+		});
+	});
+
 	/*ADD A SUBMIT EVENT LISTENER TO THE EDIT PROJECT FORM*/
 	/*$('#editProject').submit(function(e){
 		e.preventDefault();
@@ -846,7 +857,7 @@ function displayProjectRequests(dataArr){
 						'</div>' +  
 					'</a>' + 
 					'<div class="wrimagecard-topimage_title">' + 
-						'<h4>' + truncate(this.projectname+' Project Request', 22) + 
+						'<h4>' + truncate(this.projectname+' Project Request', 21) + 
 						'<div class="pull-right badge ' + this.status + '">' + this.status + '</div></h4>' + 
 						'<h6>' + this.talentname + ' sent a project request to ' + this.agencyname + '. </h6>' +
 						accept + 
