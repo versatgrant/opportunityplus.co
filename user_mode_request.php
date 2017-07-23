@@ -534,73 +534,160 @@
 	}//VIEW AGENCY PROJECTS
 	elseif(isset($_GET['load_agency_projects'])){
 
-
-
 		//pull directly from the project table if they're an Agency
-		$p_sql = "SELECT * FROM `project` WHERE `ProjectAgencyId` = '{$_SESSION["Id"]}' AND `ProjectPrivacyState` = 'Public' LIMIT 50";
+		$p_sql = "SELECT * FROM `project` WHERE `ProjectAgencyId` = '{$_GET["id"]}' AND `ProjectPrivacyState` = 'Public' LIMIT 50";
 
 		//Store Projects Returned
 		$projects = array();
 		$res = $conn->query($p_sql);
-		if ($res->num_rows > 0) {
-			//output data of each record
-			while($row = $res->fetch_assoc()) {
+		//output data of each record
+		while($row = $res->fetch_assoc()) {
 
-				//set default project access as false
-				$access = "false";
-				$sent = "false";
-				$talentAccess_sql = "";
-				$talentAccess_res = 0;
-				$prSent_sql="";
-				$prSent_res=0;
+			//set default project access as false
+			$access = "false";
+			$sent = "false";
+			$talentAccess_sql = "";
+			$talentAccess_res = 0;
+			$prSent_sql="";
+			$prSent_res=0;
 
-				/*DETERMINE WHETHER OR NOT THIS TALENT OR AGENCY HAS ACCESS TO THIS PROJECT*/
-				if($_SESSION["UserType"] == "talent"){
-					$talentAccess_sql = "SELECT * FROM `projectrequest` WHERE ((`ProjectRequestTalentId` = '{$_SESSION["Id"]}') AND (`ProjectRequestAcceptedStatus` = 'Accepted') AND (`ProjectRequestRecindedStatus` = 0) AND (`ProjectRequestProjectId` = '{$row["ProjectUniqueId"]}')) LIMIT 1";
-					$talentAccess_res = $conn->query($talentAccess_sql);
+			/*DETERMINE WHETHER OR NOT THIS TALENT OR AGENCY HAS ACCESS TO THIS PROJECT*/
+			if($_SESSION["UserType"] == "talent"){
+				$talentAccess_sql = "SELECT * FROM `projectrequest` WHERE ((`ProjectRequestTalentId` = '{$_SESSION["Id"]}') AND (`ProjectRequestAcceptedStatus` = 'Accepted') AND (`ProjectRequestRecindedStatus` = 0) AND (`ProjectRequestProjectId` = '{$row["ProjectUniqueId"]}')) LIMIT 1";
+				$talentAccess_res = $conn->query($talentAccess_sql);
 
-					$prSent_sql = "SELECT * FROM `projectrequest` WHERE ((`ProjectRequestTalentId` = '{$_SESSION["Id"]}') AND (`ProjectRequestProjectId` = '{$row["ProjectUniqueId"]}')) LIMIT 1";
-					$prSent_res = $conn->query($prSent_sql);
+				$prSent_sql = "SELECT * FROM `projectrequest` WHERE ((`ProjectRequestTalentId` = '{$_SESSION["Id"]}') AND (`ProjectRequestProjectId` = '{$row["ProjectUniqueId"]}')) LIMIT 1";
+				$prSent_res = $conn->query($prSent_sql);
+			}
+			
+
+			if($_SESSION["UserType"] == "agency"){
+				if($_SESSION["Id"] == $row["ProjectAgencyId"]){
+					$access = "true";
 				}
-				
-
-				if($_SESSION["UserType"] == "agency"){
-					if($_SESSION["Id"] == $row["ProjectAgencyId"]){
+			}else{
+				if(count($prSent_res->fetch_assoc()) > 0){
+					$sent="true";
+					if(count($talentAccess_res->fetch_assoc()) > 0){
+						//echo count($talentAccess_res->fetch_assoc());
 						$access = "true";
 					}
-				}else{
-					if(count($prSent_res->fetch_assoc()) > 0){
-						$sent="true";
-						if(count($talentAccess_res->fetch_assoc()) > 0){
-							//echo count($talentAccess_res->fetch_assoc());
-							$access = "true";
-						}
+				}
+			}
+
+
+			array_push($projects, array('id' => $row["ProjectUniqueId"],
+				'paid' => $row["ProjectAgencyId"], 
+				'name' => $row["ProjectName"],
+				'active' => $row["ProjectActiveState"],
+				'complete' => $row["ProjectCompletionState"],
+				'privacy' => $row["ProjectPrivacyState"],
+				'zone' => $row["ProjectLocationSensitive"],
+				'desc' => $row["ProjectDescription"],
+				'start' => $row["ProjectStartDate"],
+				'end' => $row["ProjectEndDate"],
+				'street' => $row["ProjectLocationStreet"],
+				'city' => $row["ProjectLocationCity"],
+				'state' => $row["ProjectLocationState"],
+				'zip' => $row["ProjectLocationPostalCode"],
+				'country' => $row["ProjectLocationCountry"],
+				'cost' => $row["ProjectTotalCost"],
+				'access' => $access,
+				'sent'=>$sent));
+		}
+		//Send Response with Projects
+		echo json_encode(array("projects" => $projects));
+	}//VIEW AGENCY PROJECTS
+	elseif(isset($_GET['load_talent_projects'])){
+
+		//if they're a Talent, check the project request table for projects they have access to 
+		$p_sql = "SELECT * FROM `project` WHERE `ProjectUniqueId` IN (SELECT `ProjectRequestProjectId` FROM `projectrequest` WHERE (`ProjectRequestTalentId` = '{$_GET["id"]}' AND `ProjectRequestAcceptedStatus` = 'Accepted' AND `ProjectRequestRecindedStatus` = 0)) LIMIT 50";
+
+		//Store Projects Returned
+		$projects = array();
+		$res = $conn->query($p_sql);
+		//output data of each record
+		while($row = $res->fetch_assoc()) {
+
+			//set default project access as false
+			$access = "false";
+			$sent = "false";
+			$talentAccess_sql = "";
+			$talentAccess_res = 0;
+			$prSent_sql="";
+			$prSent_res=0;
+
+			/*DETERMINE WHETHER OR NOT THIS TALENT OR AGENCY HAS ACCESS TO THIS PROJECT*/
+			if($_SESSION["UserType"] == "talent"){
+				$talentAccess_sql = "SELECT * FROM `projectrequest` WHERE ((`ProjectRequestTalentId` = '{$_SESSION["Id"]}') AND (`ProjectRequestAcceptedStatus` = 'Accepted') AND (`ProjectRequestRecindedStatus` = 0) AND (`ProjectRequestProjectId` = '{$row["ProjectUniqueId"]}')) LIMIT 1";
+				$talentAccess_res = $conn->query($talentAccess_sql);
+
+				$prSent_sql = "SELECT * FROM `projectrequest` WHERE ((`ProjectRequestTalentId` = '{$_SESSION["Id"]}') AND (`ProjectRequestProjectId` = '{$row["ProjectUniqueId"]}')) LIMIT 1";
+				$prSent_res = $conn->query($prSent_sql);
+			}
+			
+
+			if($_SESSION["UserType"] == "agency"){
+				if($_SESSION["Id"] == $row["ProjectAgencyId"]){
+					$access = "true";
+				}
+			}else{
+				if(count($prSent_res->fetch_assoc()) > 0){
+					$sent="true";
+					if(count($talentAccess_res->fetch_assoc()) > 0){
+						//echo count($talentAccess_res->fetch_assoc());
+						$access = "true";
 					}
 				}
-
-
-				array_push($projects, array('id' => $row["ProjectUniqueId"],
-					'paid' => $row["ProjectAgencyId"], 
-					'name' => $row["ProjectName"],
-					'active' => $row["ProjectActiveState"],
-					'complete' => $row["ProjectCompletionState"],
-					'privacy' => $row["ProjectPrivacyState"],
-					'zone' => $row["ProjectLocationSensitive"],
-					'desc' => $row["ProjectDescription"],
-					'start' => $row["ProjectStartDate"],
-					'end' => $row["ProjectEndDate"],
-					'street' => $row["ProjectLocationStreet"],
-					'city' => $row["ProjectLocationCity"],
-					'state' => $row["ProjectLocationState"],
-					'zip' => $row["ProjectLocationPostalCode"],
-					'country' => $row["ProjectLocationCountry"],
-					'cost' => $row["ProjectTotalCost"],
-					'access' => $access,
-					'sent'=>$sent));
 			}
-			//Send Response with Projects
-			echo json_encode(array("projects" => $projects));
+
+
+			array_push($projects, array('id' => $row["ProjectUniqueId"],
+				'paid' => $row["ProjectAgencyId"], 
+				'name' => $row["ProjectName"],
+				'active' => $row["ProjectActiveState"],
+				'complete' => $row["ProjectCompletionState"],
+				'privacy' => $row["ProjectPrivacyState"],
+				'zone' => $row["ProjectLocationSensitive"],
+				'desc' => $row["ProjectDescription"],
+				'start' => $row["ProjectStartDate"],
+				'end' => $row["ProjectEndDate"],
+				'street' => $row["ProjectLocationStreet"],
+				'city' => $row["ProjectLocationCity"],
+				'state' => $row["ProjectLocationState"],
+				'zip' => $row["ProjectLocationPostalCode"],
+				'country' => $row["ProjectLocationCountry"],
+				'cost' => $row["ProjectTotalCost"],
+				'access' => $access,
+				'sent'=>$sent));
 		}
+		//Send Response with Projects
+		echo json_encode(array("projects" => $projects));
+	}//GET ALL ACCOMPLISHMENTS FOR THE TALENT
+	elseif(isset($_GET['load_talent_acc'])){
+		//pull directly from the accomplishments table
+		$sql = "SELECT * FROM `accomplishment` WHERE `AccomplishmentTalentId` = '{$_GET["id"]}' LIMIT 50";
+		//Store Accomplishments Returned
+		$accomplishments = array();
+		$res = $conn->query($sql);
+		if ($res->num_rows > 0) {
+			// output data of each record
+			while($row = $res->fetch_assoc()) {
+				array_push($accomplishments, array('id' => $row["AccomplishmentUniqueId"],
+					'atid' => $row["AccomplishmentTalentId"], 
+					'name' => $row["AccomplishmentName"],
+					'type' => $row["AccomplishmentType"],
+					'from' => $row["AccomplishmentFromDate"],
+					'to' => $row["AccomplishmentToDate"],
+					'on' => $row["AccomplishmentOnDate"],
+					'url' => $row["AccomplishmentURL"],
+					'la' => $row["AccomplishementLicenseAgency"],
+					'ln' => $row["AccomplishmentLicenseNumber"],
+					'desc' => $row["AccomplishmentDescription"]));
+			}
+		}
+		//Send Response with Accomplishments
+		echo json_encode(array("accomplishments" => $accomplishments));
 	}
 
 

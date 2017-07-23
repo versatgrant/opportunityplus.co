@@ -473,6 +473,28 @@ $(document).ready(function(){
 		});
 	});
 
+	/*VIEW TALENT PROJECTS*/
+	$('.container #result-list').on('click', '.viewTalentProjects', function(){
+		var id = $(this).parent().parent().parent().attr('id');
+
+		$.getJSON("user_mode_request.php", {'load_talent_projects':1,'id':id}, function(data){
+			/*LOAD PROJECTS ONTO PAGE*/
+			clearScreen(data, "Project");
+			displayProjects(data);
+		});
+	});
+
+	/*VIEW TALENT ACCOMPLISHMENTS*/
+	$('.container #result-list').on('click', '.viewTalentAccomplishments', function(){
+		var id = $(this).parent().parent().parent().attr('id');
+
+		$.getJSON("user_mode_request.php", {'load_talent_acc':1,'id':id}, function(data){
+			/*LOAD ACCOMPLISHMENTS ONTO PAGE*/
+			clearScreen(data, "Accomplishment");
+			displayAccomplishments(data);
+		});
+	});
+
 	/*ADD A SUBMIT EVENT LISTENER TO THE EDIT PROJECT FORM*/
 	/*$('#editProject').submit(function(e){
 		e.preventDefault();
