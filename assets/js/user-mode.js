@@ -110,7 +110,13 @@ $(document).ready(function(){
 	});
 
 	/*TOGGLE BETWEEN NEW/EDIT FOR ACCOMPLISHMENT & PROJECT FORMS */
-	$('#newPA').click(function(){newPAFormLayout();});
+	$('#newPA').click(function(){
+		newPAFormLayout();
+		$('#paypalButton').attr('disabled', false);
+		$('#submit-newproject').attr('disabled', true);//disable the new project button
+		$('#submit-newproject').css('background-color','#CCCCCC');
+		$('#paypalButton').css('background-color','#357ae8');
+	});
 
 	/*NAV-DRAWER FIXES*/
 	$('#menu-button').on('click',function(){
@@ -309,6 +315,10 @@ $(document).ready(function(){
 		var row = $(this).parent().parent().parent().attr('id');
 		if($('#newProject').length){
 			$('#submit-newproject').val('Update Project');
+			$('#submit-newproject').parent().removeClass('col-md-6');
+			$('#submit-newproject').parent().addClass('col-md-12');
+			$('#submit-newproject').attr('disabled', false);//disable the new project button
+			$('#submit-newproject').css('background-color','#357ae8');
 			$('#submit-newproject').attr('id',row);
 			//alert("I'm here - EditPA");
 			$('#newProject').off('submit');
@@ -336,6 +346,9 @@ $(document).ready(function(){
 							'<option value="In-Progress">In-Progress</option>' + 
 						'</select>' + 
 					'</div>');
+
+		$('#paypalButton').toggle(false);//Show Paypal button
+		
 
 			$('#editProject').on('submit',function(e){
 				e.preventDefault();
@@ -493,6 +506,15 @@ $(document).ready(function(){
 			clearScreen(data, "Accomplishment");
 			displayAccomplishments(data);
 		});
+	});
+
+	/*PAY WITH PAYPAL*/
+	$('#paypalButton').on('click', function(){
+		$('#paypalButton').attr('disabled',true);
+		$('#submit-newproject').attr('disabled',false);
+		$('#paypalButton').css('background-color','#CCCCCC');
+		$('#submit-newproject').css('background-color','#4d90fe');
+		window.open("https://www.paypal.com/us/home");
 	});
 
 	/*ADD A SUBMIT EVENT LISTENER TO THE EDIT PROJECT FORM*/
@@ -704,6 +726,7 @@ function newPAFormLayout(){
 		$('#editProject').off('submit');
 		$('#editProject').attr('id','newProject');
 		$('#newProject').trigger('reset');
+		$('#submit-newproject').val('New Project');
 
 		$('#projectLabel').empty();
 		$('#projectLabel').html('Start A New Project');
@@ -712,6 +735,14 @@ function newPAFormLayout(){
 		$('#newProject #project-privacy').parent().remove();//Remove the readonly field that showed the privacy state
 		$('#newProject #project-completed-state').parent().remove();//Remove the readonly field that showed the active state
 		$('#newProject #project-active-state').parent().remove();//Remove the readonly field that showed the completion state
+
+		$('#paypalButton').toggle(true);//Show Paypal button
+		$('#submit-newproject').parent().removeClass('col-md-12');
+		$('#submit-newproject').parent().addClass('col-md-6');
+		$('#paypalButton').attr('disabled', false);
+		$('#submit-newproject').attr('disabled', true);//disable the new project button
+		$('#submit-newproject').css('background-color','#CCCCCC');
+		$('#paypalButton').css('background-color','#357ae8');
 
 		/*NEW PROJECT SUBMIT EVENT*/
 		$('#newProject').on('submit',function(e){newProject(e)});

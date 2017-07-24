@@ -300,8 +300,15 @@
 						<textarea id="project-desc" name="projectDescription" placeholder="Project Description" title="Project Description" maxlength="2000"></textarea>
 					</div>
 
+					<!--PAYPAL BUTTON-->
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<button id="paypalButton" class="login loginmodal-submit" style="width: 100%">Pay With PayPal</button>
+					</div>
+
 					<!--SUBMIT-->
-					<input type="submit" name="newProject" id="submit-newproject" class="login loginmodal-submit" value="New Project">
+					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<input style="background-color:#CCCCCC;" type="submit" name="newProject" id="submit-newproject" class="login loginmodal-submit" value="New Project" disabled>
+					</div>
 				</form>
 				<div id="login-err-msg" style="color:red;text-align: center;"></div>
 			</div>
