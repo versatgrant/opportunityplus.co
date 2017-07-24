@@ -514,6 +514,10 @@ $(document).ready(function(){
 		$('#submit-newproject').attr('disabled',false);
 		$('#paypalButton').css('background-color','#CCCCCC');
 		$('#submit-newproject').css('background-color','#4d90fe');
+		//window.open("https://www.paypal.com/us/home");
+	});
+	/*GO TO PAYPAL*/
+	$('#paypalSiteButton').on('click', function(){
 		window.open("https://www.paypal.com/us/home");
 	});
 

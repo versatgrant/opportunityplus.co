@@ -302,7 +302,9 @@
 
 					<!--PAYPAL BUTTON-->
 					<div class="col-md-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
-						<button id="paypalButton" class="login loginmodal-submit" style="width: 100%">Pay With PayPal</button>
+						<a href="#paypalModal" data-toggle="modal" style="width:100%;">
+							<button id="paypalButton" class="login loginmodal-submit" style="width: 100%">Pay With PayPal</button>
+						</a>
 					</div>
 
 					<!--SUBMIT-->
@@ -798,7 +800,7 @@
 						<textarea id="view-project-desc" style="background:#F1F3FA;" name="projectDescription" title="Project Description" maxlength="2000" readonly></textarea>
 					</div>
 
-					<!--PROJECT DESCRIPTION-->
+					<!--PROJECT COST-->
 					<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
 						<label>Total Cost:</label>
 						<input id="view-project-cost" type="text" style="background:#F1F3FA;" name="cost" readonly/>
@@ -890,7 +892,7 @@
 							<input id="country-view-prof" type="text" name="country" style="background: #F1F3FA;"  readonly/>
 						</div>
 
-						<!--ACCOMPLISHMENT DESCRIPTION-->
+						<!--USER DESCRIPTION-->
 						<div class="col-md-12 col-xs-12" style="padding-left:5px;padding-right:5px;">
 							<label>Summary:</label>
 							<textarea id="summary-view-prof" name="Summary" title="Summary" maxlength="2000" style="background: #F1F3FA;"  ></textarea>
@@ -899,6 +901,19 @@
 					</form>
 				</div>
 				<div id="reg-err-msg" style="color:red;text-align: center;"></div>
+			</div>
+		</div>
+	</div>
+
+	<!--VIEW PAYMENT SITE FRAME-->
+	<div class="modal fade" id="paypalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="loginmodal-container row">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h1>Make Your Payment</h1><br>
+				<div id="frameDiv">
+					<button id="paypalSiteButton" class="login loginmodal-submit" style="width: 100%;background-color:#CCCCCC;" disabled>Go To PayPal</button>
+				</div>
 			</div>
 		</div>
 	</div>
